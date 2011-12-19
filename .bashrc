@@ -6,6 +6,9 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
+alias ls='ls --color'
+alias l='ls --color'
+alias ll='ls --color -al'
 alias sudo='sudo -E'
 alias s='screen'
 alias hosts='sudo vim /etc/hosts'
