@@ -1,0 +1,27 @@
+# Common
+escape ^Jj
+startup_message off
+vbell off
+msgminwait 0
+autodetach on
+defscrollback 1000
+
+# 256 colors
+defbce on
+term xterm-256color
+termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+
+# Resize Window
+termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo kterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+# Caption
+caption always '%?%F%{= cW}%:%{= ck}%?%2n%f%07=%t%='
+hardstatus alwayslastline "%{= cW}[%m/%d %02c:%s] %{cW} %-w%{= rW}%n %t%{-}%+w %=%{cW}$USER@$HOSTNAME[$LANG] (%l) "
+
+# Key bind
+bind l next
+bind h prev
+bind n screen
+bind j windowlist
+

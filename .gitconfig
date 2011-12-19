@@ -1,0 +1,7 @@
+[user]
+	name = Noah Kobayashi
+	email = vohedge@gmail.com
+[color]
+	ui = auto
+[core]
+	excludesfile = /home/avenir/.gitignore
