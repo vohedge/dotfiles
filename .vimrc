@@ -6,6 +6,7 @@
 set nocompatible
 filetype off 
 
+" git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 set rtp+=~/.vim/vundle.git/
 call vundle#rc()
 
@@ -102,6 +103,3 @@ if !exists('g:neocomplcache_omni_patterns')
 	let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-
-
-
