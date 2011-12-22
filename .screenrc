@@ -1,4 +1,5 @@
 # Common
+shell bash
 escape ^Jj
 startup_message off
 vbell off
@@ -24,4 +25,3 @@ bind l next
 bind h prev
 bind n screen
 bind j windowlist
-
