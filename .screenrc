@@ -9,7 +9,6 @@ defscrollback 1000
 
 # 256 colors
 defbce on
-term xterm-256color
 termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 
 # Resize Window
