@@ -13,6 +13,11 @@ alias sudo='sudo -E'
 alias s='screen'
 alias hosts='sudo vim /etc/hosts'
 
+# For Screen
+if [[ ${TERM} =~ ^screen.* ]]; then
+	export PROMPT_COMMAND='echo -ne "\033k${USER}@${HOSTNAME%%.*}\033\\"'
+fi
+
 # For extend config for cygwin
 if [ -f ~/.bashrc_cygwin ]; then
 	source ~/.bashrc_cygwin
