@@ -55,7 +55,7 @@ show_git_status ()
 	fi
 	echo -ne $git_status
 }
-PS1='[\u@\h \w]$(show_git_status)\$ '
+PS1='\n[\u@\h \w]$(show_git_status)\$ '
 
 # For extend config for cygwin
 if [ -f ~/.bashrc_cygwin ]; then
