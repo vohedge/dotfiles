@@ -39,7 +39,7 @@ show_git_status ()
 		else
 			color=${c_red}
 		fi
-		git_status="\n${repo_name}::${color}${branch_name}${c_sgr0} "
+		git_status="\nGit>${repo_name}::${color}${branch_name}${c_sgr0} "
 	else
 		return 0
 	fi
