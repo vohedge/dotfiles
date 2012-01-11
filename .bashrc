@@ -14,10 +14,12 @@ alias s='screen'
 alias hosts='sudo vim /etc/hosts'
 
 # Alias for Git
+alias gcd='cd $(git rev-parse --show-toplevel)'
 alias g='git'
 alias gs="git status"
 alias ga="git add"
-alias gc="git commit"
+alias gc="git checkout"
+alias gcm="git commit"
 alias gd="git diff"
 alias gb="git branch"
 alias gl='git log --graph --decorate --pretty=format:"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n" --stat -p'
