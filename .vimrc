@@ -69,6 +69,10 @@ function! s:grep(args)
 	if len(getqflist()) != 0 | copen | endif
 endfunction
 
+" PHP Syntax Check
+autocmd filetype php :set makeprg=php\ -l\ %
+autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
+
 " ============================================================
 "
 " Plugins
