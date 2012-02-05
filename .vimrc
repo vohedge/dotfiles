@@ -88,9 +88,9 @@ let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
 
 " Yanktemp.vim
-map <silent> sy :call YanktmpYank()<CR> 
-map <silent> sp :call YanktmpPaste_p()<CR> 
-map <silent> sP :call YanktmpPaste_P()<CR> 
+map <silent> sy :call YanktmpYank()<CR>
+map <silent> sp :call YanktmpPaste_p()<CR>
+map <silent> sP :call YanktmpPaste_P()<CR>
 
 " Neocomplcache
 let g:neocomplcache_enable_at_startup=1
