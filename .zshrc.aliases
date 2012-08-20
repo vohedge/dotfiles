@@ -1,0 +1,24 @@
+### Zsh alias settings
+
+alias ls="ls --color"
+alias hosts="sudo vim /etc/hosts"
+alias z="source ~/.zshrc"
+alias la="ls -a"
+alias lf="ls -F"
+alias ll="ls -al"
+alias du="du -h"
+alias df="df -h"
+alias cd="pushd;ll;pwd;"
+alias p="popd"
+
+# Alias for Git
+alias gcd='cd $(git rev-parse --show-toplevel)'
+alias g='git'
+alias gs="git status"
+alias ga="git add"
+alias gc="git checkout"
+alias gcm="git commit"
+alias gd="git diff"
+alias gb="git branch"
+# alias gl='git log --graph --decorate --pretty=format:"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n" --stat -p'
+alias gl='git log --stat --summary'
