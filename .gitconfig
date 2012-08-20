@@ -4,4 +4,4 @@
 [color]
 	ui = auto
 [core]
-	excludesfile = /home/avenir/.gitignore
+	excludesfile = ~/.dotfiles/.gitignore
