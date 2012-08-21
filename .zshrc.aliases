@@ -8,6 +8,7 @@ alias lf="ls -F"
 alias ll="ls -al"
 alias du="du -h"
 alias df="df -h"
+alias d="dirs -v"
 alias p="popd"
 
 chpwd() {
