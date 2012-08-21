@@ -8,11 +8,43 @@ alias lf="ls -F"
 alias ll="ls -al"
 alias du="du -h"
 alias df="df -h"
-alias cd="pushd;ll;pwd;"
 alias p="popd"
 
+chpwd() {
+    local CMD_LS="ls -a -v -F"
+    case "${OSTYPE}" in
+        freebsd*|darwin*)
+            # -G カラー表示
+            # -F ファイルタイプを示す文字を表示
+            if type gls > /dev/null 2>&1; then
+                # -v natural sort of (version) numbers within text
+                CMD_LS="gls -avF --color"
+            else
+                # -v 非印字文字を強制表示
+                CMD_LS="ls -avGF"
+            fi
+            ;;
+        linux*)
+            # -v natural sort of (version) numbers within text
+            # -w 非印字文字を強制表示
+            CMD_LS="ls -avwF --color"
+            ;;
+    esac
+    # ファイル数が多い場合は表示するファイルを制限
+    if [ 150 -le $(\ls -A |wc -l) ]; then
+        eval "$CMD_LS" -C | head -n 5
+        echo '...'
+        eval "$CMD_LS" -C | tail -n 5
+        echo "$(\ls -A | wc -l | tr -d ' ') files exist"
+    else
+        eval "$CMD_LS"
+    fi
+    # cdd
+    type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
+}
+
 # Alias for Git
-alias gcd='cd $(git rev-parse --show-toplevel)'
+alias gcd='pushd $(git rev-parse --show-toplevel);ll;pwd;'
 alias g='git'
 alias gs="git status"
 alias ga="git add"

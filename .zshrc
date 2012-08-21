@@ -2,15 +2,7 @@
 #
 # Main Zsh Configuration File
 #
-# Zch Man in japanese
-# http://www.ayu.ics.keio.ac.jp/~mukai/translate/zshoptions.html
-#
-# autoload
-# -U : ファイルロード中にaliasを展開しない(予期せぬaliasの書き換えを防止)
-# -z : 関数をzsh-styleで読み込む
-#
-#
-# Refer to
+# 
 # https://github.com/yonchu/dotfiles/blob/master/.zshrc
 #
 #################################################################################
@@ -29,8 +21,10 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushd_to_home
 setopt pushd_silent
+
 # beepを鳴らさない
 setopt no_beep
+
 # beepを鳴らさない
 setopt nolistbeep
 
