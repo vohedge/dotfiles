@@ -10,6 +10,9 @@ alias du="du -h"
 alias df="df -h"
 alias d="dirs -v"
 alias p="popd"
+alias tmux="tmux -2"
+alias t="tmux"
+alias n="ntp_sync"
 
 chpwd() {
     local CMD_LS="ls -a -v -F"
@@ -26,9 +29,7 @@ chpwd() {
             fi
             ;;
         linux*)
-            # -v natural sort of (version) numbers within text
-            # -w 非印字文字を強制表示
-            CMD_LS="ls -avwF --color"
+            CMD_LS="ll"
             ;;
     esac
     # ファイル数が多い場合は表示するファイルを制限
@@ -42,6 +43,12 @@ chpwd() {
     fi
     # cdd
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
+}
+
+ntp_sync() {
+	sudo service ntp stop
+	sudo ntpdate ntp.jst.mfeed.ad.jp
+	sudo service ntp start
 }
 
 # Alias for Git

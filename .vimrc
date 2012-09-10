@@ -21,13 +21,13 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
-NeoBundle 'https://github.com/mattn/zencoding-vim.git'
-NeoBundle 'https://github.com/scrooloose/nerdtree.git'
-NeoBundle 'git://github.com/joonty/vim-xdebug.git'
+NeoBundle 'git://github.com/mattn/zencoding-vim.git'
+NeoBundle 'git://github.com/scrooloose/nerdtree.git'
+NeoBundle 'git://github.com/joonty/vdebug.git'
 NeoBundle 'wombat256.vim'
-NeoBundle 'https://github.com/Shougo/vimfiler.git'
-NeoBundle 'https://github.com/Shougo/vimproc.git'
-NeoBundle 'https://github.com/Shougo/vimshell.git'
+NeoBundle 'git://github.com/Shougo/vimfiler.git'
+NeoBundle 'git://github.com/Shougo/vimproc.git'
+NeoBundle 'git://github.com/Shougo/vimshell.git'
 
 filetype plugin indent on
 
@@ -63,6 +63,9 @@ set softtabstop=4
 autocmd FileType php :set tags=~/.vim/.tags
 set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+
+" Others
+set noerrorbells
 
 " Fix Multibyte Bug
 if exists('&ambiwidth')
@@ -168,7 +171,7 @@ endfunction
 " let g:git_command_edit = 'rightbelow vnew'
 
 " Nerd Tree
-" nmap <silent> <space> :NERDTreeToggle<CR>
+nmap <silent> <space> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI=1
 let NERDTreeShowHidden=1
 let NERDTreeShowBookmarks=1
