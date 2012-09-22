@@ -7,7 +7,7 @@
 "
 " 1. $ mkdir -p ~/.vim/bundle
 " 2. $ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-" 3. :NeoBundleInstall or 
+" 3. :NeoBundleInstall 
 "
 set nocompatible
 filetype off 
@@ -28,11 +28,10 @@ NeoBundle 'wombat256.vim'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 NeoBundle 'git://github.com/Shougo/vimproc.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
+" NeoBundle 'git://github.com/daisuzu/unite-gtags.git'
+NeoBundle 'gtags.vim'
 
 filetype plugin indent on
-
-" Keybind
-nmap :NBI :NeoBundleInstall
 
 " ============================================================
 "
@@ -48,7 +47,6 @@ set ruler
 set cmdheight=2
 set laststatus=2
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
-
 set title
 set linespace=0
 set wildmenu
@@ -89,66 +87,70 @@ autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
 " Plugins
 "
 " ============================================================
-"unite {{{
-"unite prefix key.
+" Gtags.vim
+" http://blog.matsumoto-r.jp/?p=2369
+map <C-g> :Gtags 
+map <C-h> :Gtags -f %<CR>
+map <C-f> :GtagsCursor<CR>
+map <C-n> :cn<CR>
+map <C-p> :cp<CR>
+
+" ------------------------------------------------------------
+" unite
+" unite prefix key.
 nnoremap [unite] <Nop>
-nmap <Space>f [unite]
+nmap <Space><Space> [unite]
  
-"インサートモードで開始しない
+" インサートモードで開始しない
 let g:unite_enable_start_insert = 0
  
-" For ack.
-if executable('ack-grep')
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
-  let g:unite_source_grep_recursive_opt = ''
-endif
- 
-"file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
+" file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
 let g:unite_source_file_mru_filename_format = ''
  
-"bookmarkだけホームディレクトリに保存
+" bookmarkだけホームディレクトリに保存
 let g:unite_source_bookmark_directory = $HOME . '/.unite/bookmark'
  
- 
+
+" よく使うもの
+nnoremap <silent> [unite]g :<C-u>UniteWithBufferDir -buffer-name=files buffer file<CR>
 "現在開いているファイルのディレクトリ下のファイル一覧。
 "開いていない場合はカレントディレクトリ
-nnoremap <silent> :uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-"バッファ一覧
-"nnoremap <silent> :uf :<C-u>Unite buffer<CR>
-"レジスタ一覧
-nnoremap <silent> :ufr :<C-u>Unite -buffer-name=register register<CR>
-"最近使用したファイル一覧
-nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
-"ブックマーク一覧
-nnoremap <silent> :ub :<C-u>Unite bookmark<CR>
-"ブックマークに追加
-nnoremap <silent> :uba :<C-u>UniteBookmarkAdd<CR>
+nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" バッファ一覧
+nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+" 最近使用したファイル一覧
+nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
+" ブックマーク一覧
+nnoremap <silent> [unite]k :<C-u>Unite bookmark<CR>
+" ブックマークに追加
+nnoremap <silent> [unite]ba :<C-u>UniteBookmarkAdd<CR>
+" 全部載せ
+nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 "uniteを開いている間のキーマッピング
 augroup vimrc
-  autocmd FileType unite call s:unite_my_settings()
+	autocmd FileType unite call s:unite_my_settings()
 augroup END
 function! s:unite_my_settings()
-  "ESCでuniteを終了
-  nmap <buffer> <ESC> <Plug>(unite_exit)
-  "入力モードのときjjでノーマルモードに移動
-  imap <buffer> jj <Plug>(unite_insert_leave)
-  "入力モードのときctrl+wでバックスラッシュも削除
-  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-  "sでsplit
-  nnoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
-  inoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
-  "vでvsplit
-  nnoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
-  inoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
-  "fでvimfiler
-  nnoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
-  inoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+	"ESCでuniteを終了
+	nmap <buffer> <ESC> <Plug>(unite_exit)
+	"入力モードのときjjでノーマルモードに移動
+	imap <buffer> jj <Plug>(unite_insert_leave)
+	"入力モードのときctrl+wでバックスラッシュも削除
+	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+	"sでsplit
+	nnoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
+	inoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
+	"vでvsplit
+	nnoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
+	inoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
+	"fでvimfiler
+	nnoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+	inoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
 endfunction
  
-"}}}
- 
+" ------------------------------------------------------------
 "vimfiler
+"
 "vimデフォルトのエクスプローラをvimfilerで置き換える
 let g:vimfiler_as_default_explorer = 1
 "セーフモードを無効にした状態で起動する
@@ -167,14 +169,11 @@ function! s:vimfiler_my_settings()
   nmap <buffer> Q <Plug>(vimfiler_hide)
 endfunction
 
-" Git-Vim
-" let g:git_command_edit = 'rightbelow vnew'
-
 " Nerd Tree
-nmap <silent> <space> :NERDTreeToggle<CR>
-let NERDTreeMinimalUI=1
-let NERDTreeShowHidden=1
-let NERDTreeShowBookmarks=1
+" nmap <silent> <space> :NERDTreeToggle<CR>
+" let NERDTreeMinimalUI=1
+" let NERDTreeShowHidden=1
+" let NERDTreeShowBookmarks=1
 
 " Yanktemp.vim
 " map <silent> sy :call YanktmpYank()<CR>
