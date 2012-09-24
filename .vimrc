@@ -87,6 +87,7 @@ autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
 " Plugins
 "
 " ============================================================
+" ------------------------------------------------------------
 " Gtags.vim
 " http://blog.matsumoto-r.jp/?p=2369
 map <C-g> :Gtags 
@@ -94,6 +95,21 @@ map <C-h> :Gtags -f %<CR>
 map <C-f> :GtagsCursor<CR>
 map <C-n> :cn<CR>
 map <C-p> :cp<CR>
+
+" ------------------------------------------------------------
+" Vdebug
+let g:vdebug_keymap = {
+	\    "run" : "<F5>",
+	\    "run_to_cursor" : "<F1>",
+	\    "step_over" : "<F3>",
+	\    "step_into" : "<F2>",
+	\    "step_out" : "<F4>",
+	\    "close" : "<F6>",
+	\    "detach" : "<F7>",
+	\    "set_breakpoint" : "<F10>",
+	\    "get_context" : "<F11>",
+	\    "eval_under_cursor" : "<F12>",
+	\}
 
 " ------------------------------------------------------------
 " unite
@@ -106,10 +122,6 @@ let g:unite_enable_start_insert = 0
  
 " file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
 let g:unite_source_file_mru_filename_format = ''
- 
-" bookmarkだけホームディレクトリに保存
-let g:unite_source_bookmark_directory = $HOME . '/.unite/bookmark'
- 
 
 " よく使うもの
 nnoremap <silent> [unite]g :<C-u>UniteWithBufferDir -buffer-name=files buffer file<CR>
@@ -169,17 +181,20 @@ function! s:vimfiler_my_settings()
   nmap <buffer> Q <Plug>(vimfiler_hide)
 endfunction
 
+" ------------------------------------------------------------
 " Nerd Tree
 " nmap <silent> <space> :NERDTreeToggle<CR>
 " let NERDTreeMinimalUI=1
 " let NERDTreeShowHidden=1
 " let NERDTreeShowBookmarks=1
 
+" ------------------------------------------------------------
 " Yanktemp.vim
 " map <silent> sy :call YanktmpYank()<CR>
 " map <silent> sp :call YanktmpPaste_p()<CR>
 " map <silent> sP :call YanktmpPaste_P()<CR>
 
+" ------------------------------------------------------------
 " Neocomplcache
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_underbar_completion=1
