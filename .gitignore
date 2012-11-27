@@ -1,6 +1,8 @@
+\\
 *.swp
 .DS_Store
 ._.DS_Store
+._*
 .git
 .svn
 GPATH

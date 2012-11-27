@@ -8,6 +8,7 @@
 " 1. $ mkdir -p ~/.vim/bundle
 " 2. $ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 " 3. :NeoBundleInstall 
+" * Update-> :NeoBundleInstall!
 "
 set nocompatible
 filetype off 
@@ -18,7 +19,8 @@ if has('vim_starting')
 endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 
-NeoBundle 'git://github.com/Shougo/neocomplcache.git'
+NeoBundle 'Shougo/neocomplcache.git'
+NeoBundle 'Shougo/neosnippet.git'
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
 NeoBundle 'git://github.com/mattn/zencoding-vim.git'
@@ -28,7 +30,7 @@ NeoBundle 'wombat256.vim'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 NeoBundle 'git://github.com/Shougo/vimproc.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
-" NeoBundle 'git://github.com/daisuzu/unite-gtags.git'
+NeoBundle 'git://github.com/daisuzu/unite-gtags.git'
 NeoBundle 'gtags.vim'
 
 filetype plugin indent on
@@ -123,6 +125,9 @@ let g:unite_enable_start_insert = 0
 " file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
 let g:unite_source_file_mru_filename_format = ''
 
+" Yank履歴の有効化
+let g:unite_source_history_yank_enable =1 
+
 " よく使うもの
 nnoremap <silent> [unite]g :<C-u>UniteWithBufferDir -buffer-name=files buffer file<CR>
 "現在開いているファイルのディレクトリ下のファイル一覧。
@@ -138,6 +143,9 @@ nnoremap <silent> [unite]k :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]ba :<C-u>UniteBookmarkAdd<CR>
 " 全部載せ
 nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+" Yank履歴
+nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+
 "uniteを開いている間のキーマッピング
 augroup vimrc
 	autocmd FileType unite call s:unite_my_settings()
