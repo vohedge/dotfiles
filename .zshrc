@@ -15,6 +15,9 @@ if [ -f ~/.dotfiles/.zshrc.prompt ]; then
     source ~/.dotfiles/.zshrc.prompt
 fi
 
+# Custom Commands
+export PATH=~/.dotfiles/bin:$PATH
+
 # Move between directories
 setopt auto_cd
 setopt auto_pushd
@@ -48,6 +51,13 @@ setopt nolistbeep
 if [ -f ~/.dotfiles/.zshrc.aliases ]; then
     source ~/.dotfiles/.zshrc.aliases
 fi
+
+##
+# Complement
+# 
+# a2
+apache2_sites_available="/etc/apache2/sites-available/"
+compdef "_files -W ${apache2_sites_available} -/" a2
 
 ##
 # Term title

@@ -1,0 +1,121 @@
+#!/bin/sh
+#
+# Aapache2 VirtualHost Setting Wrap Tool
+# 
+# Install :
+#	Put this file your favorite directory.
+#	Add the diractory into $PATH like below. And change permission.
+#
+#	export PATH=~/.dotfiles/bin:$PATH
+#	chmod 755 a2
+#
+# Usege :
+#	Execute 'a2' in console without option.
+#
+
+subcommand=$1
+vhost=$2
+vhost_dir="/etc/apache2/sites-available/" # For Ubuntu/apache2 default
+vhost_path=${vhost_dir}${vhost}
+
+case ${subcommand} in
+	##
+	# New vritual host setting
+	"init")
+		if [ -e ${vhost_path} ]; then
+			echo "Given domain setting has already exist."
+			return 1
+		fi
+		current_dir=`pwd`
+		ipaddr=`ifconfig eth0 | sed -n 2p | cut -f2 -d: | cut -f1 -d" "`
+		sudo touch ${vhost_path}
+		sudo $SHELL -c "cat << EOT >> ${vhost_path}
+<VirtualHost *:80>
+ServerName ${vhost}
+DocumentRoot ${current_dir}
+<Directory />
+	Options FollowSymLinks
+	AllowOverride None
+</Directory>
+<Directory ${current_dir}>
+	Options FollowSymLinks
+	AllowOverride All
+	Order allow,deny
+	allow from all
+</Directory>
+</VirtualHost>
+EOT"
+		sudo a2ensite ${vhost}
+		sudo service apache2 reload
+		echo "** Execute blow command at client machine **"
+		echo "sudo echo ${ipaddr} ${vhost} >> /etc/hosts"
+		;;
+
+	##
+	# Remove virtual host setting
+	"rm")
+		sudo a2dissite ${vhost}
+		sudo service apache2 reload
+		if [ -e ${vhost_path} ]; then
+			sudo rm -f ${vhost_path}
+			echo "\nVirtual host setting file has removed."
+		else
+			echo "\nVirtual host setting file has already removed."
+		fi
+		;;
+
+	##
+	# Edit virtual host setting file
+	"edit")
+		if [ ! -e ${vhost_path} ]; then
+			echo "Given domain not exist."
+			return 1
+		fi
+		sudo vim ${vhost_path}
+		;;
+
+	##
+	# Show virtual host settings
+	# Show 'ServerName' and 'DocumentRoot'
+	"list")
+		vhosts_files=`ls -1 ${vhost_dir}`
+		for vhosts_file in ${vhosts_files}
+		do
+			vhost_str=`grep -o 'ServerName.*$' ${vhost_dir}${vhosts_file}`
+			if [ ! "${vhost_str}" ]; then
+				continue
+			fi
+			vhost_str=`echo ${vhost_str} | sed -e "s/ServerName //"`
+			doc_root=`grep -o 'DocumentRoot.*$' ${vhost_dir}${vhosts_file}`
+			doc_root=`echo ${doc_root} | sed -e 's/DocumentRoot //'`
+			echo ${vhost_str}"  \t\t": ${doc_root}
+		done
+		;;
+
+	# Show usege of 'a2' command
+	"-h")
+		cat << EOT
+a2 init [domain]
+	Create new virtual host setting file and enable.
+	domain : ex) www.example.com
+
+a2 rm [domain]
+	Disable given domain virtual host and remove the setting file.
+	domain : ex) www.example.com
+
+a2 edit [domain]
+	Edit given domain virtual host setting file with vim.
+	domain : ex) www.example.com
+
+a2 list
+	Show virtual domain settings.
+
+EOT
+		;;	
+	## 
+	# Default
+	*)
+		echo "** Aapache2 VirtualHost Setting Wrap Tool ** "
+		echo "Please hit 'a2 -h'"
+esac
+

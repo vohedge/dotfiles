@@ -84,6 +84,11 @@ endfunction
 autocmd filetype php :set makeprg=php\ -l\ %
 autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
 
+" Python specific tab setting
+autocmd FileType python setl autoindent
+autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
 " ============================================================
 "
 " Plugins
@@ -145,6 +150,9 @@ nnoremap <silent> [unite]ba :<C-u>UniteBookmarkAdd<CR>
 nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 " Yank履歴
 nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+" Snippets
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
 
 "uniteを開いている間のキーマッピング
 augroup vimrc
