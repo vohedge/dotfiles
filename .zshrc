@@ -18,6 +18,10 @@ fi
 # Custom Commands
 export PATH=~/.dotfiles/bin:$PATH
 
+# z
+# https://github.com/rupa/z
+source ~/.dotfiles/z/z.sh
+
 # Move between directories
 setopt auto_cd
 setopt auto_pushd
