@@ -32,6 +32,35 @@ NeoBundle 'git://github.com/Shougo/vimproc.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/daisuzu/unite-gtags.git'
 NeoBundle 'gtags.vim'
+NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
+
+" camelcasemotion : CamelCaseやsnake_case単位でのワード移動
+NeoBundle 'camelcasemotion'
+
+" ソースコード上のメソッド宣言、変数宣言の一覧を表示
+NeoBundle 'taglist.vim'
+
+" tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
+NeoBundle 'Source-Explorer-srcexpl.vim'
+
+" NERD_tree, taglist, srcexpl の統合
+NeoBundle 'trinity.vim'
+
+" JavaScript
+NeoBundle 'JavaScript-syntax'
+
+" jQuery
+NeoBundle 'jQuery'
+
+" coffee script
+NeoBundle 'kchmck/vim-coffee-script'
+
+" python
+NeoBundle 'yuroyoro/vim-python'
+
+" nginx conf
+Bundle 'nginx.vim'
+
 
 filetype plugin indent on
 
@@ -227,3 +256,6 @@ if !exists('g:neocomplcache_omni_patterns')
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
+" ------------------------------------------------------------
+" Powerline
+let g:Powerline_symbols = 'fancy'
