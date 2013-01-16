@@ -37,12 +37,6 @@ NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 " camelcasemotion : CamelCaseやsnake_case単位でのワード移動
 NeoBundle 'camelcasemotion'
 
-" ソースコード上のメソッド宣言、変数宣言の一覧を表示
-NeoBundle 'taglist.vim'
-
-" tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
-NeoBundle 'Source-Explorer-srcexpl.vim'
-
 " NERD_tree, taglist, srcexpl の統合
 NeoBundle 'trinity.vim'
 
@@ -59,8 +53,20 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'yuroyoro/vim-python'
 
 " nginx conf
-Bundle 'nginx.vim'
+NeoBundle 'nginx.vim'
 
+" シンタックスチェック
+NeoBundle 'git://github.com/scrooloose/syntastic.git'
+
+" ctags
+" NeoBundle 'git://github.com/vim-scripts/taglist.vim.git'
+NeoBundle 'git://github.com/majutsushi/tagbar'
+
+" tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
+NeoBundle 'Source-Explorer-srcexpl.vim'
+
+" Git
+NeoBundle 'git://github.com/tpope/vim-fugitive.git'
 
 filetype plugin indent on
 
@@ -123,15 +129,6 @@ autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 " Plugins
 "
 " ============================================================
-" ------------------------------------------------------------
-" Gtags.vim
-" http://blog.matsumoto-r.jp/?p=2369
-map <C-g> :Gtags 
-map <C-h> :Gtags -f %<CR>
-map <C-f> :GtagsCursor<CR>
-map <C-n> :cn<CR>
-map <C-p> :cp<CR>
-
 " ------------------------------------------------------------
 " Vdebug
 let g:vdebug_keymap = {
@@ -259,3 +256,39 @@ let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 " ------------------------------------------------------------
 " Powerline
 let g:Powerline_symbols = 'fancy'
+
+" ------------------------------------------------------------
+" Syntastic
+"
+" - HTMLのシンタクスチェックを無効化
+" - エラー時にQuickfixを自動オープン
+" - エラーをすべて修正するとQuickfixは自動で閉じる
+" http://d.hatena.ne.jp/hokaccha/20120525/1337929041
+let g:syntastic_mode_map = { 'mode': 'active',
+  \ 'active_filetypes': [],
+  \ 'passive_filetypes': ['html'] }
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_javascript_checker = 'jshint'
+
+" ------------------------------------------------------------
+" Taglist
+" @TODO 画面上にTags=という文字列が残留する不具合がある
+" - 現在表示中のファイルのみのタグしか表示しない
+" - 右側にtag listのウインドうを表示する
+" - \lでtaglistウインドウを開いたり閉じたり出来るショートカット
+" set tags = tags
+" let Tlist_Show_One_File = 1
+" let Tlist_Use_Right_Window = 1
+" taglistのウインドウだけならVimを閉じる
+" let Tlist_Exit_OnlyWindow = 1
+" let g:tlist_php_settings = 'php;c:class;d:constant;f:function'
+" nnoremap <silent> <F8> :TlistToggle<CR>
+
+" ------------------------------------------------------------
+" Taglist
+"
+nmap <F8> :TagbarToggle<CR>
+
+" ------------------------------------------------------------
+" Fugitive
+"
