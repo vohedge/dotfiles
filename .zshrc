@@ -78,8 +78,9 @@ compdef "_files -W ${apache2_sites_available} -/" a2
 case "${OSTYPE}" in
 	# Mac
 	darwin*)
-	export PATH=/opt/local/bin:/opt/local/sbin/:$PATH # path for MacPorts
+	export PATH=/usr/local/bin:/usr/local/share/python:$PATH
 	alias ls="ls -G -w"
+	alias ll="ls -alG -w"
 	alias hosts="sudo vim /private/etc/hosts"
 	;;
 esac
