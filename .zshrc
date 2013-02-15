@@ -10,11 +10,6 @@
 # LANG
 export LANG=ja_JP.UTF-8
 
-# PROMPT
-# if [ -f ~/.dotfiles/.zshrc.prompt ]; then
-#     source ~/.dotfiles/.zshrc.prompt
-# fi
-
 # Custom Commands
 export PATH=~/.dotfiles/bin:$PATH
 
@@ -64,24 +59,20 @@ apache2_sites_available="/etc/apache2/sites-available/"
 compdef "_files -W ${apache2_sites_available} -/" a2
 
 ##
-# Term title
-# case "${TERM}" in
-# kterm*|xterm)
-#     precmd() {
-#         echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-#     }
-#     ;;
-# esac
-
-##
 # For each devices
 case "${OSTYPE}" in
+	# Linux
+	linux-gnu)
+		export PATH=~/.local/bin:$PATH
+		. ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+	;;
 	# Mac
 	darwin*)
-	export PATH=/usr/local/bin:/usr/local/share/python:$PATH
-	alias ls="ls -G -w"
-	alias ll="ls -alG -w"
-	alias hosts="sudo vim /private/etc/hosts"
-	. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+		export PATH=/usr/local/bin:/usr/local/share/python:$PATH
+		alias ls="ls -G -w"
+		alias ll="ls -alG -w"
+		alias hosts="sudo vim /private/etc/hosts"
+		. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 	;;
 esac
+

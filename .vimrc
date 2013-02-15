@@ -298,4 +298,10 @@ nmap <F8> :TagbarToggle<CR>
 
 " ------------------------------------------------------------
 " Powerline
-set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
+let OSTYPE = system('uname')
+
+if OSTYPE == "Darwin\n"
+	set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
+elseif OSTYPE == "Linux\n"
+	set rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim
+endif
