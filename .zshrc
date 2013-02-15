@@ -11,9 +11,9 @@
 export LANG=ja_JP.UTF-8
 
 # PROMPT
-if [ -f ~/.dotfiles/.zshrc.prompt ]; then
-    source ~/.dotfiles/.zshrc.prompt
-fi
+# if [ -f ~/.dotfiles/.zshrc.prompt ]; then
+#     source ~/.dotfiles/.zshrc.prompt
+# fi
 
 # Custom Commands
 export PATH=~/.dotfiles/bin:$PATH
@@ -82,5 +82,6 @@ case "${OSTYPE}" in
 	alias ls="ls -G -w"
 	alias ll="ls -alG -w"
 	alias hosts="sudo vim /private/etc/hosts"
+	. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 	;;
 esac

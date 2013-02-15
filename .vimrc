@@ -32,7 +32,6 @@ NeoBundle 'git://github.com/Shougo/vimproc.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/daisuzu/unite-gtags.git'
 NeoBundle 'gtags.vim'
-NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
 
 " camelcasemotion : CamelCaseやsnake_case単位でのワード移動
 NeoBundle 'camelcasemotion'
@@ -75,6 +74,8 @@ filetype plugin indent on
 " My Config
 "
 " ============================================================
+set encoding=utf-8
+set fillchars+=stl:\ ,stlnc:\
 " Display
 set t_Co=256
 syntax on
@@ -82,12 +83,18 @@ colorscheme wombat256mod
 set number
 set ruler
 set cmdheight=2
+
+" すべてのWindowで常にステータスラインを表示
 set laststatus=2
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
-set title
-set linespace=0
-set wildmenu
-set showcmd
+
+" デフォルトのモード表示を無効化
+set noshowmode
+
+" set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+" set title
+" set linespace=0
+" set wildmenu
+" set showcmd
 
 " Edit
 set nobackup
@@ -103,9 +110,9 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 set noerrorbells
 
 " Fix Multibyte Bug
-if exists('&ambiwidth')
-	set ambiwidth=double
-endif
+" if exists('&ambiwidth')
+"	set ambiwidth=double
+" endif
 
 " Grep
 command! -complete=file -nargs=+ Grep call s:grep([<f-args>])
@@ -254,10 +261,6 @@ endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 " ------------------------------------------------------------
-" Powerline
-let g:Powerline_symbols = 'fancy'
-
-" ------------------------------------------------------------
 " Syntastic
 "
 " - HTMLのシンタクスチェックを無効化
@@ -291,4 +294,8 @@ nmap <F8> :TagbarToggle<CR>
 
 " ------------------------------------------------------------
 " Fugitive
-"
+
+
+" ------------------------------------------------------------
+" Powerline
+set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
