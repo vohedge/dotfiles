@@ -1,0 +1,51 @@
+snippet wp-config
+    /** Local Settings */
+    if ( file_exists( dirname( __FILE__ ) . '/env_local' ) ) {
+        define( 'WP_ENV', 'local' );
+        define( 'WP_DEBUG', true );
+        define( 'DB_NAME', '${1}' );
+        define( 'DB_USER', '${2}' );
+        define( 'DB_PASSWORD', '${3}' );
+        define( 'DB_HOST', 'localhost' );
+        define( 'DB_CHARSET', 'utf8' );
+        define( 'DB_COLLATE', '' );
+        define( 'WPLANG', 'ja' );
+        $table_prefix  = '';
+
+    /** Staging Settings */
+    } elseif ( file_exists( dirname( __FILE__ ) . '/env_staging' ) ) {
+        define( 'WP_ENV', 'staging' );
+        define( 'WP_DEBUG', false );
+        define( 'DB_NAME', '' );
+        define( 'DB_USER', '' );
+        define( 'DB_PASSWORD', '' );
+        define( 'DB_HOST', 'localhost' );
+        define( 'DB_CHARSET', 'utf8' );
+        define( 'DB_COLLATE', '' );
+        define( 'WPLANG', 'ja' );
+        $table_prefix  = '';
+
+    /** Production Settings */
+    } else {
+        define('WP_ENV', 'production');
+        define('WP_DEBUG', false);
+        define('DB_NAME', '');
+        define('DB_USER', '');
+        define('DB_PASSWORD', '');
+        define('DB_HOST', 'localhost');
+        define( 'DB_CHARSET', 'utf8' );
+        define( 'DB_COLLATE', '' );
+        define( 'WPLANG', 'ja' );
+        $table_prefix  = '';
+    }
+
+    /** Secret key */
+    /* Copy from https://api.wordpress.org/secret-key/1.1/salt/ */
+
+    /** Absolute path to the WordPress directory. */
+    if ( !defined('ABSPATH') )
+        define('ABSPATH', dirname(__FILE__) . '/');
+
+    /** Sets up WordPress vars and included files. */
+    require_once(ABSPATH . 'wp-settings.php');
+
