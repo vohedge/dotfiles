@@ -59,6 +59,14 @@ apache2_sites_available="/etc/apache2/sites-available/"
 compdef "_files -W ${apache2_sites_available} -/" a2
 
 ##
+# rbenv
+if [ -d ~/.rbenv ]; then
+	export PATH="$HOME/.rbenv/bin:$PATH"
+	eval "$(rbenv init -)"
+fi
+
+
+##
 # For each devices
 case "${OSTYPE}" in
 	# Linux
