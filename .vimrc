@@ -206,6 +206,9 @@ nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 " 最近使用したファイル一覧
 nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
 
+" Snippets
+" nnoremap <silent> [unite]s :<C-u>Unite snippet<CR>
+
 " ブックマーク一覧
 nnoremap <silent> [unite]k :<C-u>Unite bookmark<CR>
 
@@ -318,6 +321,7 @@ let g:neocomplcache_dictionary_filetype_lists = {
 " key-mapping
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
+imap <C-l> <Plug>(neosnippet_start_unite_snippet)
 
 " SuperTab like snippets behavior.
 " http://kazuph.hateblo.jp/entry/2013/01/19/193745
