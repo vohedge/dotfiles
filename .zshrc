@@ -65,6 +65,58 @@ if [ -d ~/.rbenv ]; then
 	eval "$(rbenv init -)"
 fi
 
+##
+# sheet
+# http://oscardelben.com/sheet/
+export EDITOR='vim'
+
+# sheetの補完
+#
+compdef _sheets sheet
+function _sheets {
+	local -a cmds
+	_files -W  ~/.dotfiles/.sheets/ -P '~/.dotfiles/.sheets/'
+
+	cmds=('list' 'edit' 'copy')
+	_describe -t commands "subcommand" cmds
+
+	return 1;
+}
+
+##
+# tmux
+# https://github.com/jbleuzen/dotfiles/blob/master/tmux/tmux.zsh
+# tmux shortcut for creating/attaching named sessions
+tm() {
+    [[ -z "$1" ]] && { echo "usage: tm <session>" >&2; return 1; }
+
+    tmux has -t $1 
+	if [ $? -eq "0" ] ;then
+		if [ -z $TMUX ] ;then
+			tmux attach -t $1
+		else
+			tmux switch -t $1
+		fi
+	else 
+		if [ -z $TMUX ] ;then
+			tmux new-session -s $1
+			tmux attach -t $1
+		else
+			TMUX="" # To prevent message with 
+			tmux new-session -s $1 -d
+			tmux switch -t $1
+		fi
+	fi
+}
+
+# completion function
+function __tmux-sessions() {
+	local expl
+	local -a sessions
+	sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
+	_describe -t sessions 'sessions' sessions "$@"
+}
+compdef __tmux-sessions tm
 
 ##
 # For each devices
