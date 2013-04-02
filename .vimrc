@@ -59,16 +59,26 @@ NeoBundle 'https://github.com/daisuzu/unite-gtags.git'
 NeoBundle 'https://github.com/vim-scripts/gtags.vim.git'
 
 " camelcasemotion : CamelCaseやsnake_case単位でのワード移動
-NeoBundle 'camelcasemotion'
+NeoBundle 'https://github.com/bkad/CamelCaseMotion.git'
 
 " NERD_tree, taglist, srcexpl の統合
-NeoBundle 'trinity.vim'
+NeoBundle 'https://github.com/wesleyche/Trinity.git'
 
 " JavaScript
 NeoBundle 'JavaScript-syntax'
 
 " jQuery
 NeoBundle 'jQuery'
+
+" SASS
+" NeoBundle 'https://github.com/AtsushiM/sass-compile.vim.git'
+NeoBundle 'https://github.com/cakebaker/scss-syntax.vim.git'
+
+" %で終了タグへジャンプ 
+NeoBundle 'https://github.com/edsono/vim-matchit.git'
+
+" 囲んだり、解除したり
+NeoBundle 'https://github.com/tpope/vim-surround.git'
 
 " coffee script
 NeoBundle 'kchmck/vim-coffee-script'
@@ -80,7 +90,7 @@ NeoBundle 'yuroyoro/vim-python'
 NeoBundle 'nginx.vim'
 
 " シンタックスチェック
-NeoBundle 'git://github.com/scrooloose/syntastic.git'
+NeoBundle 'https://github.com/scrooloose/syntastic.git'
 
 " ctags
 " NeoBundle 'git://github.com/vim-scripts/taglist.vim.git'
@@ -331,6 +341,25 @@ smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : 
 " 自分用スニペットファイルの場所を指定
 let g:neosnippet#snippets_directory='~/.dotfiles/snipetts'
 
+
+" ------------------------------------------------------------
+" machit.vim
+" %でhtmlの終了タグへジャンプ
+runtime macros/matchit.vim
+let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
+
+" ------------------------------------------------------------
+" camelcasemotion.vim
+:map <silent> w <Plug>CamelCaseMotion_w
+:map <silent> b <Plug>CamelCaseMotion_b
+:map <silent> e <Plug>CamelCaseMotion_e
+:omap <silent> iw <Plug>CamelCaseMotion_iw
+:vmap <silent> iw <Plug>CamelCaseMotion_iw
+:omap <silent> ib <Plug>CamelCaseMotion_ib
+:vmap <silent> ib <Plug>CamelCaseMotion_ib
+:omap <silent> ie <Plug>CamelCaseMotion_ie
+:vmap <silent> ie <Plug>CamelCaseMotion_ie
+
 " ------------------------------------------------------------
 " Syntastic
 "
@@ -340,7 +369,7 @@ let g:neosnippet#snippets_directory='~/.dotfiles/snipetts'
 " http://d.hatena.ne.jp/hokaccha/20120525/1337929041
 let g:syntastic_mode_map = { 'mode': 'active',
   \ 'active_filetypes': [],
-  \ 'passive_filetypes': ['html'] }
+  \ 'passive_filetypes': ['html', 'sass'] }
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_javascript_checker = 'jshint'
 
@@ -366,7 +395,6 @@ nmap <F8> :TagbarToggle<CR>
 " ------------------------------------------------------------
 " Fugitive
 
-
 " ------------------------------------------------------------
 " Powerline
 let OSTYPE = system('uname')
@@ -377,3 +405,115 @@ elseif OSTYPE == "Linux\n"
 	set rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim
 endif
 
+"------------------------------------------------------------
+" SASS
+" .sass/.scss/.less保存後の自動コンパイル
+" let g:sass_compile_auto = 1
+" let g:sass_compile_cdloop = 5
+" let g:sass_compile_cssdir = ['css', 'stylesheet']
+" let g:sass_compile_file = ['scss', 'sass']
+" let g:sass_started_dirs = []
+" let g:sass_compile_beforecmd = ''
+" autocmd FileType less,sass  setlocal sw=2 sts=2 ts=2 et
+" au! BufWritePost * SassCompile
+
+" sass自動コンパイル後にStyledoccoを自動生成
+" Grunt.js 0.4 でstyledoccoの出力ができないため、その場しのぎのスクリプトを用意
+function StyledoccoGenerateCommand()
+	" Styledoccoコマンドの有無を確認
+	if ! executable( 'styledocco' )
+		return ''
+	endif
+
+	" Gitリポジトリのディレクトリ名をプロジェクト名として設定
+	let l:git_repository_root_dir = substitute( system( 'git rev-parse --show-toplevel' ), '\n', '', '' )
+	if ! isdirectory( l:git_repository_root_dir )
+		return ''
+	endif
+	let l:dir_names = split( l:git_repository_root_dir, '/' )
+	let l:project_name = l:dir_names[len(l:dir_names ) - 1]
+	" echo l:project_name
+
+	" sass/cssディレクトリを取得
+	" scss/cssファイルを編集しているときは、現在のディレクトリはcssやscssディレクトリの下になるはずなので
+	" ディレクトリパスの中からscssやcssのディレクトリ名を探す
+	let l:current_dir = getcwd()
+	let l:dir_names = split( l:current_dir, '/' )
+	call reverse( dir_names )
+	while len( dir_names ) > 0 && dir_names[0] != 'sass' && dir_names[0] != 'scss' && dir_names[0] != 'css'
+		call remove( dir_names, 0 )
+	endwhile
+	if len( dir_names ) == 0
+		return ''
+	endif
+	call reverse( dir_names )
+	let l:sass_source_dir = '/' . join( dir_names, '/' )
+	" echo sass_source_dir
+
+	" sass/cssディレクトリと同じ階層にdocディレクトリを設定
+	call remove( dir_names, -1 )
+	call add( dir_names, 'docs' )
+	let l:docs_dir = '/' . join( dir_names, '/' )
+	" echo docs_dir
+
+	return 'styledocco -n '.l:project_name.' -o '.l:docs_dir.' '.l:sass_source_dir
+endfunction
+let g:sass_compile_aftercmd = StyledoccoGenerateCommand()
+
+" ------------------------------------------------------------
+" HTMLタグを閉じる前のコメント
+" https://gist.github.com/vohedge/5221591
+
+" こういうHTMLがあったときに
+" <div id="hoge" class="fuga">
+" ...
+" </div>
+"
+" 実行するとこうなる
+" <div id="hoge" class="fuga">
+" ...
+" <!-- #hoge.fuga --></div>
+
+function! Endtagcomment()
+    let reg_save = @@
+
+    try
+        silent normal vaty
+    catch
+        execute "normal \<Esc>"
+        echohl ErrorMsg
+        echo 'no match html tags'
+        echohl None
+        return
+    endtry
+
+    let html = @@
+
+    let start_tag = matchstr(html, '\v(\<.{-}\>)')
+
+    let id = ''
+    let id_match = matchlist(start_tag, '\vid\=["'']([^"'']+)["'']')
+    if exists('id_match[1]')
+        let id = '#' . id_match[1]
+    endif
+
+    let class = ''
+    let class_match = matchlist(start_tag, '\vclass\=["'']([^"'']+)["'']')
+    if exists('class_match[1]')
+        let class = '.' . join(split(class_match[1], '\v\s+'), '.')
+    endif
+
+    execute "normal `>va<\<Esc>`<"
+
+    let comment = g:endtagcommentFormat
+    let comment = substitute(comment, '%id', id, 'g')
+    let comment = substitute(comment, '%class', class, 'g')
+    let @@ = comment
+
+    normal ""P
+
+    let @@ = reg_save
+endfunction
+
+let g:endtagcommentFormat = '<!-- %id%class -->'
+nnoremap ,t :<C-u>call Endtagcomment()<CR>
