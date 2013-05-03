@@ -65,13 +65,12 @@ NeoBundle 'https://github.com/bkad/CamelCaseMotion.git'
 NeoBundle 'https://github.com/wesleyche/Trinity.git'
 
 " JavaScript
-NeoBundle 'JavaScript-syntax'
+NeoBundle 'https://github.com/jelera/vim-javascript-syntax.git'
 
 " jQuery
-NeoBundle 'jQuery'
+NeoBundle 'https://github.com/scottmcginness/vim-jquery.git'
 
 " SASS
-" NeoBundle 'https://github.com/AtsushiM/sass-compile.vim.git'
 NeoBundle 'https://github.com/cakebaker/scss-syntax.vim.git'
 
 " %で終了タグへジャンプ 
@@ -81,13 +80,13 @@ NeoBundle 'https://github.com/edsono/vim-matchit.git'
 NeoBundle 'https://github.com/tpope/vim-surround.git'
 
 " coffee script
-NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'https://github.com/kchmck/vim-coffee-script.git'
 
 " python
-NeoBundle 'yuroyoro/vim-python'
+NeoBundle 'https://github.com/masudaK/vim-python.git'
 
 " nginx conf
-NeoBundle 'nginx.vim'
+NeoBundle 'https://github.com/evanmiller/nginx-vim-syntax.git'
 
 " シンタックスチェック
 NeoBundle 'https://github.com/scrooloose/syntastic.git'
@@ -97,7 +96,7 @@ NeoBundle 'https://github.com/scrooloose/syntastic.git'
 NeoBundle 'https://github.com/majutsushi/tagbar'
 
 " tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
-NeoBundle 'Source-Explorer-srcexpl.vim'
+NeoBundle 'https://github.com/vim-scripts/SrcExpl.git'
 
 " Git
 NeoBundle 'https://github.com/tpope/vim-fugitive.git'
