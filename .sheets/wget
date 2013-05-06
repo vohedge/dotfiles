@@ -1,0 +1,4 @@
+# サイト全体をダウンロード
+# -r --recursive 再起的にダウンロード
+# -l --level ダウンロードする階層を指定、デフォルトは5で0で無制限となる
+wget -r -l 0 http://www.example.com

@@ -91,10 +91,24 @@ EOT"
 			echo ${vhost_str}"  \t\t": ${doc_root}
 		done
 		;;
+	
+	##
+	# Show usege of 'a2' command
+	"-r")
+		echo " ** Restarting apache2 from a2 **"
+		sudo service apache2 restart
+		;;
 
+	##
 	# Show usege of 'a2' command
 	"-h")
 		cat << EOT
+a2 -h
+	Show all a2 commands.
+
+a2 -r
+	Restart aapache2.
+
 a2 init [domain]
 	Create new virtual host setting file and enable.
 	domain : ex) www.example.com

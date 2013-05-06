@@ -1,5 +1,23 @@
 " ============================================================
 "
+" ToDo
+"
+" ============================================================
+" Tag関連(ctags,gtags)
+"  - 関数やメソッドの定義元をすばやく参照したかったが、tag生成のコマンドを手動で実行する手間がある
+"  - また、gitignore等にtag関連ディレクトリを除外する設定を入れる必要がある
+"  - そこで、都度すばやくgrepできる環境を検討したい
+"  - 本格的なコードリーディングをする際に再度検討しよう
+"  - taglistの動きも少し微妙（phpで表示されない、変なところにtags=が残留する）
+" スニペット
+"  - 使い方を忘れた
+"  - uniteではたくさんでてきすぎて分からない
+" vimfiler
+"  - ツリー開閉のキーが変
+"  - t で新しいタブでディレクトリを開けない
+" HTMLコメントの関数をNeoBundleで別ファイル化
+" ============================================================
+"
 " Vundle
 "
 " ============================================================
@@ -46,6 +64,12 @@ NeoBundle 'https://github.com/vim-scripts/wombat256.vim.git'
 " ファイラー
 NeoBundle 'https://github.com/Shougo/vimfiler.git'
 
+" コード用アウトライナー
+NeoBundle 'https://github.com/h1mesuke/unite-outline.git'
+
+" 文章構成用アウトライナー
+NeoBundle 'https://github.com/vim-scripts/VOoM.git'
+
 " ?
 NeoBundle 'https://github.com/Shougo/vimproc.git'
 
@@ -70,6 +94,9 @@ NeoBundle 'https://github.com/jelera/vim-javascript-syntax.git'
 " jQuery
 NeoBundle 'https://github.com/scottmcginness/vim-jquery.git'
 
+" CSS3 シンタックス
+NeoBundle 'https://github.com/hail2u/vim-css3-syntax.git'
+
 " SASS
 NeoBundle 'https://github.com/cakebaker/scss-syntax.vim.git'
 
@@ -92,14 +119,20 @@ NeoBundle 'https://github.com/evanmiller/nginx-vim-syntax.git'
 NeoBundle 'https://github.com/scrooloose/syntastic.git'
 
 " ctags
-" NeoBundle 'git://github.com/vim-scripts/taglist.vim.git'
-NeoBundle 'https://github.com/majutsushi/tagbar'
+" NeoBundle 'https://github.com/majutsushi/tagbar'
+" NeoBundle 'taglist.vim', {'type' : 'nosync', 'base' : '~/.dotfiles/.vim/bundle/manual'}
 
 " tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
 NeoBundle 'https://github.com/vim-scripts/SrcExpl.git'
 
 " Git
 NeoBundle 'https://github.com/tpope/vim-fugitive.git'
+
+" Evernote
+NeoBundle 'https://github.com/kakkyz81/evervim.git'
+
+" 複数のカーソル
+NeoBundle 'https://github.com/terryma/vim-multiple-cursors.git'
 
 filetype plugin indent on
 
@@ -146,10 +179,8 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 " Others
 set noerrorbells
 
-" Fix Multibyte Bug
-" if exists('&ambiwidth')
-"	set ambiwidth=double
-" endif
+" vimrc relod
+nnoremap <Space>r :<C-u>source $HOME/.vimrc<CR>
 
 " Grep
 command! -complete=file -nargs=+ Grep call s:grep([<f-args>])
@@ -194,8 +225,8 @@ let g:vdebug_keymap = {
 nnoremap [unite] <Nop>
 nmap <Space><Space> [unite]
  
-" インサートモードで開始しない
-let g:unite_enable_start_insert = 0
+" インサートモードで開始
+let g:unite_enable_start_insert = 1
  
 " file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
 let g:unite_source_file_mru_filename_format = ''
@@ -203,11 +234,8 @@ let g:unite_source_file_mru_filename_format = ''
 " Yank履歴の有効化
 let g:unite_source_history_yank_enable =1 
 
-" よく使うもの
-nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files buffer file<CR>
-" 現在開いているファイルのディレクトリ下のファイル一覧。
-" 開いていない場合はカレントディレクトリ
-" nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" ファイル一覧
+nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file -buffer-name=files -winheight=10<CR>
 
 " バッファ一覧
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
@@ -216,19 +244,36 @@ nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
 
 " Snippets
-" nnoremap <silent> [unite]s :<C-u>Unite snippet<CR>
+" noremap <silent> [unite]s :<C-u>Unite snippet<CR>
 
-" ブックマーク一覧
-nnoremap <silent> [unite]k :<C-u>Unite bookmark<CR>
-
-" ブックマークに追加
-nnoremap <silent> [unite]ba :<C-u>UniteBookmarkAdd<CR>
-
-" 全部載せ
-nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+" アウトライナー
+" nnoremap <silent> [unite]o :<C-u>Unite -vertical -winwidth=30 -no-quit outline<CR>
+nnoremap <silent> [unite]o :<C-u>Unite -vertical -winwidth=30 -buffer-name=outline outline<CR>
 
 " Yank履歴
 nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+
+" unite-grepのバックエンドをagに切り替える
+" http://qiita.com/items/c8962f9325a5433dc50d
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts = '--nocolor --nogroup'
+let g:unite_source_grep_recursive_opt = ''
+let g:unite_source_grep_max_candidates = 500
+
+" grep
+vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
+
+" Project内のファイルをgrep
+" http://sanrinsha.lolipop.jp/blog/2013/03/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E5%86%85%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92unite-grep%E3%81%99%E3%82%8B.html
+nnoremap [unite]gp :<C-u>call <SID>unite_grep_project('-start-insert')<CR>
+function! s:unite_grep_project(...)
+	let opts = (a:0 ? join(a:000, ' ') : '')
+	let dir = unite#util#path2project_directory(expand('%'))
+	execute 'Unite' opts 'grep:' . dir
+endfunction
+
+" プロジェクト内のファイルを表示
+nnoremap <silent> [unite]p :<C-u>Unite file_rec:!<CR>
 
 "uniteを開いている間のキーマッピング
 augroup vimrc
@@ -236,17 +281,23 @@ augroup vimrc
 augroup END
 function! s:unite_my_settings()
 	"ESCでuniteを終了
-	nmap <buffer> <ESC> <Plug>(unite_exit)
+	nmap <buffer> <ESC><ESC> <Plug>(unite_exit)
+	imap <buffer> <ESC><ESC> <Plug>(unite_exit)
+
 	"入力モードのときjjでノーマルモードに移動
 	imap <buffer> jj <Plug>(unite_insert_leave)
+
 	"入力モードのときctrl+wでバックスラッシュも削除
 	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+
 	"sでsplit
 	nnoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
 	inoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
+
 	"vでvsplit
 	nnoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
 	inoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
+
 	"fでvimfiler
 	nnoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
 	inoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
@@ -257,34 +308,38 @@ endfunction
 "
 "vimデフォルトのエクスプローラをvimfilerで置き換える
 let g:vimfiler_as_default_explorer = 1
+
 "セーフモードを無効にした状態で起動する
 let g:vimfiler_safe_mode_by_default = 0
-"現在開いているバッファのディレクトリを開く
-nnoremap <silent> :fa :<C-u>VimFilerBufferDir -quit<CR>
+
+" 編集するファイルは新しいタブで開く
+" let g:vimfiler_edit_action = 'tabopen'
+
+" Like Textmate icons.
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
+
 "現在開いているバッファをIDE風に開く
-nnoremap <silent> :f :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
- 
-"デフォルトのキーマッピングを変更
+nnoremap <silent> <space>f :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
+
+" Vimfilerを開いている間のキーマッピング
 augroup vimrc
   autocmd FileType vimfiler call s:vimfiler_my_settings()
 augroup END
 function! s:vimfiler_my_settings()
-  nmap <buffer> q <Plug>(vimfiler_exit)
-  nmap <buffer> Q <Plug>(vimfiler_hide)
+	" ESC 2回でvimfilerを閉じる
+	nmap <buffer> <ESC><ESC> <Plug>(vimfiler_hide)
+
+	" Enterでファイルツリーを展開
+	nmap <buffer> <Enter> <Plug>(vimfiler_expand_tree)
+
+	nmap <buffer><expr> t vimfiler#smart_cursor_map(
+					\  "\<Plug>(vimfiler_open_file_in_another_vimfiler)",
+					\  "\<Plug>(vimfiler_edit_file)")
 endfunction
-
-" ------------------------------------------------------------
-" Nerd Tree
-" nmap <silent> <space> :NERDTreeToggle<CR>
-" let NERDTreeMinimalUI=1
-" let NERDTreeShowHidden=1
-" let NERDTreeShowBookmarks=1
-
-" ------------------------------------------------------------
-" Yanktemp.vim
-" map <silent> sy :call YanktmpYank()<CR>
-" map <silent> sp :call YanktmpPaste_p()<CR>
-" map <silent> sP :call YanktmpPaste_P()<CR>
 
 " ------------------------------------------------------------
 " Neocomplcache
@@ -378,18 +433,20 @@ let g:syntastic_javascript_checker = 'jshint'
 " - 現在表示中のファイルのみのタグしか表示しない
 " - 右側にtag listのウインドうを表示する
 " - \lでtaglistウインドウを開いたり閉じたり出来るショートカット
-" set tags = tags
-" let Tlist_Show_One_File = 1
-" let Tlist_Use_Right_Window = 1
-" taglistのウインドウだけならVimを閉じる
-" let Tlist_Exit_OnlyWindow = 1
-" let g:tlist_php_settings = 'php;c:class;d:constant;f:function'
-" nnoremap <silent> <F8> :TlistToggle<CR>
+"set tags = tags
+"let Tlist_Show_One_File = 1
+"let Tlist_Use_Right_Window = 1
+"" ターミナルで使用するvimでサポートされていない機能を無効化
+"let Tlist_Inc_Winwidth = 0
+"" taglistのウインドウだけならVimを閉じる
+"let Tlist_Exit_OnlyWindow = 1
+"" let g:tlist_php_settings = 'php;c:class;d:constant;f:function'
+"nnoremap <silent> <F8> :TlistToggle<CR>
 
 " ------------------------------------------------------------
-" Taglist
+" Tagbar
 "
-nmap <F8> :TagbarToggle<CR>
+" nmap <F8> :TagbarToggle<CR>
 
 " ------------------------------------------------------------
 " Fugitive
@@ -404,65 +461,9 @@ elseif OSTYPE == "Linux\n"
 	set rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim
 endif
 
-"------------------------------------------------------------
-" SASS
-" .sass/.scss/.less保存後の自動コンパイル
-" let g:sass_compile_auto = 1
-" let g:sass_compile_cdloop = 5
-" let g:sass_compile_cssdir = ['css', 'stylesheet']
-" let g:sass_compile_file = ['scss', 'sass']
-" let g:sass_started_dirs = []
-" let g:sass_compile_beforecmd = ''
-" autocmd FileType less,sass  setlocal sw=2 sts=2 ts=2 et
-" au! BufWritePost * SassCompile
-
-" sass自動コンパイル後にStyledoccoを自動生成
-" Grunt.js 0.4 でstyledoccoの出力ができないため、その場しのぎのスクリプトを用意
-function StyledoccoGenerateCommand()
-	" Styledoccoコマンドの有無を確認
-	if ! executable( 'styledocco' )
-		return ''
-	endif
-
-	" Gitリポジトリのディレクトリ名をプロジェクト名として設定
-	let l:git_repository_root_dir = substitute( system( 'git rev-parse --show-toplevel' ), '\n', '', '' )
-	if ! isdirectory( l:git_repository_root_dir )
-		return ''
-	endif
-	let l:dir_names = split( l:git_repository_root_dir, '/' )
-	let l:project_name = l:dir_names[len(l:dir_names ) - 1]
-	" echo l:project_name
-
-	" sass/cssディレクトリを取得
-	" scss/cssファイルを編集しているときは、現在のディレクトリはcssやscssディレクトリの下になるはずなので
-	" ディレクトリパスの中からscssやcssのディレクトリ名を探す
-	let l:current_dir = getcwd()
-	let l:dir_names = split( l:current_dir, '/' )
-	call reverse( dir_names )
-	while len( dir_names ) > 0 && dir_names[0] != 'sass' && dir_names[0] != 'scss' && dir_names[0] != 'css'
-		call remove( dir_names, 0 )
-	endwhile
-	if len( dir_names ) == 0
-		return ''
-	endif
-	call reverse( dir_names )
-	let l:sass_source_dir = '/' . join( dir_names, '/' )
-	" echo sass_source_dir
-
-	" sass/cssディレクトリと同じ階層にdocディレクトリを設定
-	call remove( dir_names, -1 )
-	call add( dir_names, 'docs' )
-	let l:docs_dir = '/' . join( dir_names, '/' )
-	" echo docs_dir
-
-	return 'styledocco -n '.l:project_name.' -o '.l:docs_dir.' '.l:sass_source_dir
-endfunction
-let g:sass_compile_aftercmd = StyledoccoGenerateCommand()
-
 " ------------------------------------------------------------
-" HTMLタグを閉じる前のコメント
-" https://gist.github.com/vohedge/5221591
-
+" HTMLの閉じタグの前にコメントを入れる
+" https://gist.github.com/hokaccha/411828
 " こういうHTMLがあったときに
 " <div id="hoge" class="fuga">
 " ...
@@ -471,7 +472,7 @@ let g:sass_compile_aftercmd = StyledoccoGenerateCommand()
 " 実行するとこうなる
 " <div id="hoge" class="fuga">
 " ...
-" <!-- #hoge.fuga --></div>
+" <!-- /div#hoge.fuga --></div>
 
 function! Endtagcomment()
     let reg_save = @@
@@ -489,6 +490,7 @@ function! Endtagcomment()
     let html = @@
 
     let start_tag = matchstr(html, '\v(\<.{-}\>)')
+    let tag_name  = matchstr(start_tag, '\v([a-zA-Z]+)')
 
     let id = ''
     let id_match = matchlist(start_tag, '\vid\=["'']([^"'']+)["'']')
@@ -505,6 +507,7 @@ function! Endtagcomment()
     execute "normal `>va<\<Esc>`<"
 
     let comment = g:endtagcommentFormat
+    let comment = substitute(comment, '%tag_name', tag_name, 'g')
     let comment = substitute(comment, '%id', id, 'g')
     let comment = substitute(comment, '%class', class, 'g')
     let @@ = comment
@@ -516,3 +519,7 @@ endfunction
 
 let g:endtagcommentFormat = '<!-- %id%class -->'
 nnoremap ,t :<C-u>call Endtagcomment()<CR>
+
+if filereadable(expand('~/.vimrc.local'))
+	source ~/.vimrc.local
+endif
