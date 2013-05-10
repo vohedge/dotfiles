@@ -15,24 +15,7 @@ alias t="tmux"
 alias n="ntp_sync"
 
 chpwd() {
-    local CMD_LS="ls -a -v -F"
-    case "${OSTYPE}" in
-        freebsd*|darwin*)
-            # -G カラー表示
-            # -F ファイルタイプを示す文字を表示
-            if type gls > /dev/null 2>&1; then
-                # -v natural sort of (version) numbers within text
-                CMD_LS="gls -avF --color"
-            else
-                # -v 非印字文字を強制表示
-                CMD_LS="ls -avGF"
-            fi
-            ;;
-        linux*)
-            CMD_LS="ll"
-            ;;
-    esac
-    # ファイル数が多い場合は表示するファイルを制限
+	CMD_LS="ll"
     if [ 150 -le $(\ls -A |wc -l) ]; then
         eval "$CMD_LS" -C | head -n 5
         echo '...'
