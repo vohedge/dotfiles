@@ -28,12 +28,6 @@ chpwd() {
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
 }
 
-ntp_sync() {
-	sudo service ntp stop
-	sudo ntpdate ntp.jst.mfeed.ad.jp
-	sudo service ntp start
-}
-
 # Alias for Git
 alias gcd='pushd $(git rev-parse --show-toplevel);ll;pwd;'
 alias g='git'
@@ -43,5 +37,4 @@ alias gc="git checkout"
 alias gcm="git commit"
 alias gd="git diff"
 alias gb="git branch"
-# alias gl='git log --graph --decorate --pretty=format:"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n" --stat -p'
 alias gl='git log --stat --summary'
