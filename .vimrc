@@ -9,13 +9,6 @@
 "  - そこで、都度すばやくgrepできる環境を検討したい
 "  - 本格的なコードリーディングをする際に再度検討しよう
 "  - taglistの動きも少し微妙（phpで表示されない、変なところにtags=が残留する）
-" スニペット
-"  - 使い方を忘れた
-"  - uniteではたくさんでてきすぎて分からない
-" vimfiler
-"  - ツリー開閉のキーが変
-"  - t で新しいタブでディレクトリを開けない
-" HTMLコメントの関数をNeoBundleで別ファイル化
 " ============================================================
 "
 " Vundle
@@ -158,6 +151,9 @@ set laststatus=2
 " デフォルトのモード表示を無効化
 set noshowmode
 
+" ペーストモードを切り替え
+set pastetoggle=<F12>
+
 " インサートモードを抜けるときにnopasteを設定
 autocmd InsertLeave * set nopaste
 
@@ -176,6 +172,13 @@ set hlsearch
 " Esc 2回押しで検索結果のマーカーを削除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
+" カッコを補完
+inoremap ( (  )<Left><Left>
+inoremap { {<CR><Tab><BS><CR>}<Up><End>
+inoremap [ []<Left>
+inoremap " ""<Left>
+inoremap ' ''<Left>
+
 " Others
 set noerrorbells
 
@@ -189,10 +192,6 @@ function! s:grep(args)
 	execute 'vimgrep' '/' . a:args[0] . '/j ' . target
 	if len(getqflist()) != 0 | copen | endif
 endfunction
-
-" PHP Syntax Check
-autocmd filetype php :set makeprg=php\ -l\ %
-autocmd filetype php :set errorformat=%m\ in\ %f\ on\ line\ %l
 
 " Python specific tab setting
 autocmd FileType python setl autoindent
@@ -244,7 +243,7 @@ nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
 
 " Snippets
-" noremap <silent> [unite]s :<C-u>Unite snippet<CR>
+noremap <silent> [unite]s :<C-u>Unite neosnippet/user<CR>
 
 " アウトライナー
 " nnoremap <silent> [unite]o :<C-u>Unite -vertical -winwidth=30 -no-quit outline<CR>
@@ -349,7 +348,7 @@ endfunction
 let g:neocomplcache_enable_at_startup=1
 
 " キャメルケースの補完 
-let g:neocomplcache_enable_camel_case_completion = 0
+let g:neocomplcache_enable_camel_case_completion = 1
 
 " _区切りの補完
 let g:neocomplcache_enable_underbar_completion=1
@@ -364,8 +363,12 @@ inoremap <expr><C-g> neocomplcache#undo_completion()
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 "tabで補完候補の選択を行う
-inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
+imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+imap <expr><CR> neosnippet#expandable() ?
+        \ '<Plug>(neosnippet_expand_or_jump)' : pumvisible() ?
+        \ neocomplcache#smart_close_popup() : '<CR>'
 
 " 現在選択している候補を確定します
 inoremap <expr><C-y> neocomplcache#close_popup()
@@ -385,7 +388,7 @@ let g:neocomplcache_dictionary_filetype_lists = {
 " key-mapping
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
-imap <C-l> <Plug>(neosnippet_start_unite_snippet)
+imap <C-s> i_<Plug>(neosnippet_start_unite_snippet)
 
 " SuperTab like snippets behavior.
 " http://kazuph.hateblo.jp/entry/2013/01/19/193745
@@ -512,7 +515,8 @@ function! Endtagcomment()
     let comment = substitute(comment, '%class', class, 'g')
     let @@ = comment
 
-    normal ""P
+	" タグの後ろにコメントを展開 
+    normal ""$p
 
     let @@ = reg_save
 endfunction
