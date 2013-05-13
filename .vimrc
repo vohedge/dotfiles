@@ -108,6 +108,9 @@ NeoBundle 'https://github.com/masudaK/vim-python.git'
 " nginx conf
 NeoBundle 'https://github.com/evanmiller/nginx-vim-syntax.git'
 
+" Markdown
+NeoBundle 'https://github.com/tpope/vim-markdown.git'
+
 " シンタックスチェック
 NeoBundle 'https://github.com/scrooloose/syntastic.git'
 
@@ -465,18 +468,17 @@ elseif OSTYPE == "Linux\n"
 endif
 
 " ------------------------------------------------------------
+" Evernote
+if filereadable(expand('~/.vimrc.local'))
+	source ~/.vimrc.local
+endif
+
+" ノートブック一覧を表示
+nnoremap <space>e :EvervimNotebookList<CR>
+
+" ------------------------------------------------------------
 " HTMLの閉じタグの前にコメントを入れる
 " https://gist.github.com/hokaccha/411828
-" こういうHTMLがあったときに
-" <div id="hoge" class="fuga">
-" ...
-" </div>
-"
-" 実行するとこうなる
-" <div id="hoge" class="fuga">
-" ...
-" <!-- /div#hoge.fuga --></div>
-
 function! Endtagcomment()
     let reg_save = @@
 
@@ -524,6 +526,3 @@ endfunction
 let g:endtagcommentFormat = '<!-- %id%class -->'
 nnoremap ,t :<C-u>call Endtagcomment()<CR>
 
-if filereadable(expand('~/.vimrc.local'))
-	source ~/.vimrc.local
-endif
