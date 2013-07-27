@@ -174,16 +174,18 @@ set shiftwidth=4
 set softtabstop=4
 autocmd FileType php :set tags=~/.vim/.tags
 set hlsearch
+" set list
+" set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 
 " Esc 2回押しで検索結果のマーカーを削除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " カッコを補完
-inoremap ( (  )<Left><Left>
-inoremap { {<CR><Tab><BS><CR>}<Up><End>
-inoremap [ []<Left>
-inoremap " ""<Left>
-inoremap ' ''<Left>
+" inoremap ( (  )<Left><Left>
+" inoremap { {<CR><Tab><BS><CR>}<Up><End>
+" inoremap [ []<Left>
+" inoremap " ""<Left>
+" inoremap ' ''<Left>
 
 " Others
 set noerrorbells
