@@ -111,6 +111,9 @@ NeoBundle 'https://github.com/evanmiller/nginx-vim-syntax.git'
 " Markdown
 NeoBundle 'https://github.com/tpope/vim-markdown.git'
 
+" Quickrun
+NeoBundle 'https://github.com/thinca/vim-quickrun.git'
+
 " シンタックスチェック
 NeoBundle 'https://github.com/scrooloose/syntastic.git'
 
@@ -432,6 +435,17 @@ let g:syntastic_mode_map = { 'mode': 'active',
   \ 'passive_filetypes': ['html', 'sass'] }
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_javascript_checker = 'jshint'
+
+" ------------------------------------------------------------
+" Quickrun / markdown
+"
+" $> gem install bluefeather
+" http://lsifrontend.hatenablog.com/entry/2012/12/18/063454
+let g:quickrun_config = {}
+let g:quickrun_config['markdown'] = {
+    \ 'command'  : 'bluefeather',
+    \ 'exec'     : 'cat %s | %c -',
+    \ }
 
 " ------------------------------------------------------------
 " Taglist
