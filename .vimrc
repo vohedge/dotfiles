@@ -19,7 +19,7 @@
 " 1. $ mkdir -p ~/.vim/bundle
 " 2. $ git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 " 3. :NeoBundleInstall 
-" * Update-> :NeoBundleInstall!
+" * Update > NeoBundleUpdate
 "
 set nocompatible
 filetype off 
