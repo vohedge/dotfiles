@@ -1,26 +1,20 @@
-" ============================================================
-"
-" ToDo
-"
-" ============================================================
-" Tag関連(ctags,gtags)
-"  - 関数やメソッドの定義元をすばやく参照したかったが、tag生成のコマンドを手動で実行する手間がある
-"  - また、gitignore等にtag関連ディレクトリを除外する設定を入れる必要がある
-"  - そこで、都度すばやくgrepできる環境を検討したい
-"  - 本格的なコードリーディングをする際に再度検討しよう
-"  - taglistの動きも少し微妙（phpで表示されない、変なところにtags=が残留する）
-" ============================================================
-"
-" Vundle
-"
-" ============================================================
-" Set up Neobundle Plugin
-"
+" ------------------------------------------------------------------------------
+" My .vimrc
+" 
+" <Set Up>
 " 1. $ mkdir -p ~/.vim/bundle
 " 2. $ git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 " 3. :NeoBundleInstall 
 " * Update > NeoBundleUpdate
-"
+" 
+
+" ------------------------------------------------------------------------------
+" ローカル変数
+let s:has_neobundle = isdirectory($HOME . '/.vim/bundle/neobundle.vim')
+let s:python_site_package_dir = split( system("python -m site --user-site"), '\n')
+
+" ------------------------------------------------------------------------------
+" プラグイン
 set nocompatible
 filetype off 
 filetype plugin indent off
@@ -43,7 +37,13 @@ NeoBundle 'https://github.com/Shougo/neobundle.vim.git'
 NeoBundle 'https://github.com/Shougo/unite.vim.git'
 
 " Zencodeing
-NeoBundle 'https://github.com/mattn/zencoding-vim.git'
+NeoBundle 'https://github.com/mattn/emmet-vim.git'
+
+" 置換を快適に
+NeoBundle 'https://github.com/osyo-manga/vim-over.git'
+
+" Yunk履歴を活用
+NeoBundle 'https://github.com/LeafCage/yankround.vim.git'
 
 " ファイラー
 NeoBundle 'https://github.com/scrooloose/nerdtree.git'
@@ -63,11 +63,19 @@ NeoBundle 'https://github.com/h1mesuke/unite-outline.git'
 " 文章構成用アウトライナー
 NeoBundle 'https://github.com/vim-scripts/VOoM.git'
 
-" ?
-NeoBundle 'https://github.com/Shougo/vimproc.git'
+" 非同期処理
+NeoBundle 'https://github.com/Shougo/vimproc.git', { 'build' : {
+	\		'cygwin': 'make -f make_cygwin.mak',
+	\		'mac'	: 'make -f make_mac.mak',
+	\		'unix'	: 'make -f make_unix.mak',
+	\	},
+	\ }
 
 " Vimshell
 NeoBundle 'https://github.com/Shougo/vimshell.git'
+
+" Unite quickfix
+NeoBundle 'https://github.com/osyo-manga/unite-quickfix.git'
 
 " Unite用のgtagsソース
 NeoBundle 'https://github.com/daisuzu/unite-gtags.git'
@@ -81,7 +89,10 @@ NeoBundle 'https://github.com/bkad/CamelCaseMotion.git'
 " NERD_tree, taglist, srcexpl の統合
 NeoBundle 'https://github.com/wesleyche/Trinity.git'
 
-" JavaScript
+" HTML5 シンタックス
+NeoBundle 'https://github.com/othree/html5.vim.git'
+
+" JavaScript シンタックス
 NeoBundle 'https://github.com/jelera/vim-javascript-syntax.git'
 
 " jQuery
@@ -90,8 +101,11 @@ NeoBundle 'https://github.com/scottmcginness/vim-jquery.git'
 " CSS3 シンタックス
 NeoBundle 'https://github.com/hail2u/vim-css3-syntax.git'
 
-" SASS
+" SASS シンタックス
 NeoBundle 'https://github.com/cakebaker/scss-syntax.vim.git'
+
+" Jade シンタックス
+NeoBundle 'https://github.com/digitaltoad/vim-jade.git'
 
 " %で終了タグへジャンプ 
 NeoBundle 'https://github.com/edsono/vim-matchit.git'
@@ -118,8 +132,11 @@ NeoBundle 'https://github.com/thinca/vim-quickrun.git'
 NeoBundle 'https://github.com/scrooloose/syntastic.git'
 
 " ctags
-" NeoBundle 'https://github.com/majutsushi/tagbar'
+NeoBundle 'https://github.com/majutsushi/tagbar'
 " NeoBundle 'taglist.vim', {'type' : 'nosync', 'base' : '~/.dotfiles/.vim/bundle/manual'}
+
+" Ctagsの自動生成
+" NeoBundle 'https://github.com/soramugi/auto-ctags.vim.git'
 
 " tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
 NeoBundle 'https://github.com/vim-scripts/SrcExpl.git'
@@ -130,8 +147,26 @@ NeoBundle 'https://github.com/tpope/vim-fugitive.git'
 " Evernote
 NeoBundle 'https://github.com/kakkyz81/evervim.git'
 
+" 候補キーを表示してその場所へジャンプ
+NeoBundle 'https://github.com/haya14busa/vim-easymotion.git'
+
 " 複数のカーソル
 NeoBundle 'https://github.com/terryma/vim-multiple-cursors.git'
+
+" vimfilerと連携して置換処理を効率化
+NeoBundle 'https://github.com/thinca/vim-qfreplace.git'
+
+" HTML閉じタグコメントを保管
+NeoBundle 'https://gist.github.com/vohedge/5221591', { 'script_type' : 'plugin' }
+
+" 自動保存
+NeoBundle 'https://github.com/syui/wauto.vim.git'
+
+" sudo したときも.vimrcやプラグインを有効化
+NeoBundle 'https://github.com/vim-scripts/sudo.vim.git'
+
+" Unite Sudo
+NeoBundle 'https://github.com/Shougo/unite-sudo.git'
 
 filetype plugin indent on
 
@@ -140,25 +175,29 @@ filetype plugin indent on
 " My Config
 "
 " ============================================================
+" 内部文字コードを指定
 set encoding=utf-8
-set fillchars+=stl:\ ,stlnc:\
 
 " Display
 set t_Co=256
+
+" 構文ハイライト
 syntax on
+
+" カラースキーム
 colorscheme wombat256mod
+
+" 行番号を表示
 set number
-set ruler
-set cmdheight=2
+
+" コマンドラインに使われる行数
+" set cmdheight=2
 
 " すべてのWindowで常にステータスラインを表示
 set laststatus=2
 
 " デフォルトのモード表示を無効化
 set noshowmode
-
-" ペーストモードを切り替え
-set pastetoggle=<F12>
 
 " インサートモードを抜けるときにnopasteを設定
 autocmd InsertLeave * set nopaste
@@ -180,15 +219,15 @@ set hlsearch
 " Esc 2回押しで検索結果のマーカーを削除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-" カッコを補完
-" inoremap ( (  )<Left><Left>
-" inoremap { {<CR><Tab><BS><CR>}<Up><End>
-" inoremap [ []<Left>
-" inoremap " ""<Left>
-" inoremap ' ''<Left>
-
 " Others
 set noerrorbells
+
+" ペーストモードを切り替え
+set pastetoggle=<F12>
+
+" カーソル移動を常に見た目と同じに変更
+nnoremap j gj
+nnoremap k gk
 
 " vimrc relod
 nnoremap <Space>r :<C-u>source $HOME/.vimrc<CR>
@@ -212,141 +251,228 @@ autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 "
 " ============================================================
 " ------------------------------------------------------------
-" Vdebug
-let g:vdebug_keymap = {
-	\    "run" : "<F5>",
-	\    "run_to_cursor" : "<F1>",
-	\    "step_over" : "<F3>",
-	\    "step_into" : "<F2>",
-	\    "step_out" : "<F4>",
-	\    "close" : "<F6>",
-	\    "detach" : "<F7>",
-	\    "set_breakpoint" : "<F10>",
-	\    "get_context" : "<F11>",
-	\    "eval_under_cursor" : "<F12>",
-	\}
+" vdebug {{{
+" let g:vdebug_options['ide_key'] = "XDEBUG_VDEBUG"
+if s:has_neobundle && neobundle#tap('vdebug')
+	let g:vdebug_keymap = {
+		\    "run" : "<F5>",
+		\    "run_to_cursor" : "<F1>",
+		\    "step_over" : "<F3>",
+		\    "step_into" : "<F2>",
+		\    "step_out" : "<F4>",
+		\    "close" : "<F6>",
+		\    "detach" : "<F7>",
+		\    "set_breakpoint" : "<F10>",
+		\    "get_context" : "<F11>",
+		\    "eval_under_cursor" : "<F12>",
+		\}
+endif
+" }}}
 
 " ------------------------------------------------------------
-" unite
-" unite prefix key.
-nnoremap [unite] <Nop>
-nmap <Space><Space> [unite]
- 
-" インサートモードで開始
-let g:unite_enable_start_insert = 1
- 
-" file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
-let g:unite_source_file_mru_filename_format = ''
+" unite {{{
+if s:has_neobundle && neobundle#tap('unite.vim')
+	" unite prefix key.
+	nnoremap [unite] <Nop>
+	nmap <Space> [unite]
+	 
+	" インサートモードで開始
+	let g:unite_enable_start_insert = 1
+	 
+	" file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
+	let g:unite_source_file_mru_filename_format = ''
 
-" Yank履歴の有効化
-let g:unite_source_history_yank_enable =1 
+	" Yank履歴の有効化
+	let g:unite_source_history_yank_enable =1 
 
-" ファイル一覧
-nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file -buffer-name=files -winheight=10<CR>
+	" ファイル一覧
+	nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file file/new -buffer-name=files -winheight=30<CR>
 
-" バッファ一覧
-nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+	" バッファ一覧
+	nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 
-" 最近使用したファイル一覧
-nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
+	" 最近使用したファイル一覧
+	nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
 
-" Snippets
-noremap <silent> [unite]s :<C-u>Unite neosnippet/user<CR>
+	" Snippets
+	" noremap <silent> [unite]s :<C-u>Unite neosnippet/user<CR>
 
-" アウトライナー
-" nnoremap <silent> [unite]o :<C-u>Unite -vertical -winwidth=30 -no-quit outline<CR>
-nnoremap <silent> [unite]o :<C-u>Unite -vertical -winwidth=30 -buffer-name=outline outline<CR>
+	" アウトライナー
+	" nnoremap <silent> [unite]o :<C-u>Unite -vertical -winwidth=30 -no-quit outline<CR>
+	nnoremap <silent> [unite]o :<C-u>Unite -vertical -winwidth=30 -buffer-name=outline outline<CR>
 
-" Yank履歴
-nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+	" Yank履歴
+	nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
 
-" unite-grepのバックエンドをagに切り替える
-" http://qiita.com/items/c8962f9325a5433dc50d
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '--nocolor --nogroup'
-let g:unite_source_grep_recursive_opt = ''
-let g:unite_source_grep_max_candidates = 500
+	" unite-grepのバックエンドをagに切り替える
+	" http://qiita.com/items/c8962f9325a5433dc50d
+	if executable('ag')
+		let g:unite_source_grep_command = 'ag'
+	endif
+	let g:unite_source_grep_default_opts = '--nocolor --nogroup'
+	let g:unite_source_grep_recursive_opt = ''
+	let g:unite_source_grep_max_candidates = 500
 
-" grep
-vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
+	" grep
+	vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
 
-" Project内のファイルをgrep
-" http://sanrinsha.lolipop.jp/blog/2013/03/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E5%86%85%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92unite-grep%E3%81%99%E3%82%8B.html
-nnoremap [unite]gp :<C-u>call <SID>unite_grep_project('-start-insert')<CR>
-function! s:unite_grep_project(...)
-	let opts = (a:0 ? join(a:000, ' ') : '')
-	let dir = unite#util#path2project_directory(expand('%'))
-	execute 'Unite' opts 'grep:' . dir
-endfunction
+	"uniteを開いている間のキーマッピング
+	augroup vimrc
+		autocmd FileType unite call s:unite_my_settings()
+	augroup END
+	function! s:unite_my_settings()
+		"ESCでuniteを終了
+		nmap <buffer> <ESC><ESC> <Plug>(unite_all_exit)
+		imap <buffer> <ESC><ESC> <ESC><Plug>(unite_all_exit)
 
-" プロジェクト内のファイルを表示
-nnoremap <silent> [unite]p :<C-u>Unite file_rec:!<CR>
+		"入力モードのときjjでノーマルモードに移動
+		imap <buffer> jj <Plug>(unite_insert_leave)
 
-"uniteを開いている間のキーマッピング
-augroup vimrc
-	autocmd FileType unite call s:unite_my_settings()
-augroup END
-function! s:unite_my_settings()
-	"ESCでuniteを終了
-	nmap <buffer> <ESC><ESC> <Plug>(unite_exit)
-	imap <buffer> <ESC><ESC> <Plug>(unite_exit)
+		"入力モードのときctrl+wでバックスラッシュも削除
+		imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 
-	"入力モードのときjjでノーマルモードに移動
-	imap <buffer> jj <Plug>(unite_insert_leave)
+		"sでsplit
+		nnoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
+		inoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
 
-	"入力モードのときctrl+wでバックスラッシュも削除
-	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+		"vでvsplit
+		nnoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
+		inoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
 
-	"sでsplit
-	nnoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
-	inoremap <silent><buffer><expr> s unite#smart_map('s', unite#do_action('split'))
+		"fでvimfiler
+		nnoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+		inoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+	endfunction
+	
+	" Unite Menu {{{
+	if !exists("g:unite_source_menu_menus")
+		let g:unite_source_menu_menus = {}
+	endif
+	nnoremap <silent> [unite]m :Unite -silent -start-insert menu<CR>
 
-	"vでvsplit
-	nnoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
-	inoremap <silent><buffer><expr> v unite#smart_map('v', unite#do_action('vsplit'))
+		" file search menu {{{
+		let g:unite_source_menu_menus.files = {
+			\ 'description' : '          search files *[unite]f*',
+		\}
+		let g:unite_source_menu_menus.files.command_candidates = [
+			\['▷ recursive', 'Unite -start-insert file_rec/async'],
+			\['▷ grep .', 'Unite -no-quit grep:.'],
+			\['▷ find .', 'Unite find:.'],
+			\['▷ locate', 'Unite -start-insert locate'],
+			\['▷ grep', 'Unite -no-quit grep'],
+			\['▷ find', 'Unite find'],
+			\['▷ vimgrep', 'Unite vimgrep'],
+		\]
+		" nnoremap <silent>[unite]f :Unite -silent -start-insert menu:files<CR>
+		" }}}
 
-	"fでvimfiler
-	nnoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
-	inoremap <silent><buffer><expr> f unite#smart_map('f', unite#do_action('vimfiler'))
-endfunction
- 
+		" file encoding menu {{{
+		let g:unite_source_menu_menus.encoding = {
+			\ 'description' : '       select file encoding',
+		\}
+		let g:unite_source_menu_menus.encoding.command_candidates = [
+			\['▷ utf8',
+				\'e ++enc=utf8'],
+			\['▷ cp1251',
+				\'e ++enc=cp1251 ++ff=dos'],
+			\['▷ koi8-r', 
+				\'e ++enc=koi8-r ++ff=unix'],
+			\['▷ cp866', 
+				\'e ++enc=cp866 ++ff=dos'],
+		\]
+		" }}}
+
+		" Tabs width {{{
+		let g:unite_source_menu_menus.tabs = {
+		  \'description': '           select tabs width',
+		\}
+		let g:unite_source_menu_menus.tabs.command_candidates = [
+		  \['▷ 2', 'set ts=2 sts=2 sw=2 et'],
+		  \['▷ 4', 'set ts=4 sts=4 sw=4 et'],
+		  \['▷ 3', 'set ts=3 sts=3 sw=3 et'],
+		\]
+		nnoremap <silent>[unite]ct :Unite -silent -start-insert menu:tabs<cr>
+		" }}}
+		
+		" Unite menu:git {{{
+		let g:unite_source_menu_menus.git = {
+			\ 'description' : '            gestionar repositorios git
+				\                            ⌘ [espacio]g',
+			\}
+		let g:unite_source_menu_menus.git.command_candidates = [
+			\['▷ tig                                                        ⌘ ,gt',
+				\'normal ,gt'],
+			\['▷ git status       (Fugitive)                                ⌘ ,gs',
+				\'Gstatus'],
+			\['▷ git diff         (Fugitive)                                ⌘ ,gd',
+				\'Gdiff'],
+			\['▷ git commit       (Fugitive)                                ⌘ ,gc',
+				\'Gcommit'],
+			\['▷ git log          (Fugitive)                                ⌘ ,gl',
+				\'exe "silent Glog | Unite quickfix"'],
+			\['▷ git blame        (Fugitive)                                ⌘ ,gb',
+				\'Gblame'],
+			\['▷ git stage        (Fugitive)                                ⌘ ,gw',
+				\'Gwrite'],
+			\['▷ git checkout     (Fugitive)                                ⌘ ,go',
+				\'Gread'],
+			\['▷ git rm           (Fugitive)                                ⌘ ,gr',
+				\'Gremove'],
+			\['▷ git mv           (Fugitive)                                ⌘ ,gm',
+				\'exe "Gmove " input("destino: ")'],
+			\['▷ git push         (Fugitive, salida por buffer)             ⌘ ,gp',
+				\'Git! push'],
+			\['▷ git pull         (Fugitive, salida por buffer)             ⌘ ,gP',
+				\'Git! pull'],
+			\['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
+				\'exe "Git! " input("comando git: ")'],
+			\['▷ git cd           (Fugitive)',
+				\'Gcd'],
+			\]
+		nnoremap <silent> [unite]g :Unite -silent -start-insert menu:git<CR>
+		nnoremap <silent> [menu]g :Unite -silent -start-insert menu:git<CR>
+endif
+" }}}
+
 " ------------------------------------------------------------
-"vimfiler
-"
-"vimデフォルトのエクスプローラをvimfilerで置き換える
-let g:vimfiler_as_default_explorer = 1
+" vimfiler {{{
+if s:has_neobundle && neobundle#tap('vimfiler')
+	"vimデフォルトのエクスプローラをvimfilerで置き換える
+	let g:vimfiler_as_default_explorer = 1
 
-"セーフモードを無効にした状態で起動する
-let g:vimfiler_safe_mode_by_default = 0
+	"セーフモードを無効にした状態で起動する
+	let g:vimfiler_safe_mode_by_default = 0
 
-" 編集するファイルは新しいタブで開く
-" let g:vimfiler_edit_action = 'tabopen'
+	" 編集するファイルは新しいタブで開く
+	" let g:vimfiler_edit_action = 'tabopen'
 
-" Like Textmate icons.
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_file_icon = '-'
-let g:vimfiler_marked_file_icon = '*'
+	" Like Textmate icons.
+	let g:vimfiler_tree_leaf_icon = ' '
+	let g:vimfiler_tree_opened_icon = '▾'
+	let g:vimfiler_tree_closed_icon = '▸'
+	let g:vimfiler_file_icon = '-'
+	let g:vimfiler_marked_file_icon = '*'
 
-"現在開いているバッファをIDE風に開く
-nnoremap <silent> <space>f :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
+	"現在開いているバッファをIDE風に開く
+	" nnoremap <silent> <space>f :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
 
-" Vimfilerを開いている間のキーマッピング
-augroup vimrc
-  autocmd FileType vimfiler call s:vimfiler_my_settings()
-augroup END
-function! s:vimfiler_my_settings()
-	" ESC 2回でvimfilerを閉じる
-	nmap <buffer> <ESC><ESC> <Plug>(vimfiler_hide)
+	" Vimfilerを開いている間のキーマッピング
+	augroup vimrc
+	  autocmd FileType vimfiler call s:vimfiler_my_settings()
+	augroup END
+	function! s:vimfiler_my_settings()
+		" ESC 2回でvimfilerを閉じる
+		nmap <buffer> <ESC><ESC> <Plug>(vimfiler_hide)
 
-	" Enterでファイルツリーを展開
-	nmap <buffer> <Enter> <Plug>(vimfiler_expand_tree)
+		" Enterでファイルツリーを展開
+		" nmap <buffer> <Enter> <Plug>(vimfiler_expand_tree)
 
-	nmap <buffer><expr> t vimfiler#smart_cursor_map(
-					\  "\<Plug>(vimfiler_open_file_in_another_vimfiler)",
-					\  "\<Plug>(vimfiler_edit_file)")
-endfunction
+		nmap <buffer><expr> t vimfiler#smart_cursor_map(
+						\  "\<Plug>(vimfiler_open_file_in_another_vimfiler)",
+						\  "\<Plug>(vimfiler_edit_file)")
+	endfunction
+endif
+" }}}
 
 " ------------------------------------------------------------
 " Neocomplcache
@@ -391,63 +517,76 @@ let g:neocomplcache_dictionary_filetype_lists = {
     \ }
 
 " ------------------------------------------------------------
-" Neosnippet
+" Neosnippet {{{
 "
-" key-mapping
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-imap <C-s> i_<Plug>(neosnippet_start_unite_snippet)
+if s:has_neobundle && neobundle#tap('neosnippet')
+	" key-mapping
+	imap <C-k> <Plug>(neosnippet_expand_or_jump)
+	smap <C-k> <Plug>(neosnippet_expand_or_jump)
+	imap <C-s> i_<Plug>(neosnippet_start_unite_snippet)
 
-" SuperTab like snippets behavior.
-" http://kazuph.hateblo.jp/entry/2013/01/19/193745
-imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+	" SuperTab like snippets behavior.
+	" http://kazuph.hateblo.jp/entry/2013/01/19/193745
+	imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+	smap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" 自分用スニペットファイルの場所を指定
-let g:neosnippet#snippets_directory='~/.dotfiles/snipetts'
-
+	" 自分用スニペットファイルの場所を指定
+	let g:neosnippet#snippets_directory='~/.dotfiles/snipetts'
+endif
+" }}}
 
 " ------------------------------------------------------------
-" machit.vim
+" machit.vim {{{
+"
 " %でhtmlの終了タグへジャンプ
+"
 runtime macros/matchit.vim
 let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
+" }}}
 
 " ------------------------------------------------------------
 " camelcasemotion.vim
-:map <silent> w <Plug>CamelCaseMotion_w
-:map <silent> b <Plug>CamelCaseMotion_b
-:map <silent> e <Plug>CamelCaseMotion_e
-:omap <silent> iw <Plug>CamelCaseMotion_iw
-:vmap <silent> iw <Plug>CamelCaseMotion_iw
-:omap <silent> ib <Plug>CamelCaseMotion_ib
-:vmap <silent> ib <Plug>CamelCaseMotion_ib
-:omap <silent> ie <Plug>CamelCaseMotion_ie
-:vmap <silent> ie <Plug>CamelCaseMotion_ie
+if s:has_neobundle && neobundle#tap('CamelCaseMotion')
+	nmap <silent> ,w <Plug>CamelCaseMotion_w
+	xmap <silent> ,w <Plug>CamelCaseMotion_w
+	omap <silent> ,w <Plug>CamelCaseMotion_w
+	nmap <silent> ,b <Plug>CamelCaseMotion_b
+	xmap <silent> ,b <Plug>CamelCaseMotion_b
+	omap <silent> ,b <Plug>CamelCaseMotion_b
+endif
+" }}}
 
 " ------------------------------------------------------------
-" Syntastic
+" Syntastic {{{
 "
 " - HTMLのシンタクスチェックを無効化
 " - エラー時にQuickfixを自動オープン
 " - エラーをすべて修正するとQuickfixは自動で閉じる
 " http://d.hatena.ne.jp/hokaccha/20120525/1337929041
-let g:syntastic_mode_map = { 'mode': 'active',
-  \ 'active_filetypes': [],
-  \ 'passive_filetypes': ['html', 'sass'] }
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_javascript_checker = 'jshint'
+"
+if s:has_neobundle && neobundle#tap('syntastic')
+	let g:syntastic_mode_map = { 'mode': 'active',
+	  \ 'active_filetypes': [],
+	  \ 'passive_filetypes': ['html', 'sass'] }
+	let g:syntastic_auto_loc_list = 1
+	let g:syntastic_javascript_checkers = ['jshint']
+endif
+" }}}
 
 " ------------------------------------------------------------
-" Quickrun / markdown
+" Quickrun / markdown {{{
 "
 " $> gem install bluefeather
 " http://lsifrontend.hatenablog.com/entry/2012/12/18/063454
-let g:quickrun_config = {}
-let g:quickrun_config['markdown'] = {
-    \ 'command'  : 'bluefeather',
-    \ 'exec'     : 'cat %s | %c -',
-    \ }
+"
+if s:has_neobundle && neobundle#tap('vim-quickrun')
+	let g:quickrun_config = {}
+	let g:quickrun_config['markdown'] = {
+		\ 'command'  : 'bluefeather',
+		\ 'exec'     : 'cat %s | %c -',
+		\ }
+endif
+" }}}
 
 " ------------------------------------------------------------
 " Taglist
@@ -468,77 +607,78 @@ let g:quickrun_config['markdown'] = {
 " ------------------------------------------------------------
 " Tagbar
 "
-" nmap <F8> :TagbarToggle<CR>
+" if s:has_neobundle && neobundle#tap('tagbar')
+" 	nmap <F8> :TagbarToggle<CR>
+" endif
 
 " ------------------------------------------------------------
 " Fugitive
 
 " ------------------------------------------------------------
-" Powerline
-let OSTYPE = system('uname')
-
-if OSTYPE == "Darwin\n"
-	set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
-elseif OSTYPE == "Linux\n"
-	set rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim
+" Powerline {{{
+let s:powerline_rtp = s:python_site_package_dir[0] . "/powerline/bindings/vim"
+if isdirectory(s:powerline_rtp)
+	set fillchars+=stl:\ ,stlnc:\
+	let &rtp.= ',' . s:powerline_rtp
 endif
+" }}}
 
 " ------------------------------------------------------------
-" Evernote
-if filereadable(expand('~/.vimrc.local'))
-	source ~/.vimrc.local
+" Evernote {{{
+if s:has_neobundle && neobundle#tap('evervim')
+	" EverNoteのトークンを読み込み
+	if filereadable(expand('~/.vimrc.local'))
+		source ~/.vimrc.local
+	endif
+
+	" ノートブック一覧を表示
+	nnoremap <space>e :EvervimNotebookList<CR>
 endif
+" }}}
 
-" ノートブック一覧を表示
-nnoremap <space>e :EvervimNotebookList<CR>
+" ------------------------------------------------------------------------------
+" Vim-Over {{{
+if s:has_neobundle && neobundle#tap('vim-over')
+	" vim-overのプロンプトを表示して%s/を入力
+	nnoremap <silent> <space>s :OverCommandLine<CR>%s/
+endif
+" }}}
 
-" ------------------------------------------------------------
-" HTMLの閉じタグの前にコメントを入れる
-" https://gist.github.com/hokaccha/411828
-function! Endtagcomment()
-    let reg_save = @@
+" ------------------------------------------------------------------------------
+" YankRing {{{
+if s:has_neobundle && neobundle#tap('yankround.vim')
+	nmap p <Plug>(yankround-p)
+	nmap P <Plug>(yankround-P)
+	nmap <C-p> <Plug>(yankround-prev)
+	nmap <C-n> <Plug>(yankround-next)
+endif
+" }}}
 
-    try
-        silent normal vaty
-    catch
-        execute "normal \<Esc>"
-        echohl ErrorMsg
-        echo 'no match html tags'
-        echohl None
-        return
-    endtry
+" ------------------------------------------------------------------------------
+" wauto {{{
+if s:has_neobundle && neobundle#tap('wauto.vim')
+	let g:auto_write = 1
+endif
+" }}}
 
-    let html = @@
+" ------------------------------------------------------------------------------
+" easy-motion {{{
+if s:has_neobundle && neobundle#tap('vim-easymotion')
+	" 選択候補
+	let g:EasyMotion_keys='hklyuiopnm,qwertzxcvbasdgjf'
 
-    let start_tag = matchstr(html, '\v(\<.{-}\>)')
-    let tag_name  = matchstr(start_tag, '\v([a-zA-Z]+)')
+	" keep cursor column
+	let g:EasyMotion_startofline = 0
+	 
+	" smartcase
+	let g:EasyMotion_smartcase = 1
+	 
+	" Migemo
+	let g:EasyMotion_use_migemo = 1
 
-    let id = ''
-    let id_match = matchlist(start_tag, '\vid\=["'']([^"'']+)["'']')
-    if exists('id_match[1]')
-        let id = '#' . id_match[1]
-    endif
-
-    let class = ''
-    let class_match = matchlist(start_tag, '\vclass\=["'']([^"'']+)["'']')
-    if exists('class_match[1]')
-        let class = '.' . join(split(class_match[1], '\v\s+'), '.')
-    endif
-
-    execute "normal `>va<\<Esc>`<"
-
-    let comment = g:endtagcommentFormat
-    let comment = substitute(comment, '%tag_name', tag_name, 'g')
-    let comment = substitute(comment, '%id', id, 'g')
-    let comment = substitute(comment, '%class', class, 'g')
-    let @@ = comment
-
-	" タグの後ろにコメントを展開 
-    normal ""$p
-
-    let @@ = reg_save
-endfunction
-
-let g:endtagcommentFormat = '<!-- %id%class -->'
-nnoremap ,t :<C-u>call Endtagcomment()<CR>
+	" キーマップ
+	nmap m <Plug>(easymotion-s)
+	vmap m <Plug>(easymotion-s)
+	omap m <Plug>(easymotion-s)
+endif
 
