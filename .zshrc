@@ -12,6 +12,7 @@ export LANG=ja_JP.UTF-8
 
 # Custom Commands
 export PATH=~/.dotfiles/bin:$PATH
+export PATH=~/bin:$PATH
 
 # z
 # https://github.com/rupa/z
