@@ -337,6 +337,8 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 	augroup END
 	function! s:unite_my_settings()
 		"ESCでuniteを終了
+		nmap <buffer> <ESC> <Plug>(unite_exit)
+		imap <buffer> <ESC> <Plug>(unite_exit)
 		nmap <buffer> <ESC><ESC> <Plug>(unite_all_exit)
 		imap <buffer> <ESC><ESC> <ESC><Plug>(unite_all_exit)
 
