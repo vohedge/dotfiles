@@ -11,7 +11,14 @@
 " ------------------------------------------------------------------------------
 " ローカル変数
 let s:has_neobundle = isdirectory($HOME . '/.vim/bundle/neobundle.vim')
-let s:python_site_package_dir = split( system("python -m site --user-site"), '\n')
+let s:is_mac = 0
+let s:is_unix = 0
+let os=substitute(system('uname'), '\n', '', '')
+if os == 'Darwin' || os == 'Mac'
+	let s:is_mac = 1
+elseif os == 'Linux'
+	let s:is_unix = 1
+endif
 
 " ------------------------------------------------------------------------------
 " プラグイン
@@ -53,6 +60,10 @@ NeoBundle 'https://github.com/joonty/vdebug.git'
 
 " カラーテーマ
 NeoBundle 'https://github.com/vim-scripts/wombat256.vim.git'
+
+" ステータスラインをかっこ良く
+" NeoBundle 'https://github.com/bling/vim-airline.git'
+NeoBundle 'https://github.com/itchyny/lightline.vim.git'
 
 " ファイラー
 NeoBundle 'https://github.com/Shougo/vimfiler.git'
@@ -177,12 +188,16 @@ filetype plugin indent on
 " ============================================================
 " 内部文字コードを指定
 set encoding=utf-8
+set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 
 " Display
 set t_Co=256
 
 " 構文ハイライト
 syntax on
+
+" 
+" set ambiwidth=double
 
 " カラースキーム
 colorscheme wombat256mod
@@ -191,7 +206,7 @@ colorscheme wombat256mod
 set number
 
 " コマンドラインに使われる行数
-" set cmdheight=2
+set cmdheight=2
 
 " すべてのWindowで常にステータスラインを表示
 set laststatus=2
@@ -322,6 +337,8 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 	augroup END
 	function! s:unite_my_settings()
 		"ESCでuniteを終了
+		nmap <buffer> <ESC> <Plug>(unite_exit)
+		imap <buffer> <ESC> <Plug>(unite_exit)
 		nmap <buffer> <ESC><ESC> <Plug>(unite_all_exit)
 		imap <buffer> <ESC><ESC> <ESC><Plug>(unite_all_exit)
 
@@ -373,6 +390,8 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 		let g:unite_source_menu_menus.encoding.command_candidates = [
 			\['▷ utf8',
 				\'e ++enc=utf8'],
+			\['▷ euc-jp',
+				\'e ++enc=euc-jp'],
 			\['▷ cp1251',
 				\'e ++enc=cp1251 ++ff=dos'],
 			\['▷ koi8-r', 
@@ -615,11 +634,70 @@ endif
 " Fugitive
 
 " ------------------------------------------------------------
-" Powerline {{{
-let s:powerline_rtp = s:python_site_package_dir[0] . "/powerline/bindings/vim"
-if isdirectory(s:powerline_rtp)
-	set fillchars+=stl:\ ,stlnc:\
-	let &rtp.= ',' . s:powerline_rtp
+" Lightline {{{
+if s:has_neobundle && neobundle#tap('lightline.vim')
+	set ambiwidth=single
+	let g:lightline = {
+		\ 'active': {
+		\   'left': [ [ 'mode', 'paste' ],
+		\             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+		\ },
+		\ 'component_function': {
+		\	'filename': 'MyFilename',
+		\   'fugitive': 'MyFugitive',
+		\   'readonly': 'MyReadonly',
+		\   'modified': 'MyModified'
+		\ },
+		\ 'separator': { 'left': '', 'right': '' },
+		\ 'subseparator': { 'left': '', 'right': '' }
+	\ }
+
+	function! MyFilename()
+		let fname = expand('%:t')
+		return fname == 'ControlP' ? g:lightline.ctrlp_item :
+			\ fname == '__Tagbar__' ? g:lightline.fname :
+			\ fname =~ '__Gundo\|NERD_tree' ? '' :
+			\ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+			\ &ft == 'unite' ? unite#get_status_string() :
+			\ &ft == 'vimshell' ? vimshell#get_status_string() :
+			\ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+			\ ('' != fname ? fname : '[No Name]') .
+			\ ('' != MyModified() ? ' ' . MyModified() : '')
+	endfunction
+
+	function! MyModified()
+		if &filetype == "help"
+			return ""
+		elseif &modified
+			return "+"
+		elseif &modifiable
+			return ""
+		else
+			return ""
+		endif
+	endfunction
+
+	function! MyReadonly()
+		if &filetype == "help"
+			return ""
+		elseif &readonly
+			return ""
+		else
+			return ""
+		endif
+	endfunction
+
+	function! MyFugitive()
+		if &ft !~? 'vimfiler\|gundo' && exists("*fugitive#head")
+			let _ = fugitive#head()
+			return strlen(_) ? ' '._ : ''
+		endif
+		return ''
+	endfunction
+
+	let g:unite_force_overwrite_statusline = 0
+	let g:vimfiler_force_overwrite_statusline = 0
+	let g:vimshell_force_overwrite_statusline = 0
 endif
 " }}}
 
