@@ -265,6 +265,12 @@ autocmd FileType ruby setl autoindent
 autocmd FileType ruby setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd FileType ruby setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
 
+" ejs syntax
+autocmd BufNewFile,BufRead *.ejs set filetype=html
+
+" Fugitiveの文字化け防止
+autocmd FileType gitcommit :set fileencoding=utf-8
+
 " ============================================================
 "
 " Plugins
@@ -397,6 +403,8 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 				\'e ++enc=utf8'],
 			\['▷ euc-jp',
 				\'e ++enc=euc-jp'],
+			\['▷ Shift JIS',
+				\'e ++enc=shift_jis ++ff=dos'],
 			\['▷ cp1251',
 				\'e ++enc=cp1251 ++ff=dos'],
 			\['▷ koi8-r', 
@@ -450,6 +458,8 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 				\'Git! pull'],
 			\['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
 				\'exe "Git! " input("comando git: ")'],
+			\['▷ git ftp push     (Fugitive, salida por buffer)             ⌘ ,ftp',
+				\'!git ftp push'],
 			\['▷ git cd           (Fugitive)',
 				\'Gcd'],
 			\]

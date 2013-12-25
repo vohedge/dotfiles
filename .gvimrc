@@ -21,3 +21,5 @@ set lines=40
 " クリップボード共有
 set clipboard=unnamed
 
+" 半透明化
+autocmd GUIEnter * set transparency=220
