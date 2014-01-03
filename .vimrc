@@ -52,6 +52,9 @@ NeoBundle 'https://github.com/osyo-manga/vim-over.git'
 " Yunk履歴を活用
 NeoBundle 'https://github.com/LeafCage/yankround.vim.git'
 
+" ビジュアル選択で選択したテキストで検索
+NeoBundle 'https://github.com/thinca/vim-visualstar.git'
+
 " ファイラー
 NeoBundle 'https://github.com/scrooloose/nerdtree.git'
 
@@ -164,6 +167,12 @@ NeoBundle 'https://github.com/haya14busa/vim-easymotion.git'
 " 複数のカーソル
 NeoBundle 'https://github.com/terryma/vim-multiple-cursors.git'
 
+" '='を入力すると' = 'にしたりする
+NeoBundle 'https://github.com/kana/vim-smartchr.git'
+
+" インデント量の違いをハイライト
+NeoBundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
+
 " vimfilerと連携して置換処理を効率化
 NeoBundle 'https://github.com/thinca/vim-qfreplace.git'
 
@@ -220,6 +229,9 @@ autocmd InsertLeave * set nopaste
 " モード切り替えを高速化
 set timeout timeoutlen=1000 ttimeoutlen=75
 
+" 矩形選択の範囲をテキスト外に拡大
+set virtualedit=block
+
 " Edit
 set nobackup
 set tabstop=4
@@ -243,6 +255,12 @@ set pastetoggle=<F12>
 " カーソル移動を常に見た目と同じに変更
 nnoremap j gj
 nnoremap k gk
+
+" インデントサイズを連続して変更
+vnoremap < <gv
+vnoremap > >gv
+nnoremap > >>
+nnoremap < <<
 
 " vimrc relod
 nnoremap <Space>r :<C-u>source $HOME/.vimrc<CR>
@@ -393,16 +411,11 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 			\ 'description' : '       select file encoding',
 		\}
 		let g:unite_source_menu_menus.encoding.command_candidates = [
-			\['▷ utf8',
-				\'e ++enc=utf8'],
-			\['▷ euc-jp',
-				\'e ++enc=euc-jp'],
-			\['▷ cp1251',
-				\'e ++enc=cp1251 ++ff=dos'],
-			\['▷ koi8-r', 
-				\'e ++enc=koi8-r ++ff=unix'],
-			\['▷ cp866', 
-				\'e ++enc=cp866 ++ff=dos'],
+			\['▷ utf8', 'e ++enc=utf8'],
+			\['▷ euc-jp', 'e ++enc=euc-jp'],
+			\['▷ cp1251', 'e ++enc=cp1251 ++ff=dos'],
+			\['▷ koi8-r', 'e ++enc=koi8-r ++ff=unix'],
+			\['▷ cp866', 'e ++enc=cp866 ++ff=dos'],
 		\]
 		" }}}
 
@@ -764,4 +777,41 @@ if s:has_neobundle && neobundle#tap('vim-easymotion')
 	vmap m <Plug>(easymotion-s)
 	omap m <Plug>(easymotion-s)
 endif
+" }}}
+
+" ------------------------------------------------------------------------------
+" Visualstar {{{
+" カーソルを移動せずにVisualstar検索
+noremap <Plug>N N
+map * <Plug>(visualstar-*)N
+map # <Plug>(visualstar-#)N
+" }}}
+
+" ------------------------------------------------------------------------------
+" Visualstar {{{
+" 起動時からインデントのハイライトを有効化
+let g:indent_guides_enable_on_vim_startup = 1
+
+" 自動カラーを無効にする
+let g:indent_guides_auto_colors=0
+
+" indent guides
+augroup indentguides
+    autocmd!
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=236
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=235
+augroup END
+
+" ハイライト色の変化の幅
+let g:indent_guides_color_change_percent = 30
+
+" ガイドの幅
+let g:indent_guides_guide_size = 1
+" }}}
+
+" ------------------------------------------------------------------------------
+" Smartchr {{{
+inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
+inoremap <expr> = smartchr#loop(', ', ',')
+" }}}
 
