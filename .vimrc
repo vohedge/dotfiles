@@ -188,6 +188,9 @@ NeoBundle 'https://github.com/vim-scripts/sudo.vim.git'
 " Unite Sudo
 NeoBundle 'https://github.com/Shougo/unite-sudo.git'
 
+" Vimからrspecを実行
+NeoBundle 'https://github.com/skwp/vim-rspec.git'
+
 filetype plugin indent on
 
 " ============================================================
@@ -820,6 +823,13 @@ let g:indent_guides_guide_size = 1
 " ------------------------------------------------------------------------------
 " Smartchr {{{
 inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
-inoremap <expr> = smartchr#loop(', ', ',')
+inoremap <expr> , smartchr#loop(', ', ',')
+" }}}
+
+" ------------------------------------------------------------------------------
+" Vim Rspec {{{
+nnoremap <silent> ,rs :RunSpec<CR>
+nnoremap <silent> ,rl :RunSpecLine<CR>
+" let g:RspecSplitHorizontal = 0
 " }}}
 
