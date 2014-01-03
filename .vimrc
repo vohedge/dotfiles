@@ -378,7 +378,8 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 	let g:unite_source_history_yank_enable =1 
 
 	" ファイル一覧
-	nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file file/new -buffer-name=files -winheight=30<CR>
+	" nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file file/new -buffer-name=files -winheight=30<CR>
+	nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file file/new -buffer-name=files<CR>
 
 	" バッファ一覧
 	nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
