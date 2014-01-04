@@ -191,6 +191,12 @@ NeoBundle 'https://github.com/Shougo/unite-sudo.git'
 " Vimからrspecを実行
 NeoBundle 'https://github.com/skwp/vim-rspec.git'
 
+" fの連打で移動
+NeoBundle 'https://github.com/rhysd/clever-f.vim.git'
+
+" Rails
+NeoBundle 'https://github.com/basyura/unite-rails.git'
+
 filetype plugin indent on
 
 " ============================================================
@@ -265,6 +271,9 @@ set number
 " コマンドラインに使われる行数
 set cmdheight=2
 
+" カーソルの上下に表示する最小の行数
+set scrolloff=5
+
 " すべてのWindowで常にステータスラインを表示
 set laststatus=2
 
@@ -311,7 +320,14 @@ nnoremap > >>
 nnoremap < <<
 
 " vimrc relod
-nnoremap <Space>r :<C-u>source $HOME/.vimrc<CR>
+" nnoremap <Space>r :<C-u>source $HOME/.vimrc<CR>
+
+" 80列目にラインを表示
+execute "set colorcolumn=" . join( range( 81, 335 ), ',' )
+hi ColorColumn ctermbg=233
+
+" textwidthで自動改行しない
+set formatoptions=cq
 
 " Grep
 command! -complete=file -nargs=+ Grep call s:grep([<f-args>])
@@ -327,9 +343,9 @@ autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,exc
 autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 " Ruby specific tab setting
-autocmd FileType ruby setl autoindent
-autocmd FileType ruby setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType ruby setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
+autocmd FileType ruby,eruby setl autoindent
+autocmd FileType ruby,eruby setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType ruby,eruby setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
 
 " ejs syntax
 autocmd BufNewFile,BufRead *.ejs set filetype=html
@@ -367,10 +383,10 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 	" unite prefix key.
 	nnoremap [unite] <Nop>
 	nmap <Space> [unite]
-	 
+	
 	" インサートモードで開始
 	let g:unite_enable_start_insert = 1
-	 
+	
 	" file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
 	let g:unite_source_file_mru_filename_format = ''
 
@@ -378,7 +394,6 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 	let g:unite_source_history_yank_enable =1 
 
 	" ファイル一覧
-	" nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file file/new -buffer-name=files -winheight=30<CR>
 	nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file file/new -buffer-name=files<CR>
 
 	" バッファ一覧
@@ -486,6 +501,43 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 		nnoremap <silent>[unite]ct :Unite -silent -start-insert menu:tabs<cr>
 		" }}}
 		
+		" Settings {{{
+		let g:unite_source_menu_menus.settings = {
+		  \'description': '       vim settings',
+		\}
+		let g:unite_source_menu_menus.settings.command_candidates = [
+		  \['Edit .vimrc', 'edit $MYVIMRC'],
+		  \['Reload .vimrc', "source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif"],
+		  \['Key Map List', 'Unite output:map|map!|lmap'],
+		\]
+		nnoremap <silent>[unite]ct :Unite -silent -start-insert menu:tabs<cr>
+		" }}}
+		
+		" Unite menu:rails {{{
+		let g:unite_source_menu_menus.rails = {
+			\ 'description' : 'Rails',
+		\}
+		let g:unite_source_menu_menus.rails.command_candidates = [
+			\['▷ Model                                        :Unite rails/model', 'Unite rails/model'],
+			\['▷ Controler                                    :Unite rails/controller', 'Unite rails/controller'],
+			\['▷ Views                                        :Unite rails/view', 'Unite rails/view'],
+			\['▷ Helper                                       :Unite rails/helper', 'Unite rails/helper'],
+			\['▷ Mailer                                       :Unite rails/mailer', 'Unite rails/mailer'],
+			\['▷ lib                                          :Unite rails/lib', 'Unite rails/lib'],
+			\['▷ db                                           :Unite rails/db', 'Unite rails/db'],
+			\['▷ config                                       :Unite rails/config', 'Unite rails/config'],
+			\['▷ log                                          :Unite rails/log', 'Unite rails/log'],
+			\['▷ javascript                                   :Unite rails/javascript', 'Unite rails/javascript'],
+			\['▷ stylesheet                                   :Unite rails/stylesheet', 'Unite rails/stylesheet'],
+			\['▷ bundle                                       :Unite rails/bundle', 'Unite rails/bundle'],
+			\['▷ bundled_gem                                  :Unite rails/bundled_gem', 'Unite rails/bundled_gem'],
+			\['▷ route                                        :Unite rails/route', 'Unite rails/route'],
+			\['▷ root                                         :Unite rails/root', 'Unite rails/root'],
+			\['▷ rake db:migrate                              :Unite rails/command', 'Unite rails/command'],
+			\['▷ rspec                                        :Unite rails/spec', 'Unite rails/spec'],
+		\]
+		nnoremap <silent> [unite]r :Unite -silent -start-insert menu:rails<CR>
+
 		" Unite menu:git {{{
 		let g:unite_source_menu_menus.git = {
 			\ 'description' : '            gestionar repositorios git
@@ -868,8 +920,8 @@ let g:indent_guides_guide_size = 1
 
 " ------------------------------------------------------------------------------
 " Smartchr {{{
-inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
-inoremap <expr> , smartchr#loop(', ', ',')
+autocmd FileType php,javascript,python,ruby inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
+autocmd FileType php,javascript,python,ruby inoremap <expr> , smartchr#loop(', ', ',')
 " }}}
 
 " ------------------------------------------------------------------------------
