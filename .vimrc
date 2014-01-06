@@ -94,6 +94,9 @@ NeoBundle 'https://github.com/osyo-manga/unite-quickfix.git'
 " Unite用のgtagsソース
 NeoBundle 'https://github.com/daisuzu/unite-gtags.git'
 
+" Uniteのセッションソース
+NeoBundle 'https://github.com/Shougo/unite-session.git'
+
 " gtags
 NeoBundle 'https://github.com/vim-scripts/gtags.vim.git'
 
@@ -196,6 +199,9 @@ NeoBundle 'https://github.com/rhysd/clever-f.vim.git'
 
 " Rails
 NeoBundle 'https://github.com/basyura/unite-rails.git'
+
+" オンラインネーミング辞書をuniteから使う
+NeoBundle 'https://github.com/rhysd/codic-vim-with-unite.git'
 
 filetype plugin indent on
 
@@ -399,6 +405,9 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 	" バッファ一覧
 	nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 
+	" Codic
+	nnoremap <silent> [unite]c :<C-u>Unite codic<CR>
+
 	" 最近使用したファイル一覧
 	nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
 
@@ -506,11 +515,12 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 		  \'description': '       vim settings',
 		\}
 		let g:unite_source_menu_menus.settings.command_candidates = [
-		  \['Edit .vimrc', 'edit $MYVIMRC'],
-		  \['Reload .vimrc', "source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif"],
-		  \['Key Map List', 'Unite output:map|map!|lmap'],
+		  \['save current session', 'UniteSessionSave'],
+		  \['load current session', 'UniteSessionLoad'],
+		  \['edit .vimrc', 'edit $MYVIMRC'],
+		  \['reload .vimrc', "source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif"],
+		  \['key map list', 'Unite output:map|map!|lmap'],
 		\]
-		nnoremap <silent>[unite]ct :Unite -silent -start-insert menu:tabs<cr>
 		" }}}
 		
 		" Unite menu:rails {{{
@@ -920,8 +930,8 @@ let g:indent_guides_guide_size = 1
 
 " ------------------------------------------------------------------------------
 " Smartchr {{{
-autocmd FileType php,javascript,python,ruby inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
-autocmd FileType php,javascript,python,ruby inoremap <expr> , smartchr#loop(', ', ',')
+" autocmd FileType php,javascript,python,ruby inoremap <expr> = smartchr#loop(' = ', '=', ' == ')
+" autocmd FileType php,javascript,python,ruby inoremap <expr> , smartchr#loop(', ', ',')
 " }}}
 
 " ------------------------------------------------------------------------------
