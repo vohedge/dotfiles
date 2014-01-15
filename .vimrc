@@ -36,6 +36,7 @@ NeoBundle 'https://github.com/Shougo/neocomplcache.git'
 
 " スニペット管理
 NeoBundle 'https://github.com/Shougo/neosnippet.git'
+NeoBundle 'https://github.com/Shougo/neosnippet-snippets.git'
 
 " プラグイン管理
 NeoBundle 'https://github.com/Shougo/neobundle.vim.git'
@@ -201,7 +202,10 @@ NeoBundle 'https://github.com/rhysd/clever-f.vim.git'
 NeoBundle 'https://github.com/basyura/unite-rails.git'
 
 " オンラインネーミング辞書をuniteから使う
-NeoBundle 'https://github.com/rhysd/codic-vim-with-unite.git'
+NeoBundle 'https://github.com/koron/codic-vim.git'
+
+" CodicのUniteソース
+NeoBundle 'https://github.com/rhysd/unite-codic.vim.git'
 
 filetype plugin indent on
 
