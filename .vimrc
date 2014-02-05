@@ -323,6 +323,9 @@ set pastetoggle=<F12>
 nnoremap j gj
 nnoremap k gk
 
+" 行の連結時に不要なスペースなしで
+nnoremap J gJ
+
 " インデントサイズを連続して変更
 vnoremap < <gv
 vnoremap > >gv
