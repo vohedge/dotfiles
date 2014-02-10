@@ -8,5 +8,6 @@
 
 	- ag
 	- git-ftp
+	- reattach-to-user-namespace ( brew install reattach-to-user-namespace )
 	- htop ( brew install htop )
 

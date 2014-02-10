@@ -323,8 +323,7 @@ set noerrorbells
 set pastetoggle=<F12>
 
 " ヤンクしたときにクリップボードへ
-" set clipboard=unnamed,autoselect
-set clipboard=unnamed
+set clipboard=unnamed,autoselect
 
 " カーソル移動を常に見た目と同じに変更
 nnoremap j gj

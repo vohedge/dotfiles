@@ -5,9 +5,11 @@ export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 # Alias
 alias ls="ls -G -w"
 alias ll="ls -alG -w"
-alias mvim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/mvim "$@"'
-alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias hosts="sudo vim /private/etc/hosts"
+if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+	alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+	alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+fi
 
 # Poserline
 . /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
