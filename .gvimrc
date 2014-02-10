@@ -9,7 +9,12 @@ set langmenu=ja_jp.utf-8
 source $VIMRUNTIME/menu.vim
 
 " Font
-set guifont=Sauce_Code_Powerline:h14
+if has('win32') || has('win64')
+	set guifont=Source_Code_Pro_for_Powerline:h11
+	set guifontwide=MS_Gothic:h11
+elseif has('mac')
+	set guifont=Sauce_Code_Powerline:h14
+endif
 
 " カラースキーム
 colorscheme wombat256mod
@@ -17,6 +22,11 @@ colorscheme wombat256mod
 " 起動時のウィンドウサイズ
 set columns=110
 set lines=40
+
+" Windows環境でのCtrl + Vの修正
+if has('win32') || has('win64')
+	imap <C-v> <ESC>"+gPa
+endif
 
 " クリップボード共有
 set clipboard=unnamed
