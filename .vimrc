@@ -125,6 +125,9 @@ NeoBundle 'https://github.com/cakebaker/scss-syntax.vim.git'
 " Jade シンタックス
 NeoBundle 'https://github.com/digitaltoad/vim-jade.git'
 
+" JSON シンタックス
+NeoBundle 'https://github.com/elzr/vim-json.git'
+
 " %で終了タグへジャンプ 
 NeoBundle 'https://github.com/edsono/vim-matchit.git'
 
@@ -356,9 +359,9 @@ autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,exc
 autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 " Ruby specific tab setting
-autocmd FileType ruby,eruby setl autoindent
-autocmd FileType ruby,eruby setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType ruby,eruby setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
+autocmd FileType ruby,eruby,json setl autoindent
+autocmd FileType ruby,eruby,json setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType ruby,eruby,json setl tabstop=2 expandtab shiftwidth=2 softtabstop=2
 
 " ejs syntax
 autocmd BufNewFile,BufRead *.ejs set filetype=html
