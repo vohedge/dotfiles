@@ -62,7 +62,7 @@ compdef "_files -W ${apache2_sites_available} -/" a2
 ##
 # rbenv
 if [ -d ~/.rbenv ]; then
-	export PATH="$HOME/.rbenv/bin:$PATH"
+	export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
 	eval "$(rbenv init -)"
 fi
 
