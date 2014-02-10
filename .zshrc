@@ -129,11 +129,7 @@ case "${OSTYPE}" in
 	;;
 	# Mac
 	darwin*)
-		export PATH=/usr/local/bin:/usr/local/share/python:$PATH
-		alias ls="ls -G -w"
-		alias ll="ls -alG -w"
-		alias hosts="sudo vim /private/etc/hosts"
-		. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+		. ~/.dotfiles/.zshrc.mac
 	;;
 esac
 

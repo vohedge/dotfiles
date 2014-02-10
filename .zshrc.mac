@@ -1,0 +1,17 @@
+# Environmental Variables
+export PATH=/usr/local/bin:/usr/local/share/python:$PATH
+export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+
+# Alias
+alias ls="ls -G -w"
+alias ll="ls -alG -w"
+alias mvim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/mvim "$@"'
+alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+alias hosts="sudo vim /private/etc/hosts"
+
+# Poserline
+. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+
+if [ -n "$TMUX" ]; then
+  alias pbcopy="reattach-to-user-namespace pbcopy"
+fi
