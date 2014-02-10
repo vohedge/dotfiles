@@ -137,6 +137,9 @@ case "${OSTYPE}" in
 	;;
 esac
 
+if [ -n "$TMUX" ]; then
+	alias pbcopy="reattach-to-user-namespace pbcopy"
+fi
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
