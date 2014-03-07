@@ -67,6 +67,12 @@ if [ -d ~/.rbenv ]; then
 fi
 
 ##
+# zsh comletion
+if [ -d ~/.zsh-completions ]; then
+	fpath=(~/.zsh-completions/src $fpath)
+fi
+
+##
 # sheet
 # http://oscardelben.com/sheet/
 export EDITOR='vim'
