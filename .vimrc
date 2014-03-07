@@ -125,6 +125,9 @@ NeoBundle 'https://github.com/cakebaker/scss-syntax.vim.git'
 " Jade シンタックス
 NeoBundle 'https://github.com/digitaltoad/vim-jade.git'
 
+" Handlebar シンタックス
+NeoBundle 'https://github.com/mustache/vim-mustache-handlebars.git'
+
 " JSON シンタックス
 NeoBundle 'https://github.com/elzr/vim-json.git'
 
