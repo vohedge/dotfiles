@@ -135,6 +135,7 @@ case "${OSTYPE}" in
 	;;
 	# Mac
 	darwin*)
+		export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
 		. ~/.dotfiles/.zshrc.mac
 	;;
 esac
