@@ -16,6 +16,7 @@ alias t="tmux"
 
 # Short Cuts
 alias hosts="sudo vim /etc/hosts"
+alias config="sudo vim ~/.ssh/config"
 
 # Exec ls when cd
 chpwd() {
