@@ -11,12 +11,11 @@ for dotfile in .?*; do
 done
 
 echo " * Install Oh-My-Zsh"
-if [ ! -e ".oh-my-zsh" ]; then
+if [ ! -e "${HOME}/.oh-my-zsh" ]; then
     git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 	rm -rf "${HOME}/.oh-my-zsh/custom"
 	ln -Fis "${HOME}/.dotfiles/oh-my-zsh-custom" "${HOME}/.oh-my-zsh/custom"
 else
 	echo " * Oh-My-Zsh is already installed"
 fi
-
 
