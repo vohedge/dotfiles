@@ -1,6 +1,8 @@
 #!/bin/sh
 echo " * Make synbolic links for dotfiles"
-cd $(dirname $0)
+
+current_dirr=`dirname $0`
+cd ${current_dir}
 
 for dotfile in .?*; do
     if [ $dotfile != '..' ] && [ $dotfile != '.git' ] \
