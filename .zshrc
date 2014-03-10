@@ -1,148 +1,82 @@
-#################################################################################
-#
-# Main Zsh Configuration File
-#
-# 
-# https://github.com/yonchu/dotfiles/blob/master/.zshrc
-#
-#################################################################################
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
 
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="avit"
+
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Set to this to use case-sensitive completion
+# CASE_SENSITIVE="true"
+
+# Uncomment this to disable bi-weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment to change how often before auto-updates occur? (in days)
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment following line if you want to disable command autocorrection
+# DISABLE_CORRECTION="true"
+
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment following line if you want to disable marking untracked files under
+# VCS as dirty. This makes repository status check for large repositories much,
+# much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment following line if you want to  shown in the command execution time stamp 
+# in the history command output. The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|
+# yyyy-mm-dd
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# # Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+## My Settings
 # LANG
 export LANG=ja_JP.UTF-8
 
-# Custom Commands
-export PATH=~/.dotfiles/bin:$PATH
-export PATH=~/bin:$PATH
-
-# z
-# https://github.com/rupa/z
-source ~/.dotfiles/z/z.sh
-
-# Move between directories
-setopt auto_cd
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt pushd_to_home
-setopt pushd_silent
-
-# beepを鳴らさない
-setopt no_beep
-
-# beepを鳴らさない
-setopt nolistbeep
-
-# History
-# HISTFILE=~/.zsh/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-
-# KeyMap
-bindkey -v
-
-# Basic Settings
-autoload -Uz compinit
-compinit
-setopt correct
-setopt list_packed
-setopt nolistbeep
-
-##
-# Alias and Functions
-if [ -f ~/.dotfiles/.zshrc.aliases ]; then
-    source ~/.dotfiles/.zshrc.aliases
-fi
-
-##
-# Complement
-# 
-# a2
-apache2_sites_available="/etc/apache2/sites-available/"
-compdef "_files -W ${apache2_sites_available} -/" a2
-
-##
-# rbenv
-if [ -d ~/.rbenv ]; then
-	export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
-	eval "$(rbenv init -)"
-fi
-
-##
-# zsh comletion
-if [ -d ~/.zsh-completions ]; then
-	fpath=(~/.zsh-completions/src $fpath)
-fi
-
-##
-# sheet
-# http://oscardelben.com/sheet/
-export EDITOR='vim'
-
-# sheetの補完
-#
-compdef _sheets sheet
-function _sheets {
-	local -a cmds
-	_files -W  ~/.dotfiles/.sheets/ -P '~/.dotfiles/.sheets/'
-
-	cmds=('list' 'edit' 'copy')
-	_describe -t commands "subcommand" cmds
-
-	return 1;
-}
-
-##
-# tmux
-# https://github.com/jbleuzen/dotfiles/blob/master/tmux/tmux.zsh
-# tmux shortcut for creating/attaching named sessions
-tm() {
-    [[ -z "$1" ]] && { echo "usage: tm <session>" >&2; return 1; }
-
-    tmux has -t $1 
-	if [ $? -eq "0" ] ;then
-		if [ -z $TMUX ] ;then
-			tmux attach -t $1
-		else
-			tmux switch -t $1
-		fi
-	else 
-		if [ -z $TMUX ] ;then
-			tmux new-session -s $1
-			tmux attach -t $1
-		else
-			TMUX="" # To prevent message with 
-			tmux new-session -s $1 -d
-			tmux switch -t $1
-		fi
-	fi
-}
-
-# completion function
-function __tmux-sessions() {
-	local expl
-	local -a sessions
-	sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
-	_describe -t sessions 'sessions' sessions "$@"
-}
-compdef __tmux-sessions tm
-
-##
 # For each devices
 case "${OSTYPE}" in
-	# Linux
-	linux-gnu)
-		export PATH=~/.local/bin:$PATH
-		. ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
-	;;
-	# Mac
-	darwin*)
-		export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
-		. ~/.dotfiles/.zshrc.mac
-	;;
+    linux-gnu)
+    ;;
+    darwin*)
+        export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+        . "$HOME/.dotfiles/.zshrc.mac"
+    ;;
 esac
-
-if [ -n "$TMUX" ]; then
-	alias pbcopy="reattach-to-user-namespace pbcopy"
-fi
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
