@@ -1,7 +1,7 @@
-[user]
-	name = Noah Kobayashi
-	email = vohedge@gmail.com
+[include]
+	path = ~/.gitconfig.local
 [color]
 	ui = auto
 [core]
 	excludesfile = ~/.dotfiles/.gitignore
+	editor = /usr/bin/vim
