@@ -26,5 +26,5 @@ bind status ^U !git pull --rebase
 bind main ^U !git pull --rebase
 
 # reset
-bind main ^r !git reset --soft HEAD^
+bind main ^R !git reset --soft HEAD^
 
