@@ -204,8 +204,11 @@ NeoBundle 'https://github.com/skwp/vim-rspec.git'
 " fの連打で移動
 NeoBundle 'https://github.com/rhysd/clever-f.vim.git'
 
-" Rails
+" Rails Unite
 NeoBundle 'https://github.com/basyura/unite-rails.git'
+
+" Rails 
+NeoBundle 'https://github.com/tpope/vim-rails.git'
 
 " オンラインネーミング辞書をuniteから使う
 NeoBundle 'https://github.com/koron/codic-vim.git'
