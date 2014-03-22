@@ -11,6 +11,9 @@ set horizontal-scroll = 20%
 set diff-context = 6
 set split-view-height = 80%
 set vertical-split = true
+set show-author = abbreviated
+set show-date = short
+set author-width = 4
 
 # bind
 bind generic G none
