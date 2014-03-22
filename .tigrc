@@ -21,6 +21,8 @@ bind generic G move-last-line
 
 # pull & push
 bind status ^P !git push origin
+bind main ^P !git push origin
+bind status ^U !git pull --rebase
 bind main ^U !git pull --rebase
 
 # reset
