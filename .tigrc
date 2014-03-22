@@ -10,6 +10,7 @@ set line-graphics = utf-8
 set horizontal-scroll = 20%
 set diff-context = 6
 set split-view-height = 80%
+set vertical-split = true
 
 # bind
 bind generic G none
