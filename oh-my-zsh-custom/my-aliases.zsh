@@ -1,5 +1,8 @@
 # My Aliases
 
+# vim
+alias v='vim'
+
 # ls
 alias lsa='ls -lah'
 alias ll='ls -lah'
