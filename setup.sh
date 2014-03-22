@@ -5,11 +5,16 @@ current_dir=`dirname $0`
 cd ${current_dir}
 
 for dotfile in .?*; do
-    if [ $dotfile != '..' ] && [ $dotfile != '.git' ] \
-		&& [ ! `echo $dotfile | grep '\.zshrc\..*'` ] \
-		&& [ ! -L "${HOME}/${dotfile}" ]; then
-        ln -Fis "$PWD/$dotfile" $HOME
+  if [ ${dotfile} != '..' ] && [ ${dotfile} != '.git' ] \
+    && [ ! `echo ${dotfile} | grep '\.zshrc\..*'` ] \
+    && [ ! `echo ${dotfile} | grep '\.swp'` ]; then
+    if [ ! -L "${HOME}/${dotfile}" ]; then
+      echo "   Making ${dotfile} symbolic link"
+      ln -Fis "${PWD}/${dotfile}" ${HOME}
+    else
+      echo "   ${dotfile} symbolic link was already exists."
     fi
+  fi
 done
 
 echo " * Install Oh-My-Zsh"
