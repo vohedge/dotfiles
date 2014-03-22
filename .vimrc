@@ -210,6 +210,9 @@ NeoBundle 'https://github.com/basyura/unite-rails.git'
 " Rails 
 NeoBundle 'https://github.com/tpope/vim-rails.git'
 
+" echoテンプレートのシンタックス
+NeoBundle 'https://github.com/AndrewRadev/vim-eco.git'
+
 " オンラインネーミング辞書をuniteから使う
 NeoBundle 'https://github.com/koron/codic-vim.git'
 
