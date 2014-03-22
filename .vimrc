@@ -313,10 +313,10 @@ set virtualedit=block
 
 " Edit
 set nobackup
-set tabstop=4
-set noexpandtab
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set expandtab
+set shiftwidth=2
+set softtabstop=2
 autocmd FileType php :set tags=~/.vim/.tags
 set hlsearch
 " set list
