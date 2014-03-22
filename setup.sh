@@ -1,7 +1,7 @@
 #!/bin/sh
 echo " * Make synbolic links for dotfiles"
 
-current_dirr=`dirname $0`
+current_dir=`dirname $0`
 cd ${current_dir}
 
 for dotfile in .?*; do
