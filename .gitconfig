@@ -5,3 +5,5 @@
 [core]
 	excludesfile = ~/.dotfiles/.gitignore
 	editor = /usr/bin/vim
+[push]
+	default = simple
