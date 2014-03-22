@@ -1,0 +1,27 @@
+set show-changes = true
+set show-author = full
+set show-refs = true
+set show-rev-graph = true
+set show-date = local
+set show-line-numbers = yes
+set show-file-size = units
+set line-number-interval = 10
+set line-graphics = utf-8
+set horizontal-scroll = 20%
+set diff-context = 6
+set split-view-height = 80%
+
+# bind
+bind generic G none
+bind generic P none
+
+bind generic g move-first-line
+bind generic G move-last-line
+
+# pull & push
+bind status ^P !git push origin
+bind main ^U !git pull --rebase
+
+# reset
+bind main ^r !git reset --soft HEAD^
+
