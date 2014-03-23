@@ -20,6 +20,11 @@ set author-width = 4
 # Disable default key binds
 bind generic G none
 bind generic P none
+bind generic r none
+bind generic R none
+
+# View
+bind main r refresh
 
 # Cursor
 bind generic g move-first-line
