@@ -25,6 +25,7 @@ bind generic R none
 
 # View
 bind main r refresh
+bind status r refresh
 
 # Cursor
 bind generic g move-first-line
