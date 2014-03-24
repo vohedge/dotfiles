@@ -18,17 +18,18 @@ for dotfile in .?*; do
 done
 
 echo " * Install Oh-My-Zsh"
-if [ ! -e "${HOME}/.oh-my-zsh" ]; then
+oh_my_zsh_path="${HOME}/.oh-my-zsh"
+if [ ! -e ${oh_my_zsh_path} ]; then
   git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 else
   echo " * Oh-My-Zsh is already installed"
 fi
 
-if [ ! -L "${HOME}/.oh-my-zsh/custom" ]; then
-  if [ -d "${HOME}/.oh-my-zsh/custom" ]; then
-    rm -rf "${HOME}/.oh-my-zsh/custom"
+if [ ! -L "${oh_my_zsh_path}/custom" ]; then
+  if [ -d "${oh_my_zsh_path}/custom" ]; then
+    rm -rf "${oh_my_zsh_path}/custom"
   fi
   echo " * making symbolic link to Oh-My-Zsh custom directory"
-  ln -Fis "${HOME}/.dotfiles/oh-my-zsh-custom" "${HOME}/.oh-my-zsh/custom"
+  ln -Fis "${HOME}/.dotfiles/oh-my-zsh-custom" "${oh_my_zsh_path}/custom"
 fi
 
