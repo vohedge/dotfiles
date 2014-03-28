@@ -9,6 +9,9 @@ for dotfile in .?*; do
     && [ ! `echo ${dotfile} | grep '\.zshrc\..*'` ] \
     && [ ! `echo ${dotfile} | grep '\.swp'` ]; then
     if [ ! -L "${HOME}/${dotfile}" ]; then
+      if [ -e "${HOME}/${dotfile}" ]; then
+        rm -f "${HOME}/${dotfile}"
+      fi
       echo "   Making ${dotfile} symbolic link"
       ln -Fis "${PWD}/${dotfile}" ${HOME}
     else
