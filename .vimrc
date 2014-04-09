@@ -92,21 +92,21 @@ NeoBundle 'https://github.com/Shougo/vimshell.git'
 " Unite quickfix
 NeoBundle 'https://github.com/osyo-manga/unite-quickfix.git'
 
-" Unite用のgtagsソース
-NeoBundle 'https://github.com/daisuzu/unite-gtags.git'
-
+" " Unite用のgtagsソース
+" NeoBundle 'https://github.com/daisuzu/unite-gtags.git'
+" 
 " Uniteのセッションソース
 NeoBundle 'https://github.com/Shougo/unite-session.git'
 
-" gtags
-NeoBundle 'https://github.com/vim-scripts/gtags.vim.git'
-
-" camelcasemotion : CamelCaseやsnake_case単位でのワード移動
-NeoBundle 'https://github.com/bkad/CamelCaseMotion.git'
-
-" NERD_tree, taglist, srcexpl の統合
-NeoBundle 'https://github.com/wesleyche/Trinity.git'
-
+" " gtags
+" NeoBundle 'https://github.com/vim-scripts/gtags.vim.git'
+" 
+" " camelcasemotion : CamelCaseやsnake_case単位でのワード移動
+" NeoBundle 'https://github.com/bkad/CamelCaseMotion.git'
+" 
+" " NERD_tree, taglist, srcexpl の統合
+" NeoBundle 'https://github.com/wesleyche/Trinity.git'
+" 
 " HTML5 シンタックス
 NeoBundle 'https://github.com/othree/html5.vim.git'
 
@@ -155,31 +155,32 @@ NeoBundle 'https://github.com/thinca/vim-quickrun.git'
 " シンタックスチェック
 NeoBundle 'https://github.com/scrooloose/syntastic.git'
 
-" ctags
-NeoBundle 'https://github.com/majutsushi/tagbar'
-" NeoBundle 'taglist.vim', {'type' : 'nosync', 'base' : '~/.dotfiles/.vim/bundle/manual'}
-
-" Ctagsの自動生成
-" NeoBundle 'https://github.com/soramugi/auto-ctags.vim.git'
-
-" tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
-NeoBundle 'https://github.com/vim-scripts/SrcExpl.git'
-
+" " ctags
+" NeoBundle 'https://github.com/majutsushi/tagbar'
+" " NeoBundle 'taglist.vim', {'type' : 'nosync', 'base' : '~/.dotfiles/.vim/bundle/manual'}
+" 
+" " Ctagsの自動生成
+" " NeoBundle 'https://github.com/soramugi/auto-ctags.vim.git'
+" 
+" " tagsを利用したソースコード閲覧・移動補助機能 tagsファイルの自動生成
+" NeoBundle 'https://github.com/vim-scripts/SrcExpl.git'
+" 
 " Git
 NeoBundle 'https://github.com/tpope/vim-fugitive.git'
 
-" Evernote
-NeoBundle 'https://github.com/kakkyz81/evervim.git'
-
+" " Evernote
+" NeoBundle 'https://github.com/kakkyz81/evervim.git'
+" 
 " 候補キーを表示してその場所へジャンプ
 NeoBundle 'https://github.com/haya14busa/vim-easymotion.git'
 
 " 複数のカーソル
-NeoBundle 'https://github.com/terryma/vim-multiple-cursors.git'
+" Yankroundと競合してしまう
+" NeoBundle 'https://github.com/terryma/vim-multiple-cursors.git'
 
-" '='を入力すると' = 'にしたりする
-NeoBundle 'https://github.com/kana/vim-smartchr.git'
-
+" " '='を入力すると' = 'にしたりする
+" NeoBundle 'https://github.com/kana/vim-smartchr.git'
+" 
 " インデント量の違いをハイライト
 NeoBundle 'https://github.com/nathanaelkane/vim-indent-guides.git'
 
@@ -190,8 +191,8 @@ NeoBundle 'https://github.com/thinca/vim-qfreplace.git'
 NeoBundle 'https://gist.github.com/vohedge/5221591', { 'script_type' : 'plugin' }
 
 " 自動保存
-NeoBundle 'https://github.com/syui/wauto.vim.git'
-
+" NeoBundle 'https://github.com/syui/wauto.vim.git'
+ 
 " sudo したときも.vimrcやプラグインを有効化
 NeoBundle 'https://github.com/vim-scripts/sudo.vim.git'
 
@@ -917,10 +918,21 @@ endif
 " ------------------------------------------------------------------------------
 " YankRing {{{
 if s:has_neobundle && neobundle#tap('yankround.vim')
-	nmap p <Plug>(yankround-p)
-	nmap P <Plug>(yankround-P)
-	nmap <C-p> <Plug>(yankround-prev)
-	nmap <C-n> <Plug>(yankround-next)
+  nmap p <Plug>(yankround-p)
+  xmap p <Plug>(yankround-p)
+  nmap P <Plug>(yankround-P)
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  nmap gP <Plug>(yankround-gP)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
+endif
+" }}}
+
+" ------------------------------------------------------------------------------
+" emmet {{{
+if s:has_neobundle && neobundle#tap('emmet-vim')
+  let g:user_emmet_leader_key = '<c-y>'
 endif
 " }}}
 
