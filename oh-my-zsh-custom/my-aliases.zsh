@@ -36,7 +36,8 @@ chpwd() {
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
 }
 
-# Alias for Git
+# Alias for Git and tig
+alias tig='tig --all'
 alias gcd='pushd $(git rev-parse --show-toplevel);ll;'
 alias g='git'
 alias gs="git status"
