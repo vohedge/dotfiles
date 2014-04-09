@@ -23,7 +23,7 @@ done
 echo " * Install Oh-My-Zsh"
 oh_my_zsh_path="${HOME}/.oh-my-zsh"
 if [ ! -e ${oh_my_zsh_path} ]; then
-  git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+  git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 else
   echo " * Oh-My-Zsh is already installed"
 fi
