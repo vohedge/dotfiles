@@ -40,3 +40,6 @@ bind main ^U !git pull --rebase
 # Reset
 bind main ^R !git reset --soft HEAD^
 
+## Color
+color main-head white magenta bold
+color main-tracked white cyan bold
