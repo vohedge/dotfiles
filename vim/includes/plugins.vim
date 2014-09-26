@@ -197,6 +197,9 @@ NeoBundle 'https://github.com/rhysd/unite-codic.vim.git'
 " Memolist
 NeoBundle 'https://github.com/glidenote/memolist.vim.git'
 
+" qfixgrep
+NeoBundle 'https://github.com/fuenor/qfixgrep.git'
+
 filetype plugin indent on
 
 " ------------------------------------------------------------------------------
@@ -881,9 +884,13 @@ endif
 " }}}
 
 " ------------------------------------------------------------------------------
-" Vim Rspec {{{
+" MemoList {{{
 if s:has_neobundle && neobundle#tap('memolist.vim')
+  let g:memolist_memo_suffix  = "md"
   let g:memolist_path         = "~/Dropbox/memo"
+  let g:memolist_prompt_tags  = 1
+  let g:memolist_prompt_categories = 1
+  let g:memolist_qfixgrep     = 1
   let g:memolist_unite        = 1
   let g:memolist_unite_source = "file_rec"
   let g:memolist_unite_option = "-start-insert"
