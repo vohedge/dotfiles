@@ -71,6 +71,10 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # LANG
 export LANG=ja_JP.UTF-8
 
+# Vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
 # For each devices
 case "${OSTYPE}" in
     linux-gnu)
