@@ -227,9 +227,18 @@ if s:has_neobundle && neobundle#tap('unite.vim')
   nmap <Space> [unite]
 
   " インサートモードで開始
-  let g:unite_enable_start_insert = 1
+  " let g:unite_enable_start_insert = 1
 
-  let g:unite_prompt = '▶ '
+  call unite#custom#profile('default', 'context', {
+        \   'start_insert': 1,
+        \   'prompt_direction': 'below',
+        \   'direction': 'botright',
+        \   'split' : 1,
+        \})
+
+  call unite#custom#source('file', 'matchers', "matcher_default")
+
+  let g:unite_prompt = ' >>> '
 
   " file_mruの表示フォーマットを指定。空にすると表示スピードが高速化される
   let g:unite_source_file_mru_filename_format = ''
@@ -239,6 +248,7 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 
   " ファイル一覧
   nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir file file/new -buffer-name=files<CR>
+  " nnoremap <silent> [unite]f  :<C-u>Unite file_rec/async:!<CR>
 
   " バッファ一覧
   nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
