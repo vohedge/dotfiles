@@ -4,23 +4,35 @@ echo " * Make synbolic links for dotfiles"
 current_dir=`dirname $0`
 cd ${current_dir}
 
-for dotfile in .?*; do
-  if [ ${dotfile} != '..' ] && [ ${dotfile} != '.git' ] \
-    && [ ! `echo ${dotfile} | grep '\.zshrc\..*'` ] \
-    && [ ! `echo ${dotfile} | grep '\.swp'` ]; then
-    if [ ! -L "${HOME}/${dotfile}" ]; then
-      if [ -e "${HOME}/${dotfile}" ]; then
-        rm -f "${HOME}/${dotfile}"
-      fi
-      echo "   Making ${dotfile} symbolic link"
-      ln -Fis "${PWD}/${dotfile}" ${HOME}
-    else
-      echo "   ${dotfile} symbolic link was already exists."
-    fi
-  fi
-done
+function init_dotfile() {
+  local dest_file=$1
+  local src_file=$2
 
-echo " * Install Oh-My-Zsh"
+  if [ -L ${dest_file} ];then
+    echo "   ${dest_file} symbolic link was already exists."
+  else
+    if [ -e ${dest_file} ]; then
+      rm -rf ${dest_file}
+    fi
+    echo "   Making ${dest_file} symbolic link"
+    ln -Fis ${src_file} ${dest_file}
+  fi
+}
+
+##
+# VIM
+
+if [ ! -e "${HOME}/.vim/bundle" ]; then
+  mkdir "${HOME}/.vim/bundle"
+  git clone https://github.com/Shougo/neobundle.vim "${HOME}/.vim/bundle/neobundle.vim"
+fi
+
+init_dotfile "${HOME}/.vimrc"  "${PWD}/vim/.vimrc"
+init_dotfile "${HOME}/.gvimrc" "${PWD}/vim/.gvimrc"
+
+##
+# ZSH
+
 oh_my_zsh_path="${HOME}/.oh-my-zsh"
 if [ ! -e ${oh_my_zsh_path} ]; then
   git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
@@ -28,11 +40,26 @@ else
   echo " * Oh-My-Zsh is already installed"
 fi
 
-if [ ! -L "${oh_my_zsh_path}/custom" ]; then
-  if [ -d "${oh_my_zsh_path}/custom" ]; then
-    rm -rf "${oh_my_zsh_path}/custom"
-  fi
-  echo " * making symbolic link to Oh-My-Zsh custom directory"
-  ln -Fis "${HOME}/.dotfiles/oh-my-zsh-custom" "${oh_my_zsh_path}/custom"
-fi
+init_dotfile "${oh_my_zsh_path}/custom" "${PWD}/zsh/oh-my-zsh-custom"
+init_dotfile "${HOME}/.zshrc" "${PWD}/zsh/.zshrc"
+
+##
+# BASH
+init_dotfile "${HOME}/.bashrc" "${PWD}/bash/.bashrc"
+
+##
+# TMUX
+init_dotfile "${HOME}/.tmux.conf" "${PWD}/tmux/.tmux.conf"
+
+##
+# POWERLINE
+init_dotfile "${HOME}/.config" "${PWD}/powerline/.config"
+
+##
+# GIT
+init_dotfile "${HOME}/.gitconfig" "${PWD}/git/.gitconfig"
+
+##
+# TIG
+init_dotfile "${HOME}/.tigrc" "${PWD}/tig/.tigrc"
 

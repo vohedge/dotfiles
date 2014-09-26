@@ -77,6 +77,6 @@ case "${OSTYPE}" in
     ;;
     darwin*)
         export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
-        . "$HOME/.dotfiles/.zshrc.mac"
+        . "$HOME/.dotfiles/zsh/.zshrc.mac"
     ;;
 esac
