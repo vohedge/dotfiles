@@ -32,9 +32,6 @@ NeoBundle 'https://github.com/Shougo/neobundle.vim.git'
 " Unite
 NeoBundle 'https://github.com/Shougo/unite.vim.git'
 
-" Ctrlp
-NeoBundle 'https://github.com/ctrlpvim/ctrlp.vim.git'
-
 " Zencodeing
 NeoBundle 'https://github.com/mattn/emmet-vim.git'
 
@@ -194,6 +191,9 @@ NeoBundle 'https://github.com/koron/codic-vim.git'
 " CodicのUniteソース
 NeoBundle 'https://github.com/rhysd/unite-codic.vim.git'
 
+" vim-ref
+NeoBundle 'https://github.com/thinca/vim-ref.git'
+
 " Memolist
 NeoBundle 'https://github.com/glidenote/memolist.vim.git'
 
@@ -264,6 +264,9 @@ if s:has_neobundle && neobundle#tap('unite.vim')
 
   " 最近使用したファイル一覧
   nnoremap <silent> [unite]r :<C-u>Unite file_mru<CR>
+
+  " Weblio
+  nnoremap <silent> [unite]w :<C-u>Unite ref/weblio<CR>
 
   " Snippets
   " noremap <silent> [unite]s :<C-u>Unite neosnippet/user<CR>
@@ -497,6 +500,12 @@ if s:has_neobundle && neobundle#tap('neocomplete.vim')
 
   " スマートケースを使用
   let g:neocomplete#enable_smart_case = 1
+
+  " 日本語入力中は補完しない
+  let g:neocomplete#lock_iminsert = 1
+
+  " 補完開始文字数
+  let g:neocomplete#auto_completion_start_length = 3
 
   " Tabで候補を選択
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -898,29 +907,36 @@ endif
 " }}}
 
 " ------------------------------------------------------------------------------
-" CTRLP {{{
-if s:has_neobundle && neobundle#tap('ctrlp.vim')
+" vim-ref {{{
+if s:has_neobundle && neobundle#tap('vim-ref')
 
-  " デフォルトをMixedに設定
-  let g:ctrlp_cmd = 'CtrlPMixed'
+  " lynxのセットアップが必要
+  " einksではエラーでうまくいかなかった
+  "
+  " /usr/local/Cellar/lynx/2.8.8rel.2/etc/ynx.cfg
+  "
+  " #CHARACTER_SET:iso-8859-1
+  " CHARACTER_SET:utf-8
+  "
+  " #PREFERRED_LANGUAGE:en
+  " PREFERRED_LANGUAGE:ja
 
-  " .gitなどのディレクトリを起点に開く
-  let g:ctrlp_working_path_mode = 'ra'
+  " サイト設定
+  let g:ref_source_webdict_sites = {
+        \   'weblio': {
+        \     'url': 'http://ejje.weblio.jp/content/%s',
+        \   }
+        \ }
 
-  " 拡張
-  let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
+  " デフォルトサイト
+  let g:ref_source_webdict_sites.default = 'weblio'
 
-  " 
-  " let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:18'
+  " 出力をフィルタリング
+  function! g:ref_source_webdict_sites.weblio.filter(output)
+    return join(split(a:output, "\n")[53 :], "\n")
+  endfunction
 
-  " 画面全部使う
-  let g:ctrlp_max_height = &lines
-
-  " agがインストールされていれば使用
-  if executable('ag')
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    let g:ctrlp_use_caching = 0
-  endif
+  nmap <Space>w :<C-u>Ref webdict weblio<Space>
 endif
 " }}}
 
