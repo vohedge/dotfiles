@@ -41,7 +41,7 @@ call s:include( 'filetype.vim' )
 " プラットフォーム
 
 if os == 'Darwin' || os == 'Mac'
-  " call s:include( 'mac.vim' )
+  call s:include( 'mac.vim' )
 elseif os == 'Linux'
   " let s:is_unix = 1
 endif
