@@ -38,7 +38,7 @@ chpwd() {
 
 # Alias for Git and tig
 alias tig='tig --all'
-alias gcd='pushd $(git rev-parse --show-toplevel);ll;'
+alias gcd='pushd $(git rev-parse --show-toplevel);'
 alias g='git'
 alias gs="git status"
 alias gss="git status -s"

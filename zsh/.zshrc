@@ -71,12 +71,16 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # LANG
 export LANG=ja_JP.UTF-8
 
+# Vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
 # For each devices
 case "${OSTYPE}" in
     linux-gnu)
     ;;
     darwin*)
         export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
-        . "$HOME/.dotfiles/.zshrc.mac"
+        . "$HOME/.dotfiles/zsh/.zshrc.mac"
     ;;
 esac

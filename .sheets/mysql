@@ -1,3 +1,0 @@
-# 特定DB専用ユーザー作成
-grant all privileges on <DB>.* to <user>@localhost identified by '<password>';
-
