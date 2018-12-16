@@ -25,6 +25,9 @@ alias gb="git branch"
 alias gl='git log --graph --decorate --pretty=format:"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n" --stat -p'
 alias gls='git log --stat --summary'
 
+# Docker-compose
+alias dc='docker-compose'
+
 # For Screen
 if [[ ${TERM} =~ ^screen.* ]]; then
 	export PROMPT_COMMAND='echo -ne "\033k${USER}@${HOSTNAME%%.*}\033\\"'
@@ -63,3 +66,4 @@ PS1='\n[\u@\h \w]$(show_git_status)\$ '
 if [ -f ~/.bashrc_cygwin ]; then
 	source ~/.bashrc_cygwin
 fi
+
