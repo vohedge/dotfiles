@@ -1,4 +1,15 @@
 #!/bin/sh
+
+##
+# Ansible for self build
+#
+# yum install -y epel-release
+# sed -i "s/enabled=1/enabled=0/g" /etc/yum.repos.d/epel.repo
+# yum install -y ansible --enablerepo=epel
+ansible-playbook "${PWD}/ansible-playbook/dev-machine.yml" --connection=local
+
+##
+# Synbolic links for dotfiles
 echo " * Make synbolic links for dotfiles"
 
 current_dir=`dirname $0`

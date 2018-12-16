@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Install dev packages from default yum repository
+      yum:
+        name:
+          - vim
+          - git
+          - wget
+          - unzip
+          - bind-utils
+        state: latest
+    - name: Install dev packages from epel repository
+      yum:
+        name:
+          - tig
+          - tmux
+        enablerepo: "epel"
+    - name: Install Docker dependenceis
+      yum:
+        name:
+          - device-mapper-persistent-data
+          - lvm2
+    - name: Insltall Docker CE
+      yum:
+        name:
+          - docker-ce
+    - name: Enable Docker
+      systemd:
+        name: docker.service
+        state: started
+        enabled: yes
+
