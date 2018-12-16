@@ -9,12 +9,12 @@ function init_dotfile() {
   local src_file=$2
 
   if [ -L ${dest_file} ];then
-    echo "   ${dest_file} symbolic link was already exists."
+    echo "   ${dest_file} skip..."
   else
     if [ -e ${dest_file} ]; then
       rm -rf ${dest_file}
     fi
-    echo "   Making ${dest_file} symbolic link"
+    echo "   Making ${dest_file} symbolic link..."
     ln -Fis ${src_file} ${dest_file}
   fi
 }
@@ -24,7 +24,7 @@ function init_dotfile() {
 
 if [ ! -e "${HOME}/.vim/bundle" ]; then
   mkdir "${HOME}/.vim/bundle"
-  git clone https://github.com/Shougo/neobundle.vim "${HOME}/.vim/bundle/neobundle.vim"
+  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fi
 
 init_dotfile "${HOME}/.vimrc"  "${PWD}/vim/.vimrc"
@@ -33,15 +33,15 @@ init_dotfile "${HOME}/.gvimrc" "${PWD}/vim/.gvimrc"
 ##
 # ZSH
 
-oh_my_zsh_path="${HOME}/.oh-my-zsh"
-if [ ! -e ${oh_my_zsh_path} ]; then
-  git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-else
-  echo " * Oh-My-Zsh is already installed"
-fi
+# oh_my_zsh_path="${HOME}/.oh-my-zsh"
+# if [ ! -e ${oh_my_zsh_path} ]; then
+#   git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+# else
+#   echo " * Oh-My-Zsh is already installed"
+# fi
 
-init_dotfile "${oh_my_zsh_path}/custom" "${PWD}/zsh/oh-my-zsh-custom"
-init_dotfile "${HOME}/.zshrc" "${PWD}/zsh/.zshrc"
+# init_dotfile "${oh_my_zsh_path}/custom" "${PWD}/zsh/oh-my-zsh-custom"
+# init_dotfile "${HOME}/.zshrc" "${PWD}/zsh/.zshrc"
 
 ##
 # BASH
@@ -50,10 +50,6 @@ init_dotfile "${HOME}/.bashrc" "${PWD}/bash/.bashrc"
 ##
 # TMUX
 init_dotfile "${HOME}/.tmux.conf" "${PWD}/tmux/.tmux.conf"
-
-##
-# POWERLINE
-init_dotfile "${HOME}/.config" "${PWD}/powerline/.config"
 
 ##
 # GIT

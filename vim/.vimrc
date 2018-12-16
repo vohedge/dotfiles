@@ -9,7 +9,7 @@ function! s:include(path)
 endfunction
 
 " ------------------------------------------------------------------------------
-" ローカル変数
+" OS Check
 let s:is_mac = 0
 let s:is_unix = 0
 let s:is_win = 0
@@ -23,7 +23,7 @@ elseif os == 'Linux'
 endif
 
 " ------------------------------------------------------------------------------
-" プラグイン
+" Plugins
 
 call s:include( 'plugins.vim' )
 
@@ -33,7 +33,7 @@ call s:include( 'plugins.vim' )
 call s:include( 'edit.vim' )
 
 " ------------------------------------------------------------------------------
-" ファイルタイプ
+" File type
 
 call s:include( 'filetype.vim' )
 
@@ -43,7 +43,7 @@ call s:include( 'filetype.vim' )
 call s:include( 'abbreviation.vim' )
 
 " ------------------------------------------------------------------------------
-" プラットフォーム
+" For each OS
 
 if os == 'Darwin' || os == 'Mac'
   call s:include( 'mac.vim' )

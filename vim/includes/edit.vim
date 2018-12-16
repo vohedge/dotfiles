@@ -3,6 +3,7 @@ set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 
 " Display
 set t_Co=256
+" set term=xterm
 
 " 構文ハイライト
 syntax on
@@ -86,9 +87,9 @@ nnoremap < <<
 " nnoremap <Space>r :<C-u>source $HOME/.vimrc<CR>
 
 " 80列目にラインを表示
-let &colorcolumn=join(range(81,999),",")
-highlight ColorColumn ctermbg=233 guibg=#2c2d27
-let &colorcolumn="80,".join(range(120,999),",")
+" let &colorcolumn=join(range(81,999),",")
+" highlight ColorColumn ctermbg=233 guibg=#2c2d27
+" let &colorcolumn="80,".join(range(120,999),",")
 
 " textwidthで自動改行しない
 set formatoptions=cq
