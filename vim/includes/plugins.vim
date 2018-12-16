@@ -26,6 +26,9 @@ Plugin 'itchyny/lightline.vim'
 " Finder
 Plugin 'ctrlpvim/ctrlp.vim'
 
+" Ansible yml syntax
+Plugin 'chase/vim-ansible-yaml'
+
 " Vundle end
 " -------------------------------------------------------------------------------
 call vundle#end() 
@@ -35,7 +38,8 @@ filetype plugin indent on
 " ------------------------------------------------------------------------------
 " ctrlp {{{
 
-let g:ctrlp_map = '<c-p>'
+let g:ctrlp_map = '<Space>'
+
 
 " }}}
 
