@@ -12,6 +12,8 @@ alias ll='ls --color -al'
 alias sudo='sudo -E'
 alias s='screen'
 alias hosts='sudo vim /etc/hosts'
+alias ssh-config='cat ~/.ssh/config | grep Host'
+alias sc='cat ~/.ssh/config | grep Host'
 
 # Alias for Git
 alias gcd='cd $(git rev-parse --show-toplevel)'
