@@ -69,3 +69,22 @@ if [ -f ~/.bashrc_cygwin ]; then
 	source ~/.bashrc_cygwin
 fi
 
+# Show ssh hosts
+
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"
+
+# Python pyenv
+if [ -e ~/.pyenv ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+  fi
+fi
+
+# For commands installed by pip
+if [ -e ~/.local/bin ]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+

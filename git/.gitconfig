@@ -5,3 +5,6 @@
 [core]
 	excludesfile = ~/.dotfiles/.gitignore
 	editor = /usr/bin/vim
+[user]
+	email = noa.kobayashi@seiko-sol.co.jp
+	name = Noah Kobayashi

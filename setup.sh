@@ -2,11 +2,19 @@
 
 ##
 # Ansible for self build
-#
+# 
+# CentOS
 # yum install -y epel-release
 # sed -i "s/enabled=1/enabled=0/g" /etc/yum.repos.d/epel.repo
 # yum install -y ansible --enablerepo=epel
-ansible-playbook "${PWD}/ansible-playbook/dev-machine.yml" --connection=local
+#
+# Ubuntu
+# sudo apt-get update
+# sudo apt-get install software-properties-common
+# sudo apt-add-repository ppa:ansible/ansible
+# sudo apt-get update
+# sudo apt-get install ansible
+# ansible-playbook "${PWD}/ansible-playbook/dev-machine.yml" --connection=local
 
 ##
 # Synbolic links for dotfiles
