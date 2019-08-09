@@ -1,5 +1,9 @@
-" 内部文字コードを指定
-set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
+" ファイル書き込み時の文字コード
+set fileencoding=utf-8
+
+" ファイル読み込み時の文字コード
+" set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
+set fileencodings=utf-8
 
 " Display
 set t_Co=256
