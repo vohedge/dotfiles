@@ -88,3 +88,5 @@ if [ -e ~/.local/bin ]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Docker for windows in WSL
+export DOCKER_HOST=tcp://localhost:2375
