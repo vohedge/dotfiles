@@ -30,10 +30,6 @@ alias gls='git log --stat --summary'
 # Docker-compose
 alias dc='docker-compose'
 
-# For Screen
-if [[ ${TERM} =~ ^screen.* ]]; then
-	export PROMPT_COMMAND='echo -ne "\033k${USER}@${HOSTNAME%%.*}\033\\"'
-fi
 
 # Show Git Branch and Status
 show_git_status ()
@@ -71,8 +67,11 @@ fi
 
 # Show ssh hosts
 
-export PATH="$HOME/.nodenv/bin:$PATH"
-eval "$(nodenv init -)"
+# Nodejs nodenv
+if [ -e ~/.nodenv ]; then
+  export PATH="$HOME/.nodenv/bin:$PATH"
+  eval "$(nodenv init -)"
+fi
 
 # Python pyenv
 if [ -e ~/.pyenv ]; then
@@ -89,4 +88,12 @@ if [ -e ~/.local/bin ]; then
 fi
 
 # Docker for windows in WSL
-export DOCKER_HOST=tcp://localhost:2375
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+  export DOCKER_HOST=tcp://localhost:2375
+fi
+
+# Kubectl completion
+if type kubectl > /dev/null 2>&1; then
+  source <(kubectl completion bash)
+fi
+
