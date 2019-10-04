@@ -5,6 +5,16 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+
+##
+# Alias
+
+# Quick navigation
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
 # User specific aliases and functions
 alias ls='ls --color'
 alias l='ls --color'
@@ -18,12 +28,12 @@ alias sc='cat ~/.ssh/config | grep Host'
 # Alias for Git
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias g='git'
-alias gs="git status"
-alias ga="git add"
-alias gc="git checkout"
-alias gcm="git commit"
-alias gd="git diff"
-alias gb="git branch"
+alias gs='git status'
+alias ga='git add'
+alias gc='git checkout'
+alias gcm='git commit'
+alias gd='git diff'
+alias gb='git branch'
 alias gl='git log --graph --decorate --pretty=format:"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n" --stat -p'
 alias gls='git log --stat --summary'
 
@@ -31,34 +41,8 @@ alias gls='git log --stat --summary'
 alias dc='docker-compose'
 
 
-# Show Git Branch and Status
-show_git_status ()
-{
-	c_cyan=`tput setaf 6`
-	c_red=`tput setaf 1`
-	c_green=`tput setaf 2`
-	c_sgr0=`tput sgr0`
-
-	git_status=""
-	if git rev-parse --git-dir >/dev/null 2>&1
-	then
-		branch_name=$(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')
-		repo_name=$(git rev-parse --show-toplevel)
-		repo_name=${repo_name##*/}
-		color=""
-		if git diff --quiet 2>/dev/null >&2 
-		then
-			color=${c_green}
-		else
-			color=${c_red}
-		fi
-		git_status="\nGit>${repo_name}::${color}${branch_name}${c_sgr0} "
-	else
-		return 0
-	fi
-	echo -ne $git_status
-}
-PS1='\n[\u@\h \w]$(show_git_status)\$ '
+##
+# PATH and commands
 
 # For extend config for cygwin
 if [ -f ~/.bashrc_cygwin ]; then
@@ -97,3 +81,61 @@ if type kubectl > /dev/null 2>&1; then
   source <(kubectl completion bash)
 fi
 
+
+### Prompt Colors
+# Modified version of @gf3’s Sexy Bash Prompt
+# (https://github.com/gf3/dotfiles)
+
+if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+	export TERM=gnome-256color
+elif infocmp xterm-256color >/dev/null 2>&1; then
+	export TERM=xterm-256color
+fi
+
+if tput setaf 1 &> /dev/null; then
+	tput sgr0
+	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+    CYAN=$(tput setaf 6)
+		MAGENTA=$(tput setaf 9)
+		ORANGE=$(tput setaf 172)
+		GREEN=$(tput setaf 190)
+		PURPLE=$(tput setaf 141)
+	else
+    CYAN=$(tput setaf 6)
+		MAGENTA=$(tput setaf 5)
+		ORANGE=$(tput setaf 4)
+		GREEN=$(tput setaf 2)
+		PURPLE=$(tput setaf 1)
+	fi
+	BOLD=$(tput bold)
+	RESET=$(tput sgr0)
+else
+  CYAN="\033[1;36m"
+	MAGENTA="\033[1;31m"
+	ORANGE="\033[1;33m"
+	GREEN="\033[1;32m"
+	PURPLE="\033[1;35m"
+	BOLD=""
+	RESET="\033[m"
+fi
+
+export CYAN
+export MAGENTA
+export ORANGE
+export GREEN
+export PURPLE
+export BOLD
+export RESET
+
+# Git branch details
+function parse_git_dirty() {
+	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
+}
+function parse_git_branch() {
+	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+symbol=":) "
+
+export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
+export PS2="\[$ORANGE\]→ \[$RESET\]"
