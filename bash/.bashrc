@@ -33,7 +33,7 @@ alias ga='git add'
 alias gc='git checkout'
 alias gcm='git commit'
 alias gd='git diff'
-alias gb='git branch'
+#alias gb='git branch'
 alias gl='git log --graph --decorate --pretty=format:"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n" --stat -p'
 alias gls='git log --stat --summary'
 
@@ -80,6 +80,40 @@ fi
 if type kubectl > /dev/null 2>&1; then
   source <(kubectl completion bash)
 fi
+
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f ~/.fzf/shell/completion.bash ]; then
+  source "$HOME/.fzf/shell/completion.bash"
+  source "$HOME/.fzf/shell/key-bindings.bash"
+fi
+
+##
+# Functions
+
+# Git branch
+gb() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# SSH
+# https://qiita.com/kamykn/items/9a831862038efa4e9f8f
+fssh() {
+  local sshLoginHost
+  sshLoginHost=`cat ~/.ssh/config | grep -i ^host | awk '{print $2}' | fzf`
+
+  if [ "$sshLoginHost" = "" ]; then
+      # ex) Ctrl-C.
+      return 1
+  fi
+
+  ssh ${sshLoginHost}
+}
+
 
 
 ### Prompt Colors
