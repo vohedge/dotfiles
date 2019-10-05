@@ -29,10 +29,11 @@ alias sc='cat ~/.ssh/config | grep Host'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias g='git'
 alias gs='git status'
-alias ga='git add'
+alias ga='git add .'
 alias gc='git checkout'
 alias gcm='git commit'
 alias gd='git diff'
+# git branch はfzfで代用する
 #alias gb='git branch'
 alias gl='git log --graph --decorate --pretty=format:"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n" --stat -p'
 alias gls='git log --stat --summary'
@@ -92,13 +93,14 @@ fi
 # Functions
 
 # Git branch
-gb() {
+git_branch() {
   local branches branch
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" |
            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
+alias gb='git_branch'
 
 # SSH
 # https://qiita.com/kamykn/items/9a831862038efa4e9f8f
@@ -113,6 +115,7 @@ fssh() {
 
   ssh ${sshLoginHost}
 }
+alias fssh='fssh'
 
 
 
