@@ -33,8 +33,8 @@ Plugin 'chase/vim-ansible-yaml'
 Plugin 'posva/vim-vue'
 
 " Eslint
-Plugin 'scrooloose/syntastic.git'
-Plugin 'pmsorhaindo/syntastic-local-eslint.vim'
+" Plugin 'scrooloose/syntastic.git'
+" Plugin 'pmsorhaindo/syntastic-local-eslint.vim'
 
 " Linter
 Plugin 'w0rp/ale'
@@ -60,39 +60,18 @@ let g:ctrlp_map = '<Space>'
 " }}}
 
 " ------------------------------------------------------------------------------
-" Syntastic {{{
-
-"" let g:syntastic_always_populate_loc_list = 1
-"" let g:syntastic_auto_loc_list = 1
-"" let g:syntastic_javascript_checkers = ['eslint']
-"" " let g:syntastic_check_on_open = 0
-"" " let g:syntastic_check_on_wq = 0
-"" " let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
-"" " nnoremap <C-C> :w<CR>:SyntasticCheck<CR>
-"" 
-"" " $B%(%i!<9T$K(B sign $B$rI=<((B
-"" let g:syntastic_enable_signs = 1
-"" " location list $B$r>o$K99?7(B
-"" let g:syntastic_always_populate_loc_list = 0
-"" " location list $B$r>o$KI=<((B
-"" let g:syntastic_auto_loc_list = 0
-"" " $B%U%!%$%k$r3+$$$?;~$K%A%'%C%/$r<B9T$9$k(B
-"" let g:syntastic_check_on_open = 1
-"" " :wq $B$G=*N;$9$k;~$b%A%'%C%/$9$k(B
-"" let g:syntastic_check_on_wq = 0
-
-" }}}
-
-" ------------------------------------------------------------------------------
 " ALE the linter
 "
 " https://kashewnuts.github.io/2018/12/02/bp_advent_calender.html#w0rp-ale-linter-fixer
+"
+" pip install flake8 mypy autopep8 isort
 " {{{
 
 " ファイル保存時にLinterを実行する
 let g:ale_lint_on_save = 1
 
 " テキスト変更時にはLinterを実行しない
+" 実行するとCPUの使用率が跳ね上がる
 let g:ale_lint_on_text_changed = 'never'
 
 " Linter(コードチェックツール)の設定
