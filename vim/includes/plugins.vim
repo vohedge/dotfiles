@@ -36,14 +36,14 @@ Plugin 'posva/vim-vue'
 " Plugin 'scrooloose/syntastic.git'
 " Plugin 'pmsorhaindo/syntastic-local-eslint.vim'
 
-" Linter
-Plugin 'w0rp/ale'
-
 " Python
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+
+" Linter
+Plugin 'w0rp/ale'
 
 " Vundle end
 " -------------------------------------------------------------------------------
@@ -96,6 +96,9 @@ let b:ale_warn_about_trailing_whitespace = 0
 " ALE実行時にでる目印行を常に表示
 let g:ale_sign_column_always = 1
 
+" 1行の文字数のチェックを緩和
+let g:ale_python_flake8_options = '--max-line-length=160'
+
 " ------------------------------------------------------------------------------
 " vim-lsp
 "
@@ -103,6 +106,13 @@ let g:ale_sign_column_always = 1
 "
 " https://kashewnuts.github.io/2019/01/28/move_from_jedivim_to_vimlsp.html
 " {{{
+
+let g:lsp_diagnostics_enabled = 1     " disable diagnostics support
+let g:lsp_signs_enabled = 1           " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_virtual_text_enabled = 0
+let g:lsp_highlights_enabled = 0
+let g:lsp_textprop_enabled = 1
 
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('~/.cache/tmp/vim-lsp.log')
@@ -112,8 +122,30 @@ if executable('pyls')
     \ 'name': 'pyls',
     \ 'cmd': {server_info->['pyls']},
     \ 'whitelist': ['python'],
+    \ 'workspace_config': {'pyls': {'plugins': {
+    \   'pycodestyle': {'enabled': v:false},
+    \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
     \ })
+  autocmd FileType python call s:configure_lsp()
 endif
+
+function! s:configure_lsp() abort
+  " オムニ補完を有効化
+  setlocal omnifunc=lsp#complete
+  " LSP用にマッピング
+  nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
+  nnoremap <buffer> gd :<C-u>LspDefinition<CR>
+  nnoremap <buffer> gD :<C-u>LspReferences<CR>
+  nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+  nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
+  nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
+  vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
+  nnoremap <buffer> K :<C-u>LspHover<CR>
+  nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
+  nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+endfunction
+
+let g:lsp_diagnostics_enabled = 0
 
 " }}}
 
