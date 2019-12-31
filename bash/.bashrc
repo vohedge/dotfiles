@@ -32,6 +32,7 @@ alias gs='git status'
 alias ga='git add .'
 alias gc='git checkout'
 alias gcm='git commit'
+alias gu='git add -A && git commit -m "update!" && git push origin master'
 alias gd='git diff'
 # git branch はfzfで代用する
 #alias gb='git branch'
