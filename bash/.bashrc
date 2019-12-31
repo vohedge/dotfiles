@@ -59,6 +59,11 @@ if [ -e ~/.nodenv ]; then
   eval "$(nodenv init -)"
 fi
 
+# yarn
+if [ -e ~/.yarn ]; then
+  export PATH="$PATH:`yarn global bin`"
+fi
+
 # Python pyenv
 if [ -e ~/.pyenv ]; then
   export PYENV_ROOT="$HOME/.pyenv"
@@ -67,6 +72,9 @@ if [ -e ~/.pyenv ]; then
     eval "$(pyenv init -)"
   fi
 fi
+
+# Python
+export PYTHONUSERBASE="/c/wsl_home/.local"
 
 # For commands installed by pip
 if [ -e ~/.local/bin ]; then
@@ -88,6 +96,11 @@ fi
 if [ -f ~/.fzf/shell/completion.bash ]; then
   source "$HOME/.fzf/shell/completion.bash"
   source "$HOME/.fzf/shell/key-bindings.bash"
+fi
+
+# 補完
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then                                                  
+  . /etc/bash_completion
 fi
 
 ##
@@ -175,5 +188,9 @@ function parse_git_branch() {
 
 symbol=":) "
 
-export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
+export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/c/wsl_home/.sdkman"
+[[ -s "/c/wsl_home/.sdkman/bin/sdkman-init.sh" ]] && source "/c/wsl_home/.sdkman/bin/sdkman-init.sh"
