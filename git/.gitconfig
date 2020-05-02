@@ -4,7 +4,7 @@
 	ui = auto
 [core]
 	excludesfile = ~/.dotfiles/.gitignore
-	editor = /usr/bin/vim
+	editor = vim -c \"set fenc=utf-8\"
 [user]
 	email = noa.kobayashi@seiko-sol.co.jp
 	name = Noah Kobayashi
