@@ -1,20 +1,10 @@
 ## Interface
 set show-changes = true
-set show-author = full
-set show-refs = true
-set show-rev-graph = true
-set show-date = local
-set show-line-numbers = yes
-set show-file-size = units
-set line-number-interval = 10
 set line-graphics = utf-8
 set horizontal-scroll = 20%
 set diff-context = 6
 set split-view-height = 80%
 set vertical-split = true
-set show-author = abbreviated
-set show-date = short
-set author-width = 4
 
 ## Key Binds
 # Disable default key binds
@@ -32,13 +22,13 @@ bind generic g move-first-line
 bind generic G move-last-line
 
 # Pull & Push
-bind status ^P !git push origin
-bind main ^P !git push origin
-bind status ^U !git pull --rebase
-bind main ^U !git pull --rebase
+bind status <Ctrl-P> !git push origin
+bind main <Ctrl-P> !git push origin
+bind status <Ctrl-U> !git pull --rebase
+bind main <Ctrl-U> !git pull --rebase
 
 # Reset
-bind main ^R !git reset --soft HEAD^
+bind main <Ctrl-R> !git reset --soft HEAD^
 
 ## Color
 color main-head white magenta bold
