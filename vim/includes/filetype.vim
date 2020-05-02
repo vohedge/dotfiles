@@ -1,3 +1,5 @@
+filetype on
+
 " Berksfile
 au BufNewFile,BufRead Berksfile	set filetype=ruby
 

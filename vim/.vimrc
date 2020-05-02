@@ -10,17 +10,9 @@ endfunction
 
 " ------------------------------------------------------------------------------
 " OS Check
-let s:is_mac = 0
-let s:is_unix = 0
-let s:is_win = 0
-
-let os=substitute(system('uname'), '\n', '', '')
-
-if os == 'Darwin' || os == 'Mac'
-  let s:is_mac = 1
-elseif os == 'Linux'
-  let s:is_unix = 1
-endif
+let os_type=substitute(system('uname -r'), '\n', '', '')
+let is_wsl   = (os_type =~ "Microsoft")
+let is_linux = (os_type =~ "Linux")
 
 " ------------------------------------------------------------------------------
 " Plugins
@@ -42,12 +34,13 @@ call s:include( 'filetype.vim' )
 
 call s:include( 'abbreviation.vim' )
 
-" ------------------------------------------------------------------------------
-" For each OS
 
-if os == 'Darwin' || os == 'Mac'
-  call s:include( 'mac.vim' )
-elseif os == 'Linux'
-  " let s:is_unix = 1
+" ------------------------------------------------------------------------------
+" For WSL
+
+if is_wsl
+  " Avoid to go wrong background color on default WSL console.
+  " https://ja.stackoverflow.com/questions/60686
+  set t_ut=
 endif
 

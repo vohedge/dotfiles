@@ -4,6 +4,7 @@
 " https://github.com/VundleVim/Vundle.vim
 "
 
+
 " Vundle requirement
 " -------------------------------------------------------------------------------
 
@@ -13,6 +14,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
+
 
 " Plugins
 " -------------------------------------------------------------------------------
@@ -36,7 +38,7 @@ Plugin 'posva/vim-vue'
 " Plugin 'scrooloose/syntastic.git'
 " Plugin 'pmsorhaindo/syntastic-local-eslint.vim'
 
-" Python
+" LSP
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
@@ -46,19 +48,18 @@ Plugin 'mattn/vim-lsp-settings'
 " Linter
 Plugin 'w0rp/ale'
 
+
 " Vundle end
-" -------------------------------------------------------------------------------
 call vundle#end() 
-syntax on
 filetype plugin indent on 
+syntax on
+
 
 " ------------------------------------------------------------------------------
-" ctrlp {{{
+" ctrlp
 
 let g:ctrlp_map = '<Space>'
 
-
-" }}}
 
 " ------------------------------------------------------------------------------
 " ALE the linter
@@ -66,10 +67,8 @@ let g:ctrlp_map = '<Space>'
 " https://kashewnuts.github.io/2018/12/02/bp_advent_calender.html#w0rp-ale-linter-fixer
 "
 " pip install flake8 mypy autopep8 isort
-" {{{
 
 " ファイル保存時にLinterを実行する
-
 let g:ale_pattern_options = {
 \   '.*\.yaml$': {'ale_enabled': 0},
 \   '.*\.json$': {'ale_enabled': 0},
@@ -108,60 +107,18 @@ let g:ale_sign_column_always = 1
 " 1行の文字数のチェックを緩和
 let g:ale_python_flake8_options = '--max-line-length=160'
 
+
 " ------------------------------------------------------------------------------
 " vim-lsp
-"
-" pip install python-language-server
-"
-" https://kashewnuts.github.io/2019/01/28/move_from_jedivim_to_vimlsp.html
-" {{{
-
-" let g:lsp_diagnostics_enabled = 1     " disable diagnostics support
-" let g:lsp_signs_enabled = 1           " enable signs
-" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-" let g:lsp_virtual_text_enabled = 0
-" let g:lsp_highlights_enabled = 0
-" let g:lsp_textprop_enabled = 1
-" 
-" let g:lsp_log_verbose = 1
-" let g:lsp_log_file = expand('~/.cache/tmp/vim-lsp.log')
-" 
-" if executable('pyls')
-"   au User lsp_setup call lsp#register_server({
-"     \ 'name': 'pyls',
-"     \ 'cmd': {server_info->['pyls']},
-"     \ 'whitelist': ['python'],
-"     \ 'workspace_config': {'pyls': {'plugins': {
-"     \   'pycodestyle': {'enabled': v:false},
-"     \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
-"     \ })
-"   autocmd FileType python call s:configure_lsp()
-" endif
-" 
-" function! s:configure_lsp() abort
-"   " オムニ補完を有効化
-"   setlocal omnifunc=lsp#complete
-"   " LSP用にマッピング
-"   nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
-"   nnoremap <buffer> gd :<C-u>LspDefinition<CR>
-"   nnoremap <buffer> gD :<C-u>LspReferences<CR>
-"   nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
-"   nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
-"   nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
-"   vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
-"   nnoremap <buffer> K :<C-u>LspHover<CR>
-"   nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
-"   nnoremap <buffer> <F2> :<C-u>LspRename<CR>
-" endfunction
-" 
-" let g:lsp_diagnostics_enabled = 0
 
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:asyncomplete_auto_popup = 1
-let g:asyncomplete_auto_completeopt = 0
-let g:asyncomplete_popup_delay = 200
-let g:lsp_text_edit_enabled = 1
+let g:asyncomplete_auto_completeopt = 1
+" let g:asyncomplete_popup_delay = 300
+let g:lsp_text_edit_enabled = 0
 
-" }}}
-
+nmap <buffer> <f2> <plug>(lsp-rename)
+" 自動的にScratch windowsを閉じる
+" https://github.com/prabirshrestha/vim-lsp/issues/650
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif

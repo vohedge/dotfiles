@@ -9,9 +9,6 @@ set fileencodings=utf-8
 set t_Co=256
 " set term=xterm
 
-" 構文ハイライト
-syntax on
-
 " カラースキーム
 colorscheme wombat256mod
 
