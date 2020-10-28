@@ -69,7 +69,18 @@ set noerrorbells
 set pastetoggle=<F12>
 
 " ヤンクしたときにクリップボードへ
-set clipboard=unnamed,autoselect
+"set clipboard=unnamed,autoselect
+set clipboard=unnamed,unnamedplus
+
+" WSLの中でヤンクした文字列をクリップボードに送る
+" Windows側に連携できる！！
+" https://qiita.com/notoya/items/860ebacf496b54d6c26e
+if system('uname -r') =~ "Microsoft"
+    augroup Yank
+        autocmd!
+        autocmd TextYankPost * :call system('clip.exe ',@")
+    augroup END
+endif
 
 " カーソル移動を常に見た目と同じに変更
 nnoremap j gj
