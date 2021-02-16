@@ -42,6 +42,35 @@ alias gls='git log --stat --summary'
 # Docker-compose
 alias dc='docker-compose'
 
+# kubernetes
+alias k='kubectl'
+complete -F __start_kubectl k
+
+# kubech
+# source ~/.kubech/kubech
+# source ~/.kubech/completion/kubech.bash
+# source ~/Projects/kubech/kubech
+# source ~/Projects/kubech/completion/kubech.bash
+# alias kc='kubechc'
+# alias kn='kubechn'
+alias kc='kubectx'
+alias kn='kubens'
+
+# Switch multiple kubeconfig
+DEFAULT_KUBECONFIG="${HOME}/.kube/config"
+KUBECONFIG_FILES=`ls -1 ~/.kube/kubeconfig* | paste -sd ":" -`
+export KUBECONFIG="${DEFAULT_KUBECONFIG}:${KUBECONFIG_FILES}"
+
+file="$(mktemp -t "kubectx.XXXXXX")"
+export KUBECONFIG="${file}:${KUBECONFIG}"
+cat <<EOF >"${file}"
+apiVersion: v1
+kind: Config
+current-context: ""
+EOF
+
+# kubectl config view --minify --flatten --context=$KUBE_CONTEXT > $KUBE_TMP_CONFIG_FILE
+# 
 
 ##
 # PATH and commands
@@ -82,26 +111,48 @@ if [ -e ~/.local/bin ]; then
 fi
 
 # Docker for windows in WSL
-if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
-  export DOCKER_HOST=tcp://localhost:2375
-fi
+# if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+#   export DOCKER_HOST=tcp://localhost:2375
+# fi
 
 # Kubectl completion
 if type kubectl > /dev/null 2>&1; then
   source <(kubectl completion bash)
 fi
 
-# fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-if [ -f ~/.fzf/shell/completion.bash ]; then
-  source "$HOME/.fzf/shell/completion.bash"
-  source "$HOME/.fzf/shell/key-bindings.bash"
+if [ -d ~/.kube-ps1 ]; then
+  source "$HOME/.kube-ps1/kube-ps1.sh"
 fi
+
+# # fzf
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# if [ -f ~/.fzf/shell/completion.bash ]; then
+#   source "$HOME/.fzf/shell/completion.bash"
+#   source "$HOME/.fzf/shell/key-bindings.bash"
+# fi
+source /usr/share/doc/fzf/examples/key-bindings.bash
+source /usr/share/doc/fzf/examples/completion.bash
+ 
+# fzf
+# https://tottoto.net/fzf-history-on-bash/
+__fzf_history__() {
+  if type tac > /dev/null 2>&1; then tac="tac"; else tac="tail -r"; fi
+  shopt -u nocaseglob nocasematch
+  echo $(HISTTIMEFORMAT= history | command $tac | sed -e 's/^ *[0-9]\{1,\}\*\{0,1\} *//' -e 's/ *$//' | awk '!a[$0]++' |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --sync -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd))
+}
+bind '"\C-r": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"'
 
 # 補完
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then                                                  
   . /etc/bash_completion
 fi
+
+# Istio
+if [ -d ~/.kube-ps1 ]; then
+  export PATH="$HOME/.istio/bin:$PATH"
+fi
+
 
 ##
 # Functions
@@ -178,6 +229,8 @@ export PURPLE
 export BOLD
 export RESET
 
+export KUBE_PS1_SEPARATOR=""
+
 # Git branch details
 function parse_git_dirty() {
 	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
@@ -188,9 +241,12 @@ function parse_git_branch() {
 
 symbol=":) "
 
-export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
+# export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
+export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\] \$(kube_ps1)\n$symbol\[$RESET\]"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/c/wsl_home/.sdkman"
 [[ -s "/c/wsl_home/.sdkman/bin/sdkman-init.sh" ]] && source "/c/wsl_home/.sdkman/bin/sdkman-init.sh"
+
+complete -C /usr/bin/terraform terraform
