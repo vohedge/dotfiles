@@ -5,5 +5,6 @@
 [core]
 	excludesfile = ~/.dotfiles/.gitignore
 	editor = vim -c \"set fenc=utf-8\"
-[init]
-	defaultBranch = main
+[user]
+	email = noa.kobayashi@seiko-sol.co.jp
+	name = Noah Kobayashi

@@ -72,6 +72,49 @@ EOF
 # kubectl config view --minify --flatten --context=$KUBE_CONTEXT > $KUBE_TMP_CONFIG_FILE
 # 
 
+##
+# PATH and commands
+
+# For extend config for cygwin
+if [ -f ~/.bashrc_cygwin ]; then
+	source ~/.bashrc_cygwin
+fi
+
+# Show ssh hosts
+
+# Nodejs nodenv
+if [ -e ~/.nodenv ]; then
+  export PATH="$HOME/.nodenv/bin:$PATH"
+  eval "$(nodenv init -)"
+fi
+
+# yarn
+if [ -e ~/.yarn ]; then
+  export PATH="$PATH:`yarn global bin`"
+fi
+
+# Python pyenv
+if [ -e ~/.pyenv ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+  fi
+fi
+
+# Python
+export PYTHONUSERBASE="/c/wsl_home/.local"
+
+# For commands installed by pip
+if [ -e ~/.local/bin ]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Docker for windows in WSL
+# if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+#   export DOCKER_HOST=tcp://localhost:2375
+# fi
+
 # Kubectl completion
 if type kubectl > /dev/null 2>&1; then
   source <(kubectl completion bash)
@@ -106,9 +149,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # Istio
-# if [ -d ~/.kube-ps1 ]; then
-#   export PATH="$HOME/.istio/bin:$PATH"
-# fi
+if [ -d ~/.kube-ps1 ]; then
+  export PATH="$HOME/.istio/bin:$PATH"
+fi
 
 
 ##
@@ -201,5 +244,9 @@ symbol=":) "
 # export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
 export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\] \$(kube_ps1)\n$symbol\[$RESET\]"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/c/wsl_home/.sdkman"
+[[ -s "/c/wsl_home/.sdkman/bin/sdkman-init.sh" ]] && source "/c/wsl_home/.sdkman/bin/sdkman-init.sh"
 
 complete -C /usr/bin/terraform terraform

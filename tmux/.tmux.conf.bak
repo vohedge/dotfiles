@@ -37,9 +37,6 @@ bind -Tcopy-mode-vi v send -X begin-selection
 bind -Tcopy-mode-vi V send -X select-line
 bind -Tcopy-mode-vi C-v send -X rectangle-toggle
 bind -Tcopy-mode-vi y send -X copy-selection
-bind-key -T copy-mode-vi Enter send-keys -X copy-pipe "cat | clip.exe"
-bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'cat | clip.exe'
-bind-key -T copy-mode-vi Y send-keys -X copy-pipe 'cat | clip.exe'
 
 # Select pane
 unbind h
@@ -77,21 +74,20 @@ bind r source-file ~/.tmux.conf\; display-message "Reload Config!!"
 # View
 # window-status-current
 # Pane border color
-set -g pane-border-style fg="colour235"
-setw -g window-status-activity-style bg="colour238","underscore",fg="colour240"
+set -g pane-border-fg colour235
+set -g pane-active-border-fg colour240
+set -g pane-active-border-bg colour238
 
 # message
-setw -g message-style fg="white",bg="red","bold"
+set -g message-attr bold
+set -g message-fg white
+set -g message-bg red
 
 # Clipboard
 # http://mironal-memo.blogspot.jp/2013/06/mac-tmux.html
 set-option -g default-command \
 'which reattach-to-user-namespace > /dev/null 2>&1 && \
 reattach-to-user-namespace -l $SHELL || $SHELL'
-
-# Clipboard in WSL 
-# https://mitchellt.com/2020/04/01/copying-from-tmux-wsl-windows-terminal.html
-if-shell -b 'test -n "$WSLENV"' 'bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel clip.exe'
 
 # status
 # Disable poerline version
@@ -103,11 +99,14 @@ if-shell -b 'test -n "$WSLENV"' 'bind-key -T copy-mode-vi Enter send-keys -X cop
 set -g status-left-length 32
 set -g status-right-length 150
 
-setw -g status-style fg="white",bg="colour234"
-set -g window-status-activity-style "bold"
-set -g pane-border-style fg="colour245"
-set -g pane-active-border-style fg="colour39"
-setw -g message-style fg="colour16",bg="colour221","bold"
+set -g status-fg white
+set -g status-bg colour234
+set -g window-status-activity-attr bold
+set -g pane-border-fg colour245
+set -g pane-active-border-fg colour39
+set -g message-fg colour16
+set -g message-bg colour221
+set -g message-attr bold
 
 set -g status-left '#[fg=colour235,bg=colour252,bold] ❐ #S #[fg=colour252,bg=colour238,nobold]#[fg=colour245,bg=colour238,bold] #(whoami) #[fg=colour238,bg=colour234,nobold]'
 set -g window-status-format "#[fg=white,bg=colour234] #I #W "

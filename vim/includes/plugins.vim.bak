@@ -38,15 +38,6 @@ Plugin 'posva/vim-vue'
 " Plugin 'scrooloose/syntastic.git'
 " Plugin 'pmsorhaindo/syntastic-local-eslint.vim'
 
-" PlantUML Viewer
-Plugin 'weirongxu/plantuml-previewer.vim'
-Plugin 'open-browser.vim'
-Plugin 'aklt/plantuml-syntax'
-
-" vimspector 
-" A multi language graphical debugger for vim
-Plugin 'puremourning/vimspector'
-
 " LSP
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/asyncomplete.vim'
@@ -55,14 +46,8 @@ Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
 
 " Linter
-" Plugin 'w0rp/ale'
+Plugin 'w0rp/ale'
 
-" terraform
-Plugin 'hashivim/vim-terraform'
-
-" Markdown Preview
-Plugin 'vim-denops/denops.vim'
-Plugin 'kat0h/bufpreview.vim'
 
 " Vundle end
 call vundle#end() 
@@ -83,44 +68,44 @@ let g:ctrlp_map = '<Space>'
 "
 " pip install flake8 mypy autopep8 isort
 
-" " ファイル保存時にLinterを実行する
-" let g:ale_pattern_options = {
-" \   '.*\.yaml$': {'ale_enabled': 0},
-" \   '.*\.json$': {'ale_enabled': 0},
-" \   '.*\.conf$': {'ale_enabled': 0},
-" \   '.*\.log$': {'ale_enabled': 0}
-" \}
-" 
-" let g:ale_lint_on_save = 1
-" 
-" " テキスト変更時にはLinterを実行しない
-" " 実行するとCPUの使用率が跳ね上がる
-" let g:ale_lint_on_text_changed = 'never'
-" 
-" " Linter(コードチェックツール)の設定
-" let g:ale_linters = {
-" \   'python': ['flake8', 'mypy'],
-" \}
-" 
-" " ファイル保存時にはFixerを時刻しない
-" let g:ale_fix_on_save = 0
-" 
-" " テキスト変更時にはFixerを実行しない
-" let g:ale_fix_on_text_changed = 'never'
-" 
-" " Fixer(コード整形ツール)の設定
-" let b:ale_fixers = {
-" \   'python': ['autopep8', 'isort'],
-" \}
-" 
-" " 余分な空白があるときは警告表示
-" let b:ale_warn_about_trailing_whitespace = 0
-" 
-" " ALE実行時にでる目印行を常に表示
-" let g:ale_sign_column_always = 1
-" 
-" " 1行の文字数のチェックを緩和
-" let g:ale_python_flake8_options = '--max-line-length=160'
+" ファイル保存時にLinterを実行する
+let g:ale_pattern_options = {
+\   '.*\.yaml$': {'ale_enabled': 0},
+\   '.*\.json$': {'ale_enabled': 0},
+\   '.*\.conf$': {'ale_enabled': 0},
+\   '.*\.log$': {'ale_enabled': 0}
+\}
+
+let g:ale_lint_on_save = 1
+
+" テキスト変更時にはLinterを実行しない
+" 実行するとCPUの使用率が跳ね上がる
+let g:ale_lint_on_text_changed = 'never'
+
+" Linter(コードチェックツール)の設定
+let g:ale_linters = {
+\   'python': ['flake8', 'mypy'],
+\}
+
+" ファイル保存時にはFixerを時刻しない
+let g:ale_fix_on_save = 0
+
+" テキスト変更時にはFixerを実行しない
+let g:ale_fix_on_text_changed = 'never'
+
+" Fixer(コード整形ツール)の設定
+let b:ale_fixers = {
+\   'python': ['autopep8', 'isort'],
+\}
+
+" 余分な空白があるときは警告表示
+let b:ale_warn_about_trailing_whitespace = 0
+
+" ALE実行時にでる目印行を常に表示
+let g:ale_sign_column_always = 1
+
+" 1行の文字数のチェックを緩和
+let g:ale_python_flake8_options = '--max-line-length=160'
 
 
 " ------------------------------------------------------------------------------
@@ -137,10 +122,3 @@ nmap <buffer> <f2> <plug>(lsp-rename)
 " 自動的にScratch windowsを閉じる
 " https://github.com/prabirshrestha/vim-lsp/issues/650
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-call ch_logfile(expand('/tmp/chlogfile.log'), 'w')
-
-" ------------------------------------------------------------------------------
-" Vimspector
-
-let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
