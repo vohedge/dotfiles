@@ -1,0 +1,28 @@
+tap "homebrew/cask"
+tap "aws/tap"
+tap "hashicorp/tap"
+tap "weaveworks/tap"
+cask_args appdir: "/Applications"
+
+brew "grep", link: true
+brew "helm"
+brew "jq"
+brew "kubectl", link: true
+brew "kustomize"
+brew "mas"
+brew "wget"
+
+cask "1password"
+cask "docker"
+cask "dropbox"
+cask "google-chrome"
+# cask "google-japanese-ime"
+cask "iterm2"
+cask "karabiner-elements"
+cask "obsidian"
+cask "visual-studio-code"
+
+mas "Keynote", id: 409183694
+mas "Slack", id: 803453959
+mas "The Unarchiver", id: 425424353
+mas "OneDrive", id: 823766827
