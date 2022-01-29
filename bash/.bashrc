@@ -81,14 +81,14 @@ if [ -d ~/.kube-ps1 ]; then
   source "$HOME/.kube-ps1/kube-ps1.sh"
 fi
 
-# # fzf
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# if [ -f ~/.fzf/shell/completion.bash ]; then
-#   source "$HOME/.fzf/shell/completion.bash"
-#   source "$HOME/.fzf/shell/key-bindings.bash"
-# fi
-source /usr/share/doc/fzf/examples/key-bindings.bash
-source /usr/share/doc/fzf/examples/completion.bash
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f ~/.fzf/shell/completion.bash ]; then
+  source "$HOME/.fzf/shell/completion.bash"
+  source "$HOME/.fzf/shell/key-bindings.bash"
+fi
+# source /usr/share/doc/fzf/examples/key-bindings.bash
+# source /usr/share/doc/fzf/examples/completion.bash
  
 # fzf
 # https://tottoto.net/fzf-history-on-bash/
@@ -198,8 +198,14 @@ function parse_git_branch() {
 
 symbol=":) "
 
-# export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
-export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\] \$(kube_ps1)\n$symbol\[$RESET\]"
-export PS2="\[$ORANGE\]→ \[$RESET\]"
+# Prompt with kube-ps1
+if [ $KUBE_PS1_BINARY = "kubectl" ]; then
+  export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\] \$(kube_ps1)\n$symbol\[$RESET\]"
+  export PS2="\[$ORANGE\]→ \[$RESET\]"
+
+# Prompt with no kube-ps1
+else
+  export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
+fi
 
 complete -C /usr/bin/terraform terraform

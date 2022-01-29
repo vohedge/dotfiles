@@ -4,12 +4,17 @@ tap "hashicorp/tap"
 tap "weaveworks/tap"
 cask_args appdir: "/Applications"
 
+brew "deno"
+brew "fzf"
 brew "grep", link: true
 brew "helm"
 brew "jq"
 brew "kubectl", link: true
+brew "kube-ps1"
 brew "kustomize"
 brew "mas"
+brew "tmux"
+brew "vim"
 brew "wget"
 
 cask "1password"
