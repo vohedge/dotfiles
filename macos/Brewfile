@@ -4,9 +4,12 @@ tap "hashicorp/tap"
 tap "weaveworks/tap"
 cask_args appdir: "/Applications"
 
+brew "bash"
+brew "coreutils"
 brew "deno"
 brew "fzf"
 brew "grep", link: true
+brew "ghq"
 brew "helm"
 brew "jq"
 brew "kubectl", link: true

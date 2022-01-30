@@ -1,13 +1,34 @@
 #!/bin/bash
 
-##
-# Use Bash
-if [ $SHELL != "/bin/bash" ]; then
-  echo 'Change current shell to bash'
-  chsh -s /bin/bash
-fi
+function lineinfile() {
+  local line="${1}"
+  local file="${2}"
+  echo "- ${1}"
+  grep -qF -- "${line}" "${file}" || echo "${line}" | sudo tee -a  "${file}"
+  return $?
+}
 
 ##
+# Use Bash on MacOS
+# 
+# we need to install bash by homebrew before run this script
+
+# Enable bash installed by homebrew 
+homebrew_bash="/opt/homebrew/bin/bash"
+shells_file="/etc/shells"
+if [ -f ${shells_file} ]; then
+  lineinfile "${homebrew_bash}" "${shells_file}"
+else
+  echo "${shells_file} has not found."
+  exit
+fi
+
+# Use Bash
+if [ $SHELL != "${homebrew_bash}" ]; then
+  echo 'Change current shell to bash'
+  chsh -s "${homebrew_bash}"
+fi
+
 # Make sure .bash_profile exists
 BASHPROFILE="${HOME}/.bash_profile"
 if [ -f ${BASHPROFILE} ] ;then
@@ -19,14 +40,6 @@ fi
 ##
 # Lines put in .bash_profile
 echo "Write lines to .bash_profile"
-
-function lineinfile() {
-  local line="${1}"
-  local file="${2}"
-  echo "- ${1}"
-  grep -qF -- "${line}" "${file}" || echo "${line}" >> "${file}"
-  return $?
-}
 
 # .bashrc
 lineinfile "source \$HOME/.bashrc" $BASHPROFILE

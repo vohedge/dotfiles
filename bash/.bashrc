@@ -100,15 +100,24 @@ __fzf_history__() {
 }
 bind '"\C-r": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"'
 
+##
+# ghq-fzf
+# https://tottoto.net/select-ghq-project-with-fzf-on-bash/
+fzf_ghq() {
+  local project_name=$(ghq list | sort | $(__fzfcmd))
+  if [ -n "$project_name" ]; then
+    local project_full_path=$(ghq root)/$project_name
+    local project_relative_path="~/$(realpath --relative-to=$HOME $project_full_path)"
+    READLINE_LINE="cd $project_relative_path"
+    READLINE_POINT="${#READLINE_LINE}"
+  fi
+}
+bind -x '"\C-g": fzf_ghq'
+
 # 補完
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then                                                  
   . /etc/bash_completion
 fi
-
-# Istio
-# if [ -d ~/.kube-ps1 ]; then
-#   export PATH="$HOME/.istio/bin:$PATH"
-# fi
 
 
 ##
