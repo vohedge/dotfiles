@@ -1,9 +1,0 @@
-[include]
-	path = ~/.gitconfig.local
-[color]
-	ui = auto
-[core]
-	excludesfile = ~/.dotfiles/.gitignore
-	editor = vim -c \"set fenc=utf-8\"
-[init]
-	defaultBranch = main

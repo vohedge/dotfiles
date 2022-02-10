@@ -6,5 +6,4 @@ rm ${HOME}/.zshrc
 rm ${HOME}/.bashrc
 rm ${HOME}/.tmux.conf
 rm ${HOME}/.config
-rm ${HOME}/.gitconfig
 rm ${HOME}/.tigrc

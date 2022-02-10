@@ -42,10 +42,6 @@ init_dotfile "${HOME}/.bashrc" "${PWD}/bash/.bashrc"
 init_dotfile "${HOME}/.tmux.conf" "${PWD}/tmux/.tmux.conf"
 
 ##
-# GIT
-# init_dotfile "${HOME}/.gitconfig" "${PWD}/git/.gitconfig"
-
-##
 # TIG
 init_dotfile "${HOME}/.tigrc" "${PWD}/tig/.tigrc"
 
