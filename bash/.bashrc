@@ -119,6 +119,40 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
 fi
 
+##
+# Auto venv activate/deactivate
+# This script requires ".venv" dir for venv
+function cd() {
+  echo "custom cd!"
+  builtin cd $1
+
+  if [[ -z "${VIRTUAL_ENV}" ]]; then
+    echo $VIRTUAL_ENV
+
+    local current_dir=$(pwd)
+    echo $current_dir
+
+    local project_root=$(dirname $VIRTUAL_ENV)
+    if [[ $current_dir != project_root* ]]; then
+      echo  "Deactivating venv..."
+      if deactivate; then
+        echo "Deactivating successful!"
+      else
+        echo "Deactivating faild."
+      fi
+    fi
+  fi
+
+  if [ -d "./.venv" ]; then
+    echo "Activating venv..."
+    if source ./.venv/bin/activate; then
+      echo "Activating successful!"
+    else
+      echo "Activating faild."
+    fi
+  fi
+}
+
 
 ##
 # Functions
