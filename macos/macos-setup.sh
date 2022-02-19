@@ -58,5 +58,13 @@ if [ -e "${HOME}/.kube" ] ;then
   lineinfile "source \"/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh\"" $BASHPROFILE
 fi
 
+# Pyenv
+if [ -e "${HOME}/.pyenv" ] ;then
+  lineinfile "export PYENV_ROOT=\"\$HOME/.pyenv\"" $BASHPROFILE
+  lineinfile "export PATH=\"\$PYENV_ROOT/bin:\$PATH\"" $BASHPROFILE
+  lineinfile "eval \"\$(pyenv init --path)\"" $BASHPROFILE
+  lineinfile "eval \"\$(pyenv init -)\"" $BASHPROFILE
+fi
+
 # Reload!
 source ${BASHPROFILE}
