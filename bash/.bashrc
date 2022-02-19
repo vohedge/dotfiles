@@ -123,16 +123,12 @@ fi
 # Auto venv activate/deactivate
 # This script requires ".venv" dir for venv
 function cd() {
-  echo "custom cd!"
   builtin cd $1
 
-  if [[ -z "${VIRTUAL_ENV}" ]]; then
-    echo $VIRTUAL_ENV
-
+  if [[ ! -z "${VIRTUAL_ENV}" ]]; then
     local current_dir=$(pwd)
-    echo $current_dir
-
     local project_root=$(dirname $VIRTUAL_ENV)
+
     if [[ $current_dir != project_root* ]]; then
       echo  "Deactivating venv..."
       if deactivate; then
