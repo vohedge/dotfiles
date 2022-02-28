@@ -1,0 +1,13 @@
+brew "deno"
+brew "fzf"
+brew "ghq"
+brew "jq"
+# brew "helm"
+# brew "kubectl", link: true
+# brew "kube-ps1"
+# brew "kustomize"
+brew "nodenv"
+brew "pyenv"
+brew "tmux"
+brew "vim"
+brew "wget"
