@@ -140,6 +140,32 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 call ch_logfile(expand('/tmp/chlogfile.log'), 'w')
 
+" flake8のみを有効化
+" https://qiita.com/tk0miya/items/5a5beb2586c63792ce10
+let g:lsp_settings = {
+\  'pylsp-all': {
+\    'workspace_config': {
+\      'pylsp': {
+\        'configurationSources': ['flake8'],
+\        'plugins': {
+\          'flake8': {
+\            'enabled': 1
+\          },
+\          'mccabe': {
+\            'enabled': 0
+\          },
+\          'pycodestyle': {
+\            'enabled': 0
+\          },
+\          'pyflakes': {
+\            'enabled': 0
+\          },
+\        }
+\      }
+\    }
+\  }
+\}
+
 " ------------------------------------------------------------------------------
 " Vimspector
 
