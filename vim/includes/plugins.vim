@@ -34,10 +34,6 @@ Plugin 'chase/vim-ansible-yaml'
 " Vuejs
 Plugin 'posva/vim-vue'
 
-" Eslint
-" Plugin 'scrooloose/syntastic.git'
-" Plugin 'pmsorhaindo/syntastic-local-eslint.vim'
-
 " PlantUML Viewer
 Plugin 'weirongxu/plantuml-previewer.vim'
 Plugin 'open-browser.vim'
@@ -169,4 +165,5 @@ let g:lsp_settings = {
 " ------------------------------------------------------------------------------
 " Vimspector
 
-let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+" let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+let g:vimspector_enable_mappings = 'HUMAN'
