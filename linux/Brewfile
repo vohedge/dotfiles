@@ -12,5 +12,7 @@ brew "openjdk"
 brew "poppler"
 brew "pyenv"
 brew "tmux"
-brew "vim"
+# vimspector crashed on latest vim
+# So I installed vim 8.2 by apt from ppa:jonathonf/vim
+# brew "vim"
 brew "wget"
