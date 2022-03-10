@@ -46,6 +46,11 @@ if [ "$(uname)" == "Darwin" ]; then
 
 # Ubuntu
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+  # Dependencies
+  sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+  libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
   # This command is taken from the following URL.
   # https://github.com/pyenv/pyenv#basic-github-checkout
   # 
@@ -60,6 +65,7 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   echo 'eval "$(pyenv init --path)"' >>~/.profile
   # echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 fi
+
 
 ##
 # Nodenv
