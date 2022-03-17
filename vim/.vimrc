@@ -8,6 +8,8 @@ function! s:include(path)
   execute 'source' fnameescape(expand('~/.dotfiles/vim/includes/' . a:path))
 endfunction
 
+let mapleader = "\<Space>"
+
 " ------------------------------------------------------------------------------
 " OS Check
 let os_type=substitute(system('uname -r'), '\n', '', '')
