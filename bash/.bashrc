@@ -2,9 +2,13 @@
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
 fi
+source $HOME/.dotfiles/bash/os.sh
 
 # Alias
 source $HOME/.dotfiles/bash/alias.sh
+
+# Utilities
+source $HOME/.dotfiles/bash/wsl2-open.sh
 
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

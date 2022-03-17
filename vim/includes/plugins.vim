@@ -129,7 +129,13 @@ let g:asyncomplete_auto_completeopt = 1
 " let g:asyncomplete_popup_delay = 300
 let g:lsp_text_edit_enabled = 0
 
-nmap <buffer> <f2> <plug>(lsp-rename)
+" nmap <buffer> <f2> <plug>(lsp-rename)
+nmap gd <Plug>(lsp-definition)
+nmap gi <Plug>(lsp-implementation)
+nmap ,n <plug>(lsp-next-error)
+nmap ,p <plug>(lsp-previous-error)
+nmap <F2> <plug>(lsp-rename)
+
 " 自動的にScratch windowsを閉じる
 " https://github.com/prabirshrestha/vim-lsp/issues/650
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -165,5 +171,5 @@ let g:lsp_settings = {
 " ------------------------------------------------------------------------------
 " Vimspector
 
-" let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
-let g:vimspector_enable_mappings = 'HUMAN'
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+" let g:vimspector_enable_mappings = 'HUMAN'
