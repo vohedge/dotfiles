@@ -34,6 +34,7 @@ cask "obsidian"
 cask "visual-studio-code"
 cask "zoom"
 
+mas "Line", id: 539883307
 mas "Keynote", id: 409183694
 mas "Slack", id: 803453959
 mas "The Unarchiver", id: 425424353

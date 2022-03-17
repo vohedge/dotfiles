@@ -19,7 +19,8 @@ source $HOME/.dotfiles/bash/fzf-ssh-hosts.sh
 
 # Python
 [ command -v pyenv &> /dev/null ] && eval "$(pyenv init -)"
-source $HOME/.dotfiles/bash/auto-venv.sh
+# source $HOME/.dotfiles/bash/auto-venv.sh
+source $HOME/.dotfiles/bash/virtualenv-auto-activate.sh
 
 # Kubernetes
 # source $HOME/.dotfiles/bash/kubernetes.sh
