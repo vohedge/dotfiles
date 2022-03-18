@@ -1,0 +1,46 @@
+# UltiSnipps Refference:
+# https://aloha.org.cn/2021/03/28/Create-Snippets-for-Ultisnips/
+# https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
+
+snippet doc "Python docstring for function" im
+"""関数の説明タイトル
+
+関数についての説明文
+
+Args:
+    引数の名前 (引数の型): 引数の説明
+    引数の名前 (:obj:`引数の型`, optional): 引数の説明.
+
+Returns:
+    戻り値の型: 戻り値の説明 (例 : True なら成功, False なら失敗.)
+
+Raises:
+    例外の名前: 例外の説明 (例 : 引数が指定されていない場合に発生 )
+
+Yields:
+    戻り値の型: 戻り値についての説明
+
+Examples:
+
+    関数の使い方について記載
+
+    >>> print_test ("test", "message")
+       test message
+
+Note:
+    注意事項などを記載
+
+"""
+endsnippet
+
+snippet docc "Python docstring for class" im
+"""Summary of class here.
+
+Longer class information....
+Longer class information....
+
+Attributes:
+    likes_spam: A boolean indicating if we like SPAM or not.
+    eggs: An integer count of the eggs we have laid.
+"""
+endsnippet
