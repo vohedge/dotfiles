@@ -45,6 +45,22 @@ Attributes:
 """
 endsnippet
 
+snippet docm "Python docstring for module" im
+"""モジュールの説明タイトル
+
+* ソースコードの一番始めに記載すること
+* importより前に記載する
+
+Todo:
+    TODOリストを記載
+    * conf.pyの``sphinx.ext.todo`` を有効にしないと使用できない
+    * conf.pyの``todo_include_todos = True``にしないと表示されない
+
+Notes:
+		memo
+"""
+endsnippet
+
 global !p
 from nayvy_vim_if.ultisnips import (
     generate_pydocstring,
@@ -53,4 +69,21 @@ endglobal
 
 post_jump "generate_pydocstring(snip)"
 snippet """ "Pydocstring" w
+endsnippet
+
+snippet test_ "Python test function" w
+def test_func():
+    cases = [
+        {
+            'arg': None,
+            'expected': None
+        },
+    ]
+    for c in cases:
+        if inspect.isclass(c['expected']) and issubclass(c['expected'], Exception):
+            with pytest.raises(c['expected']):
+                actual = func(c['arg1'], c['arg2'])
+        else:
+            actual = func(c['arg1'], c['arg2'])
+            assert actual == c['expected']
 endsnippet
