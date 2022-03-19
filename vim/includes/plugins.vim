@@ -1,73 +1,75 @@
 "
 " Plugins
 "
-" https://github.com/VundleVim/Vundle.vim
-"
 
 
-" Vundle requirement
 " -------------------------------------------------------------------------------
+" vim-plug
 
-set nocompatible 
-filetype off 
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin()
 
 
+" -------------------------------------------------------------------------------
 " Plugins
-" -------------------------------------------------------------------------------
 
 " Color Scheme (Wombat256)
-Plugin 'wombat256.vim'
+Plug 'gryf/wombat256grf'
 
 " Cool status line
-Plugin 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 
 " Finder
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Ansible yml syntax
-Plugin 'chase/vim-ansible-yaml'
+Plug 'chase/vim-ansible-yaml'
 
 " Vuejs
-Plugin 'posva/vim-vue'
+Plug 'posva/vim-vue'
 
-" PlantUML Viewer
-Plugin 'weirongxu/plantuml-previewer.vim'
-Plugin 'open-browser.vim'
-Plugin 'aklt/plantuml-syntax'
+" LSP/Completion
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
 " vimspector 
 " A multi language graphical debugger for vim
-Plugin 'puremourning/vimspector'
+Plug 'puremourning/vimspector'
 
-" LSP/Completion
-Plugin 'prabirshrestha/async.vim'
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'mattn/vim-lsp-settings'
-Plugin 'prabirshrestha/asyncomplete.vim'
-Plugin 'prabirshrestha/asyncomplete-lsp.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'prabirshrestha/asyncomplete-ultisnips.vim'
+" vim-nayvy
+" Enriching python coding.
+Plug 'relastle/vim-nayvy'
+
+" tabnine
+" AI Code Completion
+if has('win32') || has('win64')
+  Plug 'kitagry/asyncomplete-tabnine.vim', { 'do': 'powershell.exe .\install.ps1' }
+else
+  Plug 'kitagry/asyncomplete-tabnine.vim', { 'do': './install.sh' }
+endif
 
 " terraform
-Plugin 'hashivim/vim-terraform'
+Plug 'hashivim/vim-terraform'
 
 " Markdown Preview
-" Plugin 'vim-denops/denops.vim'
-" Plugin 'kat0h/bufpreview.vim'
-Plugin 'iamcco/markdown-preview.nvim'
+" Plug 'vim-denops/denops.vim'
+" Plug 'kat0h/bufpreview.vim'
+Plug 'iamcco/markdown-preview.nvim'
 
-" ultisnips
-
-" Vundle end
-call vundle#end() 
-filetype plugin indent on 
-syntax on
+call plug#end()
 
 
 " ------------------------------------------------------------------------------
@@ -147,10 +149,6 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " 補完表示時のEnterで改行をしない
 inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
 
-" set completeopt=menuone,noinsert
-" inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
-" inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
-"
 
 " ------------------------------------------------------------------------------
 " asyncomplete-ultisnips.vim

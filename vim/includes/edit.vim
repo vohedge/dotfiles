@@ -10,7 +10,7 @@ set t_Co=256
 " set term=xterm
 
 " カラースキーム
-colorscheme wombat256mod
+colorscheme wombat256grf
 
 " 行番号を表示
 set number

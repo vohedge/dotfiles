@@ -44,3 +44,13 @@ Attributes:
     eggs: An integer count of the eggs we have laid.
 """
 endsnippet
+
+global !p
+from nayvy_vim_if.ultisnips import (
+    generate_pydocstring,
+)
+endglobal
+
+post_jump "generate_pydocstring(snip)"
+snippet """ "Pydocstring" w
+endsnippet
