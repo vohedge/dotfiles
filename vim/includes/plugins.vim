@@ -29,12 +29,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
-" Ansible yml syntax
-Plug 'chase/vim-ansible-yaml'
-
-" Vuejs
-Plug 'posva/vim-vue'
-
 " LSP/Completion
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -61,21 +55,21 @@ else
   Plug 'kitagry/asyncomplete-tabnine.vim', { 'do': './install.sh' }
 endif
 
-" terraform
-Plug 'hashivim/vim-terraform'
-
 " Markdown Preview
 " Plug 'vim-denops/denops.vim'
 " Plug 'kat0h/bufpreview.vim'
 Plug 'iamcco/markdown-preview.nvim'
 
+" terraform
+Plug 'hashivim/vim-terraform'
+
+" Ansible yml syntax
+" Plug 'chase/vim-ansible-yaml'
+
+" Vuejs
+" Plug 'posva/vim-vue'
+
 call plug#end()
-
-
-" ------------------------------------------------------------------------------
-" Vimspector
-
-let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 
 
 " ------------------------------------------------------------------------------
@@ -166,6 +160,19 @@ call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_opti
 
 
 " ------------------------------------------------------------------------------
+" asyncomplete-tabnine.vim
+call asyncomplete#register_source(asyncomplete#sources#tabnine#get_source_options({
+  \ 'name': 'tabnine',
+  \ 'allowlist': ['*'],
+  \ 'completor': function('asyncomplete#sources#tabnine#completor'),
+  \ 'config': {
+  \   'line_limit': 1000,
+  \   'max_num_result': 20,
+  \  },
+  \ }))
+
+
+" ------------------------------------------------------------------------------
 " UltiSnips
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.dotfiles/vim/snippets']
@@ -175,3 +182,9 @@ let g:ultisnips_python_style = 'google'
  
 " スニペットの編集を別タブで表示
 let g:UltiSnipsEditSplit = 'tabdo'
+
+
+" ------------------------------------------------------------------------------
+" Vimspector
+
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
