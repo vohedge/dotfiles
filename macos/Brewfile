@@ -33,6 +33,7 @@ cask "keyboardcleantool"
 cask "obsidian"
 cask "visual-studio-code"
 cask "zoom"
+cask "jupyterlab"
 
 mas "Line", id: 539883307
 mas "Keynote", id: 409183694

@@ -5,10 +5,10 @@
         "revision": "39dacbea42e929b4a921543e48f77f71fdc78c2c"
       },
       "aws/tap": {
-        "revision": "8be24a648fa60211f3aa85fd80b5c056465bc0bf"
+        "revision": "4de764977cada09f6b1054b01daf0c5f6a4a74e3"
       },
       "hashicorp/tap": {
-        "revision": "c6007195c619f59b196f2265ede927d29d61276c"
+        "revision": "d38bf6263a58040458fc69a1402a0a9c6a17c2b3"
       },
       "weaveworks/tap": {
         "revision": "bb95ee1a470ff59b24a4f4ec0522206d4b7fdadb"
@@ -785,6 +785,15 @@
             "appdir": "/Applications"
           }
         }
+      },
+      "jupyterlab": {
+        "version": "3.2.5-2",
+        "options": {
+          "full_name": "jupyterlab",
+          "args": {
+            "appdir": "/Applications"
+          }
+        }
       }
     },
     "mas": {
@@ -794,26 +803,27 @@
       },
       "Slack": {
         "id": "803453959",
-        "version": "4.23.0"
+        "version": "4.25.0"
       },
       "The Unarchiver": {
         "id": "425424353",
-        "version": "4.3.3"
+        "version": "4.3.4"
       },
       "OneDrive": {
         "id": "823766827",
-        "version": "22.012.0117"
+        "version": "22.055.0313"
       },
       "Kindle": {
         "id": "405399194",
-        "version": "1.34.1"
-      }
+        "version": "1.35.0"
+      },
+      "Line": null
     }
   },
   "system": {
     "macos": {
       "monterey": {
-        "HOMEBREW_VERSION": "3.3.15",
+        "HOMEBREW_VERSION": "3.4.4",
         "HOMEBREW_PREFIX": "/opt/homebrew",
         "Homebrew/homebrew-core": "0298b8234573ef6846648a063591284173fe5ce7",
         "CLT": "13.2.0.0.1.1638488800",
