@@ -18,6 +18,7 @@ source $HOME/.dotfiles/bash/wsl2-open.sh
 source $HOME/.dotfiles/bash/fzf-history.sh
 source $HOME/.dotfiles/bash/fzf-ghq.sh
 source $HOME/.dotfiles/bash/fzf-git.sh
+source $HOME/.dotfiles/bash/fzf-boilr.sh
 source $HOME/.dotfiles/bash/fzf-ssh-hosts.sh
 
 # Python
