@@ -87,3 +87,9 @@ def test_func():
             actual = func(c['arg1'], c['arg2'])
             assert actual == c['expected']
 endsnippet
+
+snippet cv2.ims "Show image" w
+cv2.imshow("image", image)
+cv2.waitKey(3000)
+cv2.destroyAllWindows()
+endsnippet
