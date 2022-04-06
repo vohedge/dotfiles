@@ -45,22 +45,32 @@ export RESET
 
 export KUBE_PS1_SEPARATOR=""
 
-# Git branch details
+# Git dirty
 function parse_git_dirty() {
 	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
 }
+
+# Git branch
 function parse_git_branch() {
 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+# Python venv
+function venv_name() {
+  if [ -n "${VIRTUAL_ENV}" ]; then
+    project_name=$(basename $(dirname ${VIRTUAL_ENV}))
+    echo "[venv:${MAGENTA}${project_name}${RESET}] "
+  fi
 }
 
 symbol=":) "
 
 # Prompt with kube-ps1
 if [ "${KUBE_PS1_BINARY}" = "kubectl" ]; then
-  export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\] \$(kube_ps1)\n$symbol\[$RESET\]"
+  export PS1="\n\[$CYAN\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\] \$(kube_ps1)\n$symbol\[$RESET\]"
   export PS2="\[$ORANGE\]→ \[$RESET\]"
 
 # Prompt with no kube-ps1
 else
-  export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n$symbol\[$RESET\]"
+  export PS1="\n\[${CYAN}\]\u \[$RESET\]in \[$GREEN\]\w\[$RESET\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$RESET\]\n\$(venv_name)$symbol\[$RESET\]"
 fi
