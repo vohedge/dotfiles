@@ -197,5 +197,4 @@ let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 " Jupyter
 let g:jupytext_fmt = 'py:percent'
 let g:jupytext_filetype_map = {'py': 'python'}
-
 nnoremap <C-m> :JupyterSendCell<CR>
