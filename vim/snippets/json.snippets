@@ -1,0 +1,65 @@
+snippet 'vimspector.json normal'
+{
+  "configurations": {
+    "Python: Launch": {
+      "adapter": "debugpy",
+      "filetypes": [ "python" ],
+      "breakpoints": {
+        "exception": {
+          "caught": "N",
+          "uncaught": "Y"
+        }
+      },
+      "configuration": {
+        "name": "Python: Launch",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "python": "${workspaceRoot}/.venv/bin/python",
+        "stopOnEntry": false,
+        "console": "externalTerminal",
+        "debugOptions": [],
+				"program": "${workspaceRoot}/main.py",
+        "env": {
+          "PYTHONPATH": "${workspaceRoot}"
+        },
+        "args": [
+        ]
+      }
+    }
+  }
+}
+endsnippet
+
+snippet 'vimspector.json module'
+{
+  "configurations": {
+    "Python: Launch": {
+      "adapter": "debugpy",
+      "filetypes": [ "python" ],
+      "breakpoints": {
+        "exception": {
+          "caught": "N",
+          "uncaught": "Y"
+        }
+      },
+      "configuration": {
+        "name": "Python: Launch",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${fileDirname}",
+        "python": "${workspaceRoot}/.venv/bin/python",
+        "stopOnEntry": false,
+        "console": "externalTerminal",
+        "debugOptions": [],
+        "module": "dynatrace_account_exporter",
+        "env": {
+          "PYTHONPATH": "${workspaceRoot}"
+        },
+        "args": [
+        ]
+      }
+    }
+  }
+}
+endsnippet

@@ -47,6 +47,10 @@ Plug 'puremourning/vimspector'
 " Enriching python coding.
 Plug 'relastle/vim-nayvy'
 
+" Jupyter
+Plug 'goerz/jupytext.vim'
+Plug 'jupyter-vim/jupyter-vim'
+
 " tabnine
 " AI Code Completion
 if has('win32') || has('win64')
@@ -188,3 +192,10 @@ let g:UltiSnipsEditSplit = 'tabdo'
 " Vimspector
 
 let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+
+" ------------------------------------------------------------------------------
+" Jupyter
+let g:jupytext_fmt = 'py:percent'
+let g:jupytext_filetype_map = {'py': 'python'}
+
+nnoremap <C-m> :JupyterSendCell<CR>

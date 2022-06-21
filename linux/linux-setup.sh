@@ -61,6 +61,8 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   a \
   export PATH="$PYENV_ROOT/bin:$PATH"
   a \
+  export PATH="$HOME/.local/bin:$PATH"
+  a \
   ' -e ':a' -e '$!{n;ba};}' ~/.profile
   echo 'eval "$(pyenv init --path)"' >>~/.profile
   # echo 'eval "$(pyenv init -)"' >> ~/.bashrc
